@@ -11,7 +11,7 @@ import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/search/search';
 import { Controlled as ControlledEditor } from 'react-codemirror2-react-17';
 
-export default function CodeEditor(props) {
+export default function CodeMirror(props) {
 	const { language, displayName, value, onChange } = props;
 
 	function handleChange(editor, data, value) {

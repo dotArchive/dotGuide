@@ -23,6 +23,7 @@ function FrontEnd() {
 	return (
 		<form className="frontEndForm" autoComplete="off">
 			<div className="form-field">
+				Front-End:
 				{frontEndList.map((singleFrontEnd, index) => (
 					<div key={index} className="frontEnd">
 						<div className="addFrontEnd">
@@ -33,7 +34,6 @@ function FrontEnd() {
 								id="frontEnd"
 								value={singleFrontEnd.frontEnd}
 								onChange={(e) => handleFrontEndChange(e, index)}
-								required
 							/>
 							{frontEndList.length - 1 === index && (
 								<button

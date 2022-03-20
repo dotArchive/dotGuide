@@ -22,6 +22,7 @@ function API() {
 
 	return (
 		<form className="APIForm" autoComplete="off">
+			APIs:
 			<div className="form-field">
 				{APIList.map((singleAPI, index) => (
 					<div key={index} className="API">

@@ -23,6 +23,7 @@ function BackEnd() {
 	return (
 		<form className="backEndForm" autoComplete="off">
 			<div className="form-field">
+				Back-End:
 				{backEndList.map((singlebackEnd, index) => (
 					<div key={index} className="backEnd">
 						<div className="addBackEnd">
@@ -33,7 +34,6 @@ function BackEnd() {
 								id="backEnd"
 								value={singlebackEnd.backEnd}
 								onChange={(e) => handleBackEndChange(e, index)}
-								required
 							/>
 							{backEndList.length - 1 === index && (
 								<button
