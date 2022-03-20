@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import CodeEditor from './CodeEditor/CodeEditor';
-import Language from './CodeEditor/Language';
-import Guide from './Guide';
+import CodeEditor from './PostCode/CodeEditor';
+import Language from './PostCode/Language';
+import Guide from './PostGuide/Guide';
 
 function NewFile() {
 	const [newFileList, setNewFileList] = useState([{ newFile: '' }]);
@@ -25,22 +25,26 @@ function NewFile() {
 
 	return (
 		<form className="newFileForm" autoComplete="off">
-			NewFiles:
+			<h2>New Files:</h2>
 			<div className="form-field">
 				{newFileList.map((singlenewFile, index) => (
 					<div key={index} className="newFile">
 						<div className="addNewFile">
-							<input
-								placeholder="New File"
-								name="newFile"
-								type="text"
-								id="newFile"
-								value={singlenewFile.newFile}
-								onChange={(e) => handleNewFileChange(e, index)}
-								required
-							/>
-							<Language />
-							<CodeEditor />
+							<div style={{ backgroundColor: 'grey' }}>
+								<label for="newFile">File Name:</label>
+								<input
+									placeholder="File Name"
+									name="newFile"
+									type="text"
+									id="newFile"
+									value={singlenewFile.newFile}
+									onChange={(e) => handleNewFileChange(e, index)}
+									required
+								/>
+								<Language>
+									<CodeEditor />
+								</Language>
+							</div>
 							<Guide />
 
 							{newFileList.length - 1 === index && (
@@ -65,6 +69,7 @@ function NewFile() {
 								</button>
 							)}
 						</div>
+						<div></div>
 					</div>
 				))}
 			</div>

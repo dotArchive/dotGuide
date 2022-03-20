@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CodeEditor from './CodeEditor/CodeEditor';
-import Guide from './Guide';
+import CodeEditor from './PostCode/CodeEditor';
+import Guide from './PostGuide/Guide';
 import NewFile from './NewFile';
 import PostHeader from './PostHeader/PostHeader';
 
@@ -32,7 +32,7 @@ export default function AddPost() {
 				<PostHeader />
 			</div>
 
-			<div className="post">
+			<div style={{ backgroundColor: 'green' }} className="post">
 				<NewFile />
 			</div>
 		</>

@@ -1,15 +1,29 @@
 import React from 'react';
 
 /****CODEMIRROR****/
+import { Controlled } from 'react-codemirror2-react-17';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
-import 'codemirror/mode/xml/xml';
-import 'codemirror/mode/css/css';
-import 'codemirror/mode/javascript/javascript';
+import 'codemirror/addon/search/search';
 import 'codemirror/addon/edit/closebrackets';
 import 'codemirror/addon/edit/matchbrackets';
-import 'codemirror/addon/search/search';
-import { Controlled as ControlledEditor } from 'react-codemirror2-react-17';
+// Languages
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/jsx/jsx';
+import 'codemirror/mode/xml/xml';
+import 'codemirror/mode/css/css';
+import 'codemirror/mode/markdown/markdown';
+import 'codemirror/mode/cobol/cobol';
+import 'codemirror/mode/django/django';
+import 'codemirror/mode/haskell/haskell';
+import 'codemirror/mode/pascal/pascal';
+import 'codemirror/mode/php/php';
+import 'codemirror/mode/python/python';
+import 'codemirror/mode/powershell/powershell';
+import 'codemirror/mode/ruby/ruby';
+import 'codemirror/mode/rust/rust';
+import 'codemirror/mode/sass/sass';
+import 'codemirror/mode/swift/swift';
 
 export default function CodeMirror(props) {
 	const { language, displayName, value, onChange } = props;
@@ -20,9 +34,9 @@ export default function CodeMirror(props) {
 
 	return (
 		<div className="editor-container">
-			<div style={{ backgroundColor: 'green' }}>{displayName}</div>
+			<div>{displayName}</div>
 
-			<ControlledEditor
+			<Controlled
 				onBeforeChange={handleChange}
 				value={value}
 				className="code-mirror-wrapper"

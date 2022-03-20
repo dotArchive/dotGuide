@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import CodeMirror from './CodeMirror';
 
 function Guide() {
 	const [guideList, setGuideList] = useState([{ guide: '' }]);
+	const [textArea, setTextArea] = useState('');
 
 	const handleGuideChange = (e, index) => {
 		const { name, value } = e.target;
@@ -21,7 +23,11 @@ function Guide() {
 	};
 
 	return (
-		<form className="guideForm" autoComplete="off">
+		<form
+			style={{ backgroundColor: 'white' }}
+			className="guideForm"
+			autoComplete="off"
+		>
 			<div className="form-field">
 				{guideList.map((singleGuide, index) => (
 					<div key={index} className="guides">
@@ -45,12 +51,11 @@ function Guide() {
 								</button>
 							)}
 							<div>
-								<textarea
-									name="text"
-									rows="20"
-									cols="50"
-									placeholder="Guide Text Here..."
-								></textarea>
+								<CodeMirror
+									language={'markdown'}
+									value={textArea}
+									onChange={setTextArea}
+								/>
 							</div>
 						</div>
 
