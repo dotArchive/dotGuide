@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
+import CodeEditor from './CodeEditor';
 
-import Editor from './Editor';
+/****DUMMY DATA ****/
+const files = [
+	{
+		id: 1,
+		name: 'src/components/User/Login.js',
+		content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+	},
+];
 
 const SinglePost = (props) => {
-	const [html, setHTML] = useState('');
-
-	return (
-		<div>
-			SinglePost
-			<div>
-				<Editor
-					language="javascript"
-					displayName="JS"
-					value={html}
-					onChange={setHTML}
-				/>
-			</div>
-		</div>
-	);
+	return <div>SinglePost</div>;
 };
 
 export default SinglePost;
