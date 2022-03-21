@@ -22,6 +22,9 @@ function Tag() {
 
 	return (
 		<div className="form-field">
+			<button type="button" onClick={handleTagAdd} className="add-btn">
+				Add
+			</button>
 			{tagList.map((singletag, index) => (
 				<div key={index} className="tag">
 					<div className="addTag">
@@ -41,12 +44,6 @@ function Tag() {
 								className="remove-btn"
 							>
 								<span>Remove</span>
-							</button>
-						)}
-
-						{tagList.length - 1 === index && (
-							<button type="button" onClick={handleTagAdd} className="add-btn">
-								<span>Add</span>
 							</button>
 						)}
 					</div>

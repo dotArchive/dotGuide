@@ -22,6 +22,9 @@ function FrontEnd() {
 
 	return (
 		<div className="form-field">
+			<button type="button" onClick={handleFrontEndAdd} className="add-btn">
+				Add
+			</button>
 			{frontEndList.map((singleFrontEnd, index) => (
 				<div key={index} className="frontEnd">
 					<div className="addFrontEnd">
@@ -41,16 +44,6 @@ function FrontEnd() {
 								className="remove-btn"
 							>
 								<span>Remove</span>
-							</button>
-						)}
-
-						{frontEndList.length - 1 === index && (
-							<button
-								type="button"
-								onClick={handleFrontEndAdd}
-								className="add-btn"
-							>
-								<span>Add</span>
 							</button>
 						)}
 					</div>
