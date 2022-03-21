@@ -6,7 +6,9 @@ const Navbar = () => (
 		<div>
 			<Link to="/user">Profile</Link>--
 			<Link to="/user/readmes">My READMEs</Link>--
-			<Link to="/user/favorites">Favorites</Link>
+			<Link to="/user/favorites">Favorites</Link>--
+			<Link to="/login">Log in</Link>--
+			<Link to="/signup">Sign Up</Link>
 		</div>
 		<Link to="/">README(Home)</Link>
 	</nav>
