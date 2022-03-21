@@ -1,23 +1,7 @@
-import React, { useState } from 'react';
-
-import Editor from './Editor';
+import React from 'react';
 
 const SinglePost = (props) => {
-	const [html, setHTML] = useState('');
-
-	return (
-		<div>
-			SinglePost
-			<div>
-				<Editor
-					language="javascript"
-					displayName="JS"
-					value={html}
-					onChange={setHTML}
-				/>
-			</div>
-		</div>
-	);
+	return <div>SinglePost</div>;
 };
 
 export default SinglePost;

@@ -1,14 +1,15 @@
 import React from 'react';
+
+/****CODEMIRROR****/
+import { Controlled } from 'react-codemirror2-react-17';
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
-import 'codemirror/mode/xml/xml';
-import 'codemirror/mode/css/css';
-import 'codemirror/mode/javascript/javascript';
+import 'codemirror/theme/duotone-light.css';
+import 'codemirror/addon/search/search';
 import 'codemirror/addon/edit/closebrackets';
 import 'codemirror/addon/edit/matchbrackets';
-import { Controlled as ControlledEditor } from 'react-codemirror2-react-17';
+import 'codemirror/mode/markdown/markdown';
 
-export default function Editor(props) {
+export default function CodeMirror(props) {
 	const { language, displayName, value, onChange } = props;
 
 	function handleChange(editor, data, value) {
@@ -16,21 +17,21 @@ export default function Editor(props) {
 	}
 
 	return (
-		<div className="editor-container">
-			<ControlledEditor
+		<div className="guide-container">
+			<div>{displayName}</div>
+
+			<Controlled
 				onBeforeChange={handleChange}
 				value={value}
-				className="code-mirror-wrapper"
+				className="guide-mirror-wrapper"
 				options={{
 					lineWrapping: true,
 					lint: true,
 					mode: language,
-					theme: 'material',
-					lineNumbers: true,
+					theme: 'duotone-light',
 					smartIndent: true,
 					autoCloseBrackets: true,
-					matchBrackets: true,
-					// readOnly: true,
+					search: true,
 				}}
 			/>
 		</div>
