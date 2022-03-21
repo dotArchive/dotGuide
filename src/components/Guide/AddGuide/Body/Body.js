@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CodeEditor from './Code/CodeEditor';
 import Language from './Code/Language';
-import Guide from './Reference/Guide';
+import Reference from './Reference/Reference';
 
 export default function GuideBody() {
 	const [newBodyList, setNewBodyList] = useState([{ newBody: '' }]);
@@ -40,7 +40,7 @@ export default function GuideBody() {
 						<Language>
 							<CodeEditor />
 						</Language>
-						<Guide />
+						<Reference />
 
 						{newBodyList.length - 1 === index && (
 							<button
@@ -48,7 +48,7 @@ export default function GuideBody() {
 								onClick={handleNewBodyAdd}
 								className="add-btn"
 							>
-								<span>Add</span>
+								<span>Add File</span>
 							</button>
 						)}
 					</div>

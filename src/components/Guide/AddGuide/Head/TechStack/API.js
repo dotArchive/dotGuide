@@ -36,7 +36,6 @@ function API() {
 							id="API"
 							value={singleAPI.API}
 							onChange={(e) => handleAPIChange(e, index)}
-							required
 						/>
 						{APIList.length !== 1 && (
 							<button

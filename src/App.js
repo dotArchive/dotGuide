@@ -5,9 +5,10 @@ import Footer from './components/Footer';
 
 /****COMPONENTS****/
 import Home from './components/Home';
-import AddGuide from './components/Guide/AddGuide/AddGuide';
 import Login from '../src/components/User/Login';
 import Signup from '../src/components/User/Signup';
+import AddGuide from './components/Guide/AddGuide/AddGuide';
+import SingleGuide from './components/Guide/SingleGuide/SingleGuide';
 
 function App() {
 	return (
@@ -19,6 +20,7 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/guide/add" element={<AddGuide />} />
+					<Route path="/guide/:guideId" element={<SingleGuide />} />
 				</Routes>
 				<Footer />
 			</Router>
