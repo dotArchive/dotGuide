@@ -1,13 +1,13 @@
 import React from 'react';
 import NewFile from './NewFile';
 import PostHeader from './PostHeader/PostHeader';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function AddPost() {
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const handleCancel = () => {
-		history.push('/');
+		navigate('/');
 	};
 
 	const handleSave = () => {
