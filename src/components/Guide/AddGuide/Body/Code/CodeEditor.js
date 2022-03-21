@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CodeMirror from './CodeMirror';
-import { useLanguage, useLanguageUpdate } from './Language';
+import { useLanguage } from './Language';
 
 export default function CodeEditor() {
 	const language = useLanguage();

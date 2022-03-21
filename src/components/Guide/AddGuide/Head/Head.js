@@ -1,11 +1,11 @@
 import React from 'react';
-import BackEnd from './BackEnd';
-import FrontEnd from './FrontEnd';
-import API from './API';
+import BackEnd from './TechStack/BackEnd';
+import FrontEnd from './TechStack/FrontEnd';
+import API from './TechStack/API';
 import Title from './Title';
 import Tag from './Tag';
 
-export default function PostHeader() {
+export default function Head() {
 	return (
 		<div>
 			<Title />

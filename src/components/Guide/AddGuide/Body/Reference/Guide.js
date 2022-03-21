@@ -23,10 +23,7 @@ function Guide() {
 	};
 
 	return (
-		<div
-			style={{ backgroundColor: 'hsl(30, 16%, 98%)' }}
-			className="form-field"
-		>
+		<div style={{ backgroundColor: 'blue' }} className="form-field">
 			{guideList.map((singleGuide, index) => (
 				<div key={index} className="guides">
 					<div className="addGuide">
@@ -48,14 +45,8 @@ function Guide() {
 								<span>Add</span>
 							</button>
 						)}
-						<div>
-							<CodeMirror
-								language={'markdown'}
-								value={textArea}
-								onChange={setTextArea}
-							/>
-						</div>
 					</div>
+					<textarea cols="60" rows="15" name="referenceContent"></textarea>
 
 					<div className="removeGuide">
 						{guideList.length !== 1 && (
