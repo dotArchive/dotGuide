@@ -21,46 +21,38 @@ function Tag() {
 	};
 
 	return (
-		<form className="tagForm" autoComplete="off">
-			Tags:
-			<div className="form-field">
-				{tagList.map((singletag, index) => (
-					<div key={index} className="tag">
-						<div className="addTag">
-							<input
-								placeholder="Tag"
-								name="tag"
-								type="text"
-								id="tag"
-								value={singletag.tag}
-								onChange={(e) => handleTagChange(e, index)}
-							/>
-							{tagList.length - 1 === index && (
-								<button
-									type="button"
-									onClick={handleTagAdd}
-									className="add-btn"
-								>
-									<span>Add</span>
-								</button>
-							)}
-						</div>
+		<div className="form-field">
+			{tagList.map((singletag, index) => (
+				<div key={index} className="tag">
+					<div className="addTag">
+						<input
+							placeholder="Tag"
+							name="tag"
+							type="text"
+							id="tag"
+							value={singletag.tag}
+							onChange={(e) => handleTagChange(e, index)}
+						/>
 
-						<div className="removeTag">
-							{tagList.length !== 1 && (
-								<button
-									type="button"
-									onClick={() => handleTagRemove(index)}
-									className="remove-btn"
-								>
-									<span>Remove</span>
-								</button>
-							)}
-						</div>
+						{tagList.length !== 1 && (
+							<button
+								type="button"
+								onClick={() => handleTagRemove(index)}
+								className="remove-btn"
+							>
+								<span>Remove</span>
+							</button>
+						)}
+
+						{tagList.length - 1 === index && (
+							<button type="button" onClick={handleTagAdd} className="add-btn">
+								<span>Add</span>
+							</button>
+						)}
 					</div>
-				))}
-			</div>
-		</form>
+				</div>
+			))}
+		</div>
 	);
 }
 

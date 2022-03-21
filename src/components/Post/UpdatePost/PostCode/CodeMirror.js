@@ -50,7 +50,6 @@ export default function CodeMirror(props) {
 					autoCloseBrackets: true,
 					matchBrackets: true,
 					search: true,
-					// readOnly: true,
 				}}
 			/>
 		</div>

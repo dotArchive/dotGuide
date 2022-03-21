@@ -23,57 +23,54 @@ function Guide() {
 	};
 
 	return (
-		<form
-			style={{ backgroundColor: 'white' }}
-			className="guideForm"
-			autoComplete="off"
+		<div
+			style={{ backgroundColor: 'hsl(30, 16%, 98%)' }}
+			className="form-field"
 		>
-			<div className="form-field">
-				{guideList.map((singleGuide, index) => (
-					<div key={index} className="guides">
-						<div className="addGuide">
-							<input
-								placeholder="Guide Header"
-								name="guide"
-								type="text"
-								id="guide"
-								value={singleGuide.guide}
-								onChange={(e) => handleGuideChange(e, index)}
-								required
+			{guideList.map((singleGuide, index) => (
+				<div key={index} className="guides">
+					<div className="addGuide">
+						<input
+							placeholder="Guide Header"
+							name="guide"
+							type="text"
+							id="guide"
+							value={singleGuide.guide}
+							onChange={(e) => handleGuideChange(e, index)}
+							required
+						/>
+						{guideList.length - 1 === index && (
+							<button
+								type="button"
+								onClick={handleGuideAdd}
+								className="add-btn"
+							>
+								<span>Add</span>
+							</button>
+						)}
+						<div>
+							<CodeMirror
+								language={'markdown'}
+								value={textArea}
+								onChange={setTextArea}
 							/>
-							{guideList.length - 1 === index && (
-								<button
-									type="button"
-									onClick={handleGuideAdd}
-									className="add-btn"
-								>
-									<span>Add</span>
-								</button>
-							)}
-							<div>
-								<CodeMirror
-									language={'markdown'}
-									value={textArea}
-									onChange={setTextArea}
-								/>
-							</div>
-						</div>
-
-						<div className="removeGuide">
-							{guideList.length !== 1 && (
-								<button
-									type="button"
-									onClick={() => handleGuideRemove(index)}
-									className="remove-btn"
-								>
-									<span>Remove</span>
-								</button>
-							)}
 						</div>
 					</div>
-				))}
-			</div>
-		</form>
+
+					<div className="removeGuide">
+						{guideList.length !== 1 && (
+							<button
+								type="button"
+								onClick={() => handleGuideRemove(index)}
+								className="remove-btn"
+							>
+								<span>Remove</span>
+							</button>
+						)}
+					</div>
+				</div>
+			))}
+		</div>
 	);
 }
 

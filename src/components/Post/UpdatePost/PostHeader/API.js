@@ -21,47 +21,38 @@ function API() {
 	};
 
 	return (
-		<form className="APIForm" autoComplete="off">
-			APIs:
-			<div className="form-field">
-				{APIList.map((singleAPI, index) => (
-					<div key={index} className="API">
-						<div className="addAPI">
-							<input
-								placeholder="API Technology"
-								name="API"
-								type="text"
-								id="API"
-								value={singleAPI.API}
-								onChange={(e) => handleAPIChange(e, index)}
-								required
-							/>
-							{APIList.length - 1 === index && (
-								<button
-									type="button"
-									onClick={handleAPIAdd}
-									className="add-btn"
-								>
-									<span>Add</span>
-								</button>
-							)}
-						</div>
+		<div className="form-field">
+			{APIList.map((singleAPI, index) => (
+				<div key={index} className="API">
+					<div className="addAPI">
+						<input
+							placeholder="API Technology"
+							name="API"
+							type="text"
+							id="API"
+							value={singleAPI.API}
+							onChange={(e) => handleAPIChange(e, index)}
+							required
+						/>
+						{APIList.length !== 1 && (
+							<button
+								type="button"
+								onClick={() => handleAPIRemove(index)}
+								className="remove-btn"
+							>
+								<span>Remove</span>
+							</button>
+						)}
 
-						<div className="removeAPI">
-							{APIList.length !== 1 && (
-								<button
-									type="button"
-									onClick={() => handleAPIRemove(index)}
-									className="remove-btn"
-								>
-									<span>Remove</span>
-								</button>
-							)}
-						</div>
+						{APIList.length - 1 === index && (
+							<button type="button" onClick={handleAPIAdd} className="add-btn">
+								<span>Add</span>
+							</button>
+						)}
 					</div>
-				))}
-			</div>
-		</form>
+				</div>
+			))}
+		</div>
 	);
 }
 

@@ -18,7 +18,7 @@ export default function CodeMirror(props) {
 
 	return (
 		<div className="guide-container">
-			<div style={{ backgroundColor: 'blue' }}>{displayName}</div>
+			<div>{displayName}</div>
 
 			<Controlled
 				onBeforeChange={handleChange}
@@ -32,7 +32,6 @@ export default function CodeMirror(props) {
 					smartIndent: true,
 					autoCloseBrackets: true,
 					search: true,
-					// readOnly: true,
 				}}
 			/>
 		</div>

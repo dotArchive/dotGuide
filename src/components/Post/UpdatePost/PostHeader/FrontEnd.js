@@ -21,46 +21,42 @@ function FrontEnd() {
 	};
 
 	return (
-		<form className="frontEndForm" autoComplete="off">
-			<div className="form-field">
-				Front-End:
-				{frontEndList.map((singleFrontEnd, index) => (
-					<div key={index} className="frontEnd">
-						<div className="addFrontEnd">
-							<input
-								placeholder="Front-End Technology"
-								name="frontEnd"
-								type="text"
-								id="frontEnd"
-								value={singleFrontEnd.frontEnd}
-								onChange={(e) => handleFrontEndChange(e, index)}
-							/>
-							{frontEndList.length - 1 === index && (
-								<button
-									type="button"
-									onClick={handleFrontEndAdd}
-									className="add-btn"
-								>
-									<span>Add</span>
-								</button>
-							)}
-						</div>
+		<div className="form-field">
+			{frontEndList.map((singleFrontEnd, index) => (
+				<div key={index} className="frontEnd">
+					<div className="addFrontEnd">
+						<input
+							placeholder="Front-End Technology"
+							name="frontEnd"
+							type="text"
+							id="frontEnd"
+							value={singleFrontEnd.frontEnd}
+							onChange={(e) => handleFrontEndChange(e, index)}
+						/>
 
-						<div className="removeFrontEnd">
-							{frontEndList.length !== 1 && (
-								<button
-									type="button"
-									onClick={() => handleFrontEndRemove(index)}
-									className="remove-btn"
-								>
-									<span>Remove</span>
-								</button>
-							)}
-						</div>
+						{frontEndList.length !== 1 && (
+							<button
+								type="button"
+								onClick={() => handleFrontEndRemove(index)}
+								className="remove-btn"
+							>
+								<span>Remove</span>
+							</button>
+						)}
+
+						{frontEndList.length - 1 === index && (
+							<button
+								type="button"
+								onClick={handleFrontEndAdd}
+								className="add-btn"
+							>
+								<span>Add</span>
+							</button>
+						)}
 					</div>
-				))}
-			</div>
-		</form>
+				</div>
+			))}
+		</div>
 	);
 }
 

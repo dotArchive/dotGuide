@@ -21,46 +21,42 @@ function BackEnd() {
 	};
 
 	return (
-		<form className="backEndForm" autoComplete="off">
-			<div className="form-field">
-				Back-End:
-				{backEndList.map((singlebackEnd, index) => (
-					<div key={index} className="backEnd">
-						<div className="addBackEnd">
-							<input
-								placeholder="Back-End Technology"
-								name="backEnd"
-								type="text"
-								id="backEnd"
-								value={singlebackEnd.backEnd}
-								onChange={(e) => handleBackEndChange(e, index)}
-							/>
-							{backEndList.length - 1 === index && (
-								<button
-									type="button"
-									onClick={handleBackEndAdd}
-									className="add-btn"
-								>
-									<span>Add</span>
-								</button>
-							)}
-						</div>
+		<div className="form-field">
+			{backEndList.map((singlebackEnd, index) => (
+				<div key={index} className="backEnd">
+					<div className="addBackEnd">
+						<input
+							placeholder="Back-End Technology"
+							name="backEnd"
+							type="text"
+							id="backEnd"
+							value={singlebackEnd.backEnd}
+							onChange={(e) => handleBackEndChange(e, index)}
+						/>
 
-						<div className="removeBackEnd">
-							{backEndList.length !== 1 && (
-								<button
-									type="button"
-									onClick={() => handleBackEndRemove(index)}
-									className="remove-btn"
-								>
-									<span>Remove</span>
-								</button>
-							)}
-						</div>
+						{backEndList.length !== 1 && (
+							<button
+								type="button"
+								onClick={() => handleBackEndRemove(index)}
+								className="remove-btn"
+							>
+								<span>Remove</span>
+							</button>
+						)}
+
+						{backEndList.length - 1 === index && (
+							<button
+								type="button"
+								onClick={handleBackEndAdd}
+								className="add-btn"
+							>
+								<span>Add</span>
+							</button>
+						)}
 					</div>
-				))}
-			</div>
-		</form>
+				</div>
+			))}
+		</div>
 	);
 }
 

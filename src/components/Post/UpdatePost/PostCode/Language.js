@@ -23,7 +23,6 @@ export default function Language({ children }) {
 		<LanguageGet.Provider value={language}>
 			<LanguageUpdate.Provider value={handleLanguageChange}>
 				<div>
-					<span> Language:</span>
 					<select onChange={handleLanguageChange} name="language" id="language">
 						<option value="javascript">JavaScript</option>
 						<option value="jsx">JSX</option>
