@@ -22,6 +22,10 @@ function API() {
 
 	return (
 		<div className="form-field">
+			<button type="button" onClick={handleAPIAdd} className="add-btn">
+				Add
+			</button>
+
 			{APIList.map((singleAPI, index) => (
 				<div key={index} className="API">
 					<div className="addAPI">
@@ -32,7 +36,6 @@ function API() {
 							id="API"
 							value={singleAPI.API}
 							onChange={(e) => handleAPIChange(e, index)}
-							required
 						/>
 						{APIList.length !== 1 && (
 							<button
@@ -41,12 +44,6 @@ function API() {
 								className="remove-btn"
 							>
 								<span>Remove</span>
-							</button>
-						)}
-
-						{APIList.length - 1 === index && (
-							<button type="button" onClick={handleAPIAdd} className="add-btn">
-								<span>Add</span>
 							</button>
 						)}
 					</div>

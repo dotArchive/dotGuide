@@ -1,9 +1,9 @@
 import React from 'react';
-import NewFile from './NewFile';
-import PostHeader from './PostHeader/PostHeader';
+import Body from './Body/Body';
+import Head from './Head/Head';
 import { useNavigate } from 'react-router-dom';
 
-export default function AddPost() {
+export default function AddGuide() {
 	const navigate = useNavigate();
 
 	const handleCancel = () => {
@@ -21,13 +21,13 @@ export default function AddPost() {
 	return (
 		<form style={{ border: '1rem solid pink' }}>
 			<div className="postHeader" style={{ backgroundColor: 'red' }}>
-				<PostHeader />
+				<Head />
 			</div>
-			<div style={{ backgroundColor: 'green' }} className="post">
-				<NewFile />
+			<div style={{ backgroundColor: 'blue' }} className="post">
+				<Body />
 			</div>
 
-			<div style={{ backgroundColor: 'purple' }}>
+			<div style={{ backgroundColor: 'pink' }}>
 				<button type="button" onClick={handleCancel} className="cancel-btn">
 					Cancel
 				</button>

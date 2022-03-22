@@ -22,6 +22,9 @@ function BackEnd() {
 
 	return (
 		<div className="form-field">
+			<button type="button" onClick={handleBackEndAdd} className="add-btn">
+				Add
+			</button>
 			{backEndList.map((singlebackEnd, index) => (
 				<div key={index} className="backEnd">
 					<div className="addBackEnd">
@@ -41,16 +44,6 @@ function BackEnd() {
 								className="remove-btn"
 							>
 								<span>Remove</span>
-							</button>
-						)}
-
-						{backEndList.length - 1 === index && (
-							<button
-								type="button"
-								onClick={handleBackEndAdd}
-								className="add-btn"
-							>
-								<span>Add</span>
 							</button>
 						)}
 					</div>
