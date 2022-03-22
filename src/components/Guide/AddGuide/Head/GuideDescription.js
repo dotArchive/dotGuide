@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
 
-export default function Content() {
+export default function GuideDescription() {
 	const [content, setContent] = useState('');
 
 	const handleContentChange = (e) => {
@@ -28,7 +28,7 @@ export default function Content() {
 			],
 			autofocus: true,
 			onToggleFullScreen: false,
-			placeholder: 'Reference Content Here...',
+			placeholder: 'Guide Description Here...',
 		};
 	}, []);
 

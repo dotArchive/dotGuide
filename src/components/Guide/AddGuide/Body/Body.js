@@ -28,22 +28,34 @@ export default function GuideBody() {
 			{newBodyList.map((singleNewBody, index) => (
 				<div key={index} className="newBody">
 					<div className="addNewBody">
-						<input
-							placeholder="File Name"
-							name="newBody"
-							type="text"
-							id="newBody"
-							value={singleNewBody.newBody}
-							onChange={(e) => handleNewBodyChange(e, index)}
-							required
-						/>
 						<details open>
-							<summary></summary>
+							<summary>
+								<input
+									placeholder="File Name"
+									name="newBody"
+									type="text"
+									id="newBody"
+									value={singleNewBody.newBody}
+									onChange={(e) => handleNewBodyChange(e, index)}
+									required
+								/>
+							</summary>
 							<Language>
 								<CodeEditor />
 							</Language>
 							<Reference />
 						</details>
+						<div className="removeNewBody">
+							{newBodyList.length !== 1 && (
+								<button
+									type="button"
+									onClick={() => handleNewBodyRemove(index)}
+									className="remove-btn"
+								>
+									<span>Remove</span>
+								</button>
+							)}
+						</div>
 
 						{newBodyList.length - 1 === index && (
 							<button
@@ -56,17 +68,6 @@ export default function GuideBody() {
 						)}
 					</div>
 
-					<div className="removeNewBody">
-						{newBodyList.length !== 1 && (
-							<button
-								type="button"
-								onClick={() => handleNewBodyRemove(index)}
-								className="remove-btn"
-							>
-								<span>Remove</span>
-							</button>
-						)}
-					</div>
 					<div></div>
 				</div>
 			))}

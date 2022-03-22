@@ -15,7 +15,7 @@ export default function Title() {
 				placeholder="Title"
 				name="title"
 				type="text"
-				id="guide"
+				id="title"
 				required
 			/>
 		</div>
