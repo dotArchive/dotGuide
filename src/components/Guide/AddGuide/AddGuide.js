@@ -23,11 +23,11 @@ export default function AddGuide() {
 			<div className="postHeader" style={{ backgroundColor: 'red' }}>
 				<Head />
 			</div>
-			<div style={{ backgroundColor: 'green' }} className="post">
+			<div style={{ backgroundColor: 'blue' }} className="post">
 				<Body />
 			</div>
 
-			<div style={{ backgroundColor: 'purple' }}>
+			<div style={{ backgroundColor: 'pink' }}>
 				<button type="button" onClick={handleCancel} className="cancel-btn">
 					Cancel
 				</button>

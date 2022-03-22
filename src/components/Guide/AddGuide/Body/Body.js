@@ -24,7 +24,7 @@ export default function GuideBody() {
 	};
 
 	return (
-		<div style={{ border: '1rem solid green' }} className="form-field">
+		<div style={{ border: '1rem solid blue' }} className="form-field">
 			{newBodyList.map((singleNewBody, index) => (
 				<div key={index} className="newBody">
 					<div className="addNewBody">

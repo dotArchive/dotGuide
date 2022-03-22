@@ -22,7 +22,7 @@ function Reference() {
 	};
 
 	return (
-		<div style={{ backgroundColor: 'blue' }} className="form-field">
+		<div style={{ backgroundColor: 'green' }} className="form-field">
 			{referenceList.map((singleReference, index) => (
 				<div key={index} className="references">
 					<div className="addReference">
@@ -44,28 +44,8 @@ function Reference() {
 								<span>Remove</span>
 							</button>
 						)}
-						{/* {referenceList.length - 1 === index && (
-							<button
-								type="button"
-								onClick={handleReferenceAdd}
-								className="add-btn"
-							>
-								<span>Add</span>
-							</button>
-						)} */}
 					</div>
 					<Content />
-					{/* <div className="removeReference">
-						{referenceList.length !== 1 && (
-							<button
-								type="button"
-								onClick={() => handleReferenceRemove(index)}
-								className="remove-btn"
-							>
-								<span>Remove</span>
-							</button>
-						)}
-					</div> */}
 				</div>
 			))}
 			<button type="button" onClick={handleReferenceAdd} className="add-btn">
