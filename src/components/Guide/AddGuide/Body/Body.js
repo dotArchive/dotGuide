@@ -37,10 +37,13 @@ export default function GuideBody() {
 							onChange={(e) => handleNewBodyChange(e, index)}
 							required
 						/>
-						<Language>
-							<CodeEditor />
-						</Language>
-						<Reference />
+						<details open>
+							<summary></summary>
+							<Language>
+								<CodeEditor />
+							</Language>
+							<Reference />
+						</details>
 
 						{newBodyList.length - 1 === index && (
 							<button
