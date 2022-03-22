@@ -34,14 +34,16 @@ export default function GuideDescription() {
 
 	return (
 		<div>
-			<SimpleMDE
-				options={options}
-				value={content}
-				onChange={handleContentChange}
-			/>
-
+			<details open>
+				<summary>Description</summary>
+				<SimpleMDE
+					options={options}
+					value={content}
+					onChange={handleContentChange}
+				/>
+			</details>
 			<details>
-				<summary>Preview</summary>
+				<summary>Description Preview</summary>
 				<ReactMarkdown>{content}</ReactMarkdown>
 			</details>
 		</div>

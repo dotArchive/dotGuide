@@ -41,7 +41,7 @@ export default function Content() {
 			/>
 
 			<details>
-				<summary>Preview</summary>
+				<summary>Reference Preview</summary>
 				<ReactMarkdown>{content}</ReactMarkdown>
 			</details>
 		</div>

@@ -16,7 +16,6 @@ export default function Head() {
 			<API />
 			<Tag />
 			<CodeURL />
-
 			<GuideDescription />
 		</div>
 	);
