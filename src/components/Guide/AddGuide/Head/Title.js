@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function Title() {
+export default function Title(props) {
 	const [title, setTitle] = useState('');
 
 	const handleTitleChange = (e) => {
 		const { value } = e.target;
 		setTitle(value);
 	};
+
+	useEffect(() => {
+		props.grandChild(title);
+	}, [title]);
 
 	return (
 		<div className="title">
