@@ -74,6 +74,7 @@ const logout = () => {
 export {
   auth,
   db,
+  app,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
   sendPasswordReset,

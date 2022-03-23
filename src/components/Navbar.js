@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import Box from "@mui/material/Box";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
@@ -16,30 +16,34 @@ import StarIcon from "@mui/icons-material/Star";
 
 const Navbar = () => {
   const [direction, setDirection] = useState("left");
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
-  const logout = () => {
-    signOut(auth).then(navigate("/"));
-  };
-  const user = auth.currentUser;
+  console.log(user);
 
-  function handleClick(e, link) {
-    e.preventDefault();
-    if (link === "Login") {
-      navigate("/login");
-    } else if (link === "Signup") {
-      navigate("/signup");
-    }
+  useEffect(() => {
+    onAuthStateChanged(auth, () => {
+      setUser(auth.currentUser);
+    })
+  }, [])
+
+  const logout = () => {
+    signOut(auth);
+    onAuthStateChanged(auth, () => {
+      navigate("/")
+    });
   }
+
+  // const user = auth.currentUser;
+  // window.userLogin = auth.currentUser;
 
   return (
     <Box sx={{ height: 70, transform: "translateZ(0px)", flexGrow: 1 }}>
-      {user ? (
+      { user ? (
         <SpeedDial
           ariaLabel="SpeedDial basic example"
           sx={{ position: "absolute", bottom: 16, right: 16 }}
           icon={<SpeedDialIcon />}
           direction={direction}
-          onClick={handleClick}
           FabProps={{
             sx: {
               bgcolor: "black",
@@ -81,7 +85,6 @@ const Navbar = () => {
           sx={{ position: "absolute", bottom: 16, right: 16 }}
           icon={<SpeedDialIcon />}
           direction={direction}
-          onClick={handleClick}
           FabProps={{
             sx: {
               bgcolor: "black",
