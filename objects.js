@@ -70,16 +70,8 @@ const guides = {
 const files = {
   codeBlock: 'code goes here',
   fileName: 'index.js',
-  // guideId1: true,
-  // cleXAMJVJYgxCEDsLXYZTjbLMui2: true,
   guide: 'guideId1',
   userId: 'cleXAMJVJYgxCEDsLXYZTjbLMui2',
-  // references:{
-  //   "Event Listeners": "here's what's going ot happen",
-  //   hooks: "just keep hooking",
-  //   imports: "explanation",
-  //   jsx: "what's really going on"
-  // },
   references: {
     1: {
       'Event Listeners': "here's what's going ot happen",
