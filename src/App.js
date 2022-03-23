@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Footer from './components/Footer';
+import Profile from './components/User/Profile';
 
 /****COMPONENTS****/
 import Home from './components/Home';
@@ -18,6 +19,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/login" element={<Login />} />
+					<Route path="/profile" element={<Profile />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/guide/add" element={<AddGuide />} />
 					<Route path="/guide/:guideId" element={<SingleGuide />} />
