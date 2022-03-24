@@ -36,10 +36,10 @@ const GuidePreview = (guides) => {
                 onClick={() => handleGuideClick(guideId)}
                 key={idx}>
                 <CardContent>
-                  <Typography variant="h5" sx={{ fontSize: '1.15em', fontWeight: 'bold' }}>
+                  <Typography variant="h5" sx={{ fontSize: '1.2em', fontWeight: 'bold' }}>
                     {title ? title : null}
                   </Typography>
-                  <Typography component="div" sx={{ fontSize: '1em' }}>
+                  <Typography sx={{ fontSize: '0.8em' }}>
                     {`— ${username ? username : null}
           (favIcon) ${favorites ? favorites : null}`}
                   </Typography>
@@ -49,7 +49,16 @@ const GuidePreview = (guides) => {
                           return (
                             <Box
                               key={idx}
-                              sx={{ padding: 1, margin: 1, border: 1, borderRadius: 3 }}>
+                              sx={{
+                                pr: 1,
+                                pl: 1,
+                                // pt: 0.5,
+                                // pb: 0.5,
+                                margin: 1,
+                                border: 1,
+                                borderRadius: 2.5,
+                                typography: 'body2',
+                              }}>
                               {tag}
                             </Box>
                           )
