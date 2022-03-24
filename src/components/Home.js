@@ -1,4 +1,7 @@
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import GuidePreview from './GuidePreview'
 
 const guidePreviews = [
@@ -40,11 +43,22 @@ const guidePreviews = [
 ]
 
 export const Home = () => {
+  const navigate = useNavigate()
+
+  const handleNewGuideClick = () => {
+    navigate(`/guide/add`)
+  }
+  const handlePopTagClick = (e) => {
+    navigate(`/search/${e.target.value}`)
+  }
+
   return (
     <div id="home">
       <div>
-        <div>About:</div>
-        <div>
+        <Typography variant="h3" sx={{ textAlign: 'center' }}>
+          About:
+        </Typography>
+        <Typography variant="paragraph" sx={{ textAlign: 'center' }}>
           You really think you can fly that thing? What do they got in there? King Kong? Must go
           faster... go, go, go, go, go! You're a very talented young man, with your own clever
           thoughts and ideas. Do you need a manager? Hey, take a look at the earthlings. Goodbye!
@@ -52,13 +66,107 @@ export const Home = () => {
           preoccupied with whether or not they could, they didn't stop to think if they should. Just
           my luck, no ice. Remind me to thank John for a lovely weekend. They're using our own
           satellites against us. And the clock is ticking.
-        </div>
+        </Typography>
       </div>
-      <div>README Categories</div>
-      <div>New README</div>
-      <div>
-        <GuidePreview props={guidePreviews} />
-      </div>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box
+          sx={{
+            typography: 'paragraph',
+            padding: 1,
+            mr: 2,
+            ml: 2,
+            border: 1,
+            borderRadius: 2.5,
+            background: '#001247',
+            color: 'white',
+            '&:hover': { cursor: 'pointer' },
+          }}
+          onClick={(e) => handlePopTagClick(e)}>
+          Javascript
+        </Box>
+        <Box
+          sx={{
+            typography: 'paragraph',
+            padding: 1,
+            mr: 2,
+            ml: 2,
+            border: 1,
+            borderRadius: 2.5,
+            background: '#001247',
+            color: 'white',
+            '&:hover': { cursor: 'pointer' },
+          }}
+          onClick={(e) => handlePopTagClick(e)}>
+          React
+        </Box>
+        <Box
+          sx={{
+            typography: 'paragraph',
+            padding: 1,
+            mr: 2,
+            ml: 2,
+            border: 1,
+            borderRadius: 2.5,
+            background: '#001247',
+            color: 'white',
+            '&:hover': { cursor: 'pointer' },
+          }}
+          onClick={(e) => handlePopTagClick(e)}>
+          express
+        </Box>
+        <Box
+          sx={{
+            typography: 'paragraph',
+            padding: 1,
+            mr: 2,
+            ml: 2,
+            border: 1,
+            borderRadius: 2.5,
+            background: '#001247',
+            color: 'white',
+            '&:hover': { cursor: 'pointer' },
+          }}
+          onClick={(e) => handlePopTagClick(e)}>
+          Vue.js
+        </Box>
+        <Box
+          sx={{
+            typography: 'paragraph',
+            padding: 1,
+            mr: 2,
+            ml: 2,
+            border: 1,
+            borderRadius: 2.5,
+            background: '#001247',
+            color: 'white',
+            '&:hover': { cursor: 'pointer' },
+          }}
+          onClick={(e) => handlePopTagClick(e)}>
+          Firebase
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          textAlign: 'center',
+          border: 1,
+          borderRadius: 5,
+          mt: 2,
+          mb: 1,
+          mr: '20%',
+          ml: '20%',
+          pt: 2.5,
+          pb: 2.5,
+          typography: 'h4',
+          background: '#12D152',
+          color: 'white',
+        }}
+        onClick={() => handleNewGuideClick()}>
+        New Guide
+      </Box>
+      <Typography variant="h3" sx={{ textAlign: 'center' }}>
+        Latest Guides
+      </Typography>
+      <GuidePreview props={guidePreviews} />
     </div>
   )
 }

@@ -26,6 +26,8 @@ const GuidePreview = (guides) => {
             return (
               <Card
                 sx={{
+                  background: '#001247',
+                  color: 'white',
                   borderRadius: 10,
                   margin: 1,
                   '&:hover': { cursor: 'pointer' },
@@ -54,10 +56,11 @@ const GuidePreview = (guides) => {
                                 pl: 1,
                                 // pt: 0.5,
                                 // pb: 0.5,
-                                margin: 1,
                                 border: 1,
                                 borderRadius: 2.5,
                                 typography: 'body2',
+                                background: '#12D152',
+                                color: 'white',
                               }}>
                               {tag}
                             </Box>
