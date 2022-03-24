@@ -54,9 +54,8 @@ const GuidePreview = (guides) => {
                               sx={{
                                 pr: 1,
                                 pl: 1,
-                                // pt: 0.5,
+                                mt: 0.5,
                                 // pb: 0.5,
-                                border: 1,
                                 borderRadius: 2.5,
                                 typography: 'body2',
                                 background: '#12D152',
