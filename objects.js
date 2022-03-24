@@ -80,6 +80,6 @@ const guides = {
     tags: ['test7', 'test8', 'test9'],
     title: 'how to log in and mean it',
     userId: 'cleXAMJVJYgxCEDsLXYZTjbLMui2',
-    username: 'jankyCode',
+    username: 'wannaB3',
   },
 }
