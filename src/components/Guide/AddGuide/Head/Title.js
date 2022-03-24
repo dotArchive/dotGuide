@@ -9,7 +9,7 @@ export default function Title(props) {
 	};
 
 	useEffect(() => {
-		props.grandChild(title);
+		props.titleChild(title);
 	}, [title]);
 
 	return (

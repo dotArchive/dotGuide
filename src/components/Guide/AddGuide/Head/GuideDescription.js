@@ -1,14 +1,18 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
 
-export default function GuideDescription() {
+export default function GuideDescription(props) {
 	const [content, setContent] = useState('');
 
 	const handleContentChange = (e) => {
 		setContent(e);
 	};
+
+	useEffect(() => {
+		props.descriptionChild(content);
+	}, [content]);
 
 	const options = useMemo(() => {
 		return {

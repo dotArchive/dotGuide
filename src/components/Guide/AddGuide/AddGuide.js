@@ -14,10 +14,25 @@ import { db, auth } from '../../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
 export default function AddGuide() {
+	// User
 	const [currentUid, setCurrentUid] = useState('');
 	const [user, setUser] = useState({});
-	const [title, setTitle] = useState('');
 
+	// Head
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
+	const [tags, setTags] = useState([]);
+	const [urls, setUrls] = useState([]);
+	const [APIs, setAPIs] = useState([]);
+	const [frontEnds, setFrontEnds] = useState([]);
+	const [backEnds, setBackEnds] = useState([]);
+
+	// Body
+	const [files, setFiles] = useState([]);
+	const [language, setLanguage] = useState([]);
+	const [code, setCode] = useState([]);
+
+	// Get current UserID from Auth
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			const uid = user.uid;
@@ -26,6 +41,7 @@ export default function AddGuide() {
 		myQuery();
 	}, [currentUid]);
 
+	// Get current User from Firestore
 	const docRef = collection(db, 'users');
 	const q = query(docRef, where('uid', '==', currentUid));
 
@@ -37,44 +53,60 @@ export default function AddGuide() {
 		});
 	};
 
+	// Constants for Setting FireStore Guide
+	// User
+	const guideRef = collection(db, 'Guide');
 	const username = user.name;
 	const userId = user.uid;
 
-	const guideRef = collection(db, 'Guide');
+	// Head
+	const tag = tags.map((tag) => {
+		return tag;
+	});
+	const url = urls.map((url) => {
+		return url;
+	});
+	const API = APIs.map((API) => {
+		return API;
+	});
+	const frontEnd = frontEnds.map((frontEnd) => {
+		return frontEnd;
+	});
+	const backEnd = backEnds.map((backEnd) => {
+		return backEnd;
+	});
 
-	// SetSingle
+	// Body
+	const body = files.map((fileName) => {
+		const filePath = {
+			fileName,
+			language,
+			code,
+		};
+
+		return filePath;
+	});
+
+	// Set FireStore Guide
 	const setGuide = async () => {
-		await setDoc(doc(guideRef), {
-			// body: {
-			// 	files: [
-			// 		{
-			// 			filePath: '',
-			// 			language: '',
-			// 			codeBlock: '',
-			// 			reference: [
-			// 				{
-			// 					header: '',
-			// 					content: '',
-			// 				},
-			// 			],
-			// 		},
-			// 	],
-			// },
-			// head: {
-			// 	APIs: {},
-			// 	backEnd: {},
-			// 	frontEnd: {},
-			// 	githubUrl: '',
-			// 	tags: {},
-			// 	title: '',
-			// },
-			title: title,
+		await setDoc(doc(guideRef, 'myRandomId'), {
+			body,
+
+			head: {
+				API,
+				backEnd,
+				description,
+				frontEnd,
+				url,
+				tag,
+				title,
+			},
+			userId,
+			username,
 			isPublished: false,
-			userId: userId,
-			username: username,
 		});
 	};
-
+	// Handle Buttons
 	const navigate = useNavigate();
 
 	const handleCancel = () => {
@@ -92,10 +124,22 @@ export default function AddGuide() {
 	return (
 		<form style={{ border: '1rem solid pink' }}>
 			<div className="postHeader" style={{ backgroundColor: 'red' }}>
-				<Head child={(data) => setTitle(data)} />
+				<Head
+					titleChild={(data) => setTitle(data)}
+					tagChild={(data) => setTags(data)}
+					urlChild={(data) => setUrls(data)}
+					descriptionChild={(data) => setDescription(data)}
+					apiChild={(data) => setAPIs(data)}
+					frontEndChild={(data) => setFrontEnds(data)}
+					backEndChild={(data) => setBackEnds(data)}
+				/>
 			</div>
 			<div style={{ backgroundColor: 'blue' }} className="post">
-				<Body />
+				<Body
+					fileChild={(data) => setFiles(data)}
+					languageChild={(data) => setLanguage(data)}
+					codeChild={(data) => setCode(data)}
+				/>
 			</div>
 
 			<div style={{ backgroundColor: 'pink' }}>

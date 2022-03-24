@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function API() {
+function API(props) {
 	const [APIList, setAPIList] = useState([{ API: '' }]);
 
 	const handleAPIChange = (e, index) => {
@@ -19,6 +19,10 @@ function API() {
 	const handleAPIAdd = () => {
 		setAPIList([...APIList, { API: '' }]);
 	};
+
+	useEffect(() => {
+		props.apiChild(APIList);
+	}, [APIList]);
 
 	return (
 		<div className="form-field">
