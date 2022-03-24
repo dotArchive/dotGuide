@@ -31,8 +31,7 @@ const GuidePreview = (guides) => {
                   borderRadius: 10,
                   margin: 1,
                   '&:hover': { cursor: 'pointer' },
-                  maxWidth: '80%',
-                  minWidth: '50%',
+                  width: '80%',
                   display: 'flex',
                   justifyContent: 'flex-start',
                 }}
