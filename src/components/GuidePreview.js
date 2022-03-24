@@ -11,7 +11,7 @@ const GuidePreview = (guides) => {
 
   useEffect(() => {
     setArr(guides.props)
-  }, [])
+  }, [guides.props])
 
   const handleGuideClick = (guideId) => {
     navigate(`/guide/${guideId}`)

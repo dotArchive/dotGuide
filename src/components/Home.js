@@ -55,10 +55,10 @@ export const Home = () => {
   return (
     <div id="home">
       <div>
-        <Typography variant="h3" sx={{ textAlign: 'center' }}>
+        <Typography variant="h3" sx={{ textAlign: 'center', color: 'white', mb: 3 }}>
           About:
         </Typography>
-        <Typography variant="paragraph" sx={{ textAlign: 'center' }}>
+        <Typography variant="paragraph" sx={{ textAlign: 'center', color: 'white' }}>
           You really think you can fly that thing? What do they got in there? King Kong? Must go
           faster... go, go, go, go, go! You're a very talented young man, with your own clever
           thoughts and ideas. Do you need a manager? Hey, take a look at the earthlings. Goodbye!
@@ -68,17 +68,17 @@ export const Home = () => {
           satellites against us. And the clock is ticking.
         </Typography>
       </div>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
         <Box
           sx={{
             typography: 'paragraph',
             padding: 1,
             mr: 2,
             ml: 2,
-            border: 1,
             borderRadius: 2.5,
             background: '#001247',
             color: 'white',
+            fontSize: '1.25em',
             '&:hover': { cursor: 'pointer' },
           }}
           onClick={(e) => handlePopTagClick(e)}>
@@ -90,10 +90,10 @@ export const Home = () => {
             padding: 1,
             mr: 2,
             ml: 2,
-            border: 1,
             borderRadius: 2.5,
             background: '#001247',
             color: 'white',
+            fontSize: '1.25em',
             '&:hover': { cursor: 'pointer' },
           }}
           onClick={(e) => handlePopTagClick(e)}>
@@ -105,10 +105,10 @@ export const Home = () => {
             padding: 1,
             mr: 2,
             ml: 2,
-            border: 1,
             borderRadius: 2.5,
             background: '#001247',
             color: 'white',
+            fontSize: '1.25em',
             '&:hover': { cursor: 'pointer' },
           }}
           onClick={(e) => handlePopTagClick(e)}>
@@ -120,10 +120,10 @@ export const Home = () => {
             padding: 1,
             mr: 2,
             ml: 2,
-            border: 1,
             borderRadius: 2.5,
             background: '#001247',
             color: 'white',
+            fontSize: '1.25em',
             '&:hover': { cursor: 'pointer' },
           }}
           onClick={(e) => handlePopTagClick(e)}>
@@ -135,10 +135,10 @@ export const Home = () => {
             padding: 1,
             mr: 2,
             ml: 2,
-            border: 1,
             borderRadius: 2.5,
             background: '#001247',
             color: 'white',
+            fontSize: '1.25em',
             '&:hover': { cursor: 'pointer' },
           }}
           onClick={(e) => handlePopTagClick(e)}>
@@ -148,7 +148,6 @@ export const Home = () => {
       <Box
         sx={{
           textAlign: 'center',
-          border: 1,
           borderRadius: 5,
           mt: 2,
           mb: 1,
@@ -159,11 +158,12 @@ export const Home = () => {
           typography: 'h4',
           background: '#12D152',
           color: 'white',
+          '&:hover': { cursor: 'pointer' },
         }}
         onClick={() => handleNewGuideClick()}>
         New Guide
       </Box>
-      <Typography variant="h3" sx={{ textAlign: 'center' }}>
+      <Typography variant="h3" sx={{ textAlign: 'center', color: 'white' }}>
         Latest Guides
       </Typography>
       <GuidePreview props={guidePreviews} />
