@@ -32,18 +32,20 @@ const GuidePreview = (guides) => {
                   margin: 1,
                   '&:hover': { cursor: 'pointer' },
                   maxWidth: '80%',
+                  minWidth: '50%',
                   display: 'flex',
-                  justifyContent: 'center',
+                  justifyContent: 'flex-start',
                 }}
                 onClick={() => handleGuideClick(guideId)}
                 key={idx}>
                 <CardContent>
-                  <Typography variant="h5" sx={{ fontSize: '1.2em', fontWeight: 'bold' }}>
+                  <Typography variant="h5" sx={{ fontSize: '1.85em', fontWeight: 'bold' }}>
                     {title ? title : null}
                   </Typography>
-                  <Typography sx={{ fontSize: '0.8em' }}>
+                  <Typography sx={{ fontSize: '1.25em' }}>
                     {`— ${username ? username : null}
-          (favIcon) ${favorites ? favorites : null}`}
+          (favIcon) `}
+                    <span style={{ color: '#12D152' }}>{`${favorites ? favorites : null}`}</span>
                   </Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
                     {tags
@@ -52,14 +54,16 @@ const GuidePreview = (guides) => {
                             <Box
                               key={idx}
                               sx={{
-                                pr: 1,
-                                pl: 1,
+                                pr: 1.5,
+                                pl: 1.5,
                                 mt: 0.5,
                                 // pb: 0.5,
                                 borderRadius: 2.5,
                                 typography: 'body2',
+                                fontSize: '1em',
                                 background: '#12D152',
                                 color: 'white',
+                                maxWidth: '100%',
                               }}>
                               {tag}
                             </Box>
