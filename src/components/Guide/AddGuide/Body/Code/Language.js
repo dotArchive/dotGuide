@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 const LanguageGet = React.createContext();
 const LanguageUpdate = React.createContext();
@@ -11,13 +11,20 @@ export function useLanguageUpdate() {
 	return useContext(LanguageUpdate);
 }
 
-export default function Language({ children }) {
+export default function Language(props) {
 	const [language, setLanguage] = useState('javascript');
+	const [languages, setLanguages] = useState([]);
 
 	const handleLanguageChange = (e) => {
-		const { value } = e.target;
+		const { name, value } = e.target;
 		setLanguage(value);
+		setLanguages([...languages, value]);
 	};
+	console.log(languages);
+
+	useEffect(() => {
+		props.languageChild(languages);
+	}, [languages]);
 
 	return (
 		<LanguageGet.Provider value={language}>
@@ -42,7 +49,7 @@ export default function Language({ children }) {
 						<option value="swift">Swift</option>
 					</select>
 				</div>
-				{children}
+				{props.children}
 			</LanguageUpdate.Provider>
 		</LanguageGet.Provider>
 	);

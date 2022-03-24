@@ -9,20 +9,50 @@ import CodeURL from './CodeURL';
 
 export default function Head(props) {
 	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
+	const [tag, setTag] = useState([]);
+	const [url, setUrl] = useState([]);
+	const [api, setApi] = useState([]);
+	const [frontEnd, setFrontEnd] = useState([]);
+	const [backEnd, setBackEnd] = useState([]);
 
 	useEffect(() => {
-		props.child(title);
+		props.titleChild(title);
 	}, [title]);
+
+	useEffect(() => {
+		props.descriptionChild(description);
+	}, [description]);
+
+	useEffect(() => {
+		props.tagChild(tag);
+	}, [tag]);
+
+	useEffect(() => {
+		props.urlChild(url);
+	}, [url]);
+
+	useEffect(() => {
+		props.apiChild(api);
+	}, [api]);
+
+	useEffect(() => {
+		props.frontEndChild(frontEnd);
+	}, [frontEnd]);
+
+	useEffect(() => {
+		props.backEndChild(backEnd);
+	}, [backEnd]);
 
 	return (
 		<div>
-			<Title grandChild={(data) => setTitle(data)} />
-			<FrontEnd />
-			<BackEnd />
-			<API />
-			<Tag />
-			<CodeURL />
-			<GuideDescription />
+			<Title titleChild={(data) => setTitle(data)} />
+			<FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
+			<BackEnd backEndChild={(data) => setBackEnd(data)} />
+			<API apiChild={(data) => setApi(data)} />
+			<Tag tagChild={(data) => setTag(data)} />
+			<CodeURL urlChild={(data) => setUrl(data)} />
+			<GuideDescription descriptionChild={(data) => setDescription(data)} />
 		</div>
 	);
 }

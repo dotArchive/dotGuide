@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function BackEnd() {
+function BackEnd(props) {
 	const [backEndList, setBackEndList] = useState([{ backEnd: '' }]);
 
 	const handleBackEndChange = (e, index) => {
@@ -19,6 +19,10 @@ function BackEnd() {
 	const handleBackEndAdd = () => {
 		setBackEndList([...backEndList, { backEnd: '' }]);
 	};
+
+	useEffect(() => {
+		props.backEndChild(backEndList);
+	}, [backEndList]);
 
 	return (
 		<div className="form-field">

@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CodeEditor from './Code/CodeEditor';
 import Language from './Code/Language';
 import Reference from './Reference/Reference';
 
-export default function GuideBody() {
-	const [newBodyList, setNewBodyList] = useState([{ newBody: '' }]);
+export default function GuideBody(props) {
+	const [newBodyList, setNewBodyList] = useState([{ filePath: '' }]);
+	const [language, setLanguage] = useState([]);
+	const [code, setCode] = useState([]);
 
 	const handleNewBodyChange = (e, index) => {
 		const { name, value } = e.target;
@@ -20,8 +22,20 @@ export default function GuideBody() {
 	};
 
 	const handleNewBodyAdd = () => {
-		setNewBodyList([...newBodyList, { newBody: '' }]);
+		setNewBodyList([...newBodyList, { filePath: '' }]);
 	};
+
+	useEffect(() => {
+		props.fileChild(newBodyList);
+	}, [newBodyList]);
+
+	useEffect(() => {
+		props.languageChild(language);
+	}, [language]);
+
+	useEffect(() => {
+		props.codeChild(code);
+	}, [code]);
 
 	return (
 		<div style={{ border: '1rem solid blue' }} className="form-field">
@@ -32,16 +46,16 @@ export default function GuideBody() {
 							<summary>
 								<input
 									placeholder="File Name"
-									name="newBody"
+									name="filePath"
 									type="text"
-									id="newBody"
+									id="filePath"
 									value={singleNewBody.newBody}
 									onChange={(e) => handleNewBodyChange(e, index)}
 									required
 								/>
 							</summary>
-							<Language>
-								<CodeEditor />
+							<Language languageChild={(data) => setLanguage(data)}>
+								<CodeEditor codeChild={(data) => setCode(data)} />
 							</Language>
 							<Reference />
 						</details>
