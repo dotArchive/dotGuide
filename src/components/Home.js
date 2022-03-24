@@ -77,12 +77,14 @@ export const Home = () => {
                 <Box
                   sx={{
                     typography: 'paragraph',
+
                     padding: 1,
-                    mr: 2,
-                    ml: 2,
+                    mr: 1,
+                    ml: 1,
                     borderRadius: 2.5,
                     background: '#001247',
                     color: '#eeeeee',
+                    textAlign: 'center',
                     fontSize: '1.25em',
                     '&:hover': { cursor: 'pointer' },
                   }}
