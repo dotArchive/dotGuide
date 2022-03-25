@@ -6,11 +6,6 @@ export default function CodeEditor(props) {
 	const language = useLanguage();
 
 	const [code, setCode] = useState('');
-	const [codes, setCodes] = useState([]);
-
-	useEffect(() => {
-		props.codeChild(code);
-	}, [code]);
 
 	return (
 		<div>
