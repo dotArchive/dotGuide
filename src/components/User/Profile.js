@@ -1,34 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { db, auth } from '../../firebase';
-import { collection, getDocs, doc, where, query } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
+
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { db, auth } from "../../firebase";
+import {
+  collection,
+  getDocs,
+  where,
+  query,
+  getDoc,
+  doc,
+} from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Profile = () => {
-	const [currentUid, setCurrentUid] = useState('');
-	const [user, setUser] = useState({});
+  const [user, setUser] = useState({});
+  const [uid, setUid] = useState();
+  const navigate = useNavigate();
 
-	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			if (user) {
-				const uid = user.uid;
-				setCurrentUid(uid);
-			}
-		});
-		myQuery();
-	}, [currentUid]);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userUid = user.uid;
+        setUid(userUid);
+      }
+    });
+  }, []);
 
-	const docRef = collection(db, 'users');
+  const myDoc = async () => {
+    const docRef = doc(db, "users", `${uid}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setUser(docSnap.data());
+    }
+  };
 
-	const q = query(docRef, where('uid', '==', currentUid));
-	const myQuery = async () => {
-		const querySnapshot = await getDocs(q);
+  myDoc();
 
-		querySnapshot.forEach((doc) => {
-			setUser(doc.data());
-		});
-	};
-
-	return <div>{user.name}</div>;
+  return (
+    <div>
+      <div>Username: {user.username}</div>
+      <div>Email: {user.email}</div>
+      <div>
+        <button onClick={() => navigate("/edit-profile")}>Edit Profile</button>
+      </div>
+    </div>
+  );
 };
 
 export default Profile;
