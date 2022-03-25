@@ -1,76 +1,13 @@
-import { useState } from 'react';
-import CodeEditor from './Code/CodeEditor';
+import React from 'react';
 import Language from './Code/Language';
-import Reference from './Reference/Reference';
+import File from './File';
 
-export default function GuideBody() {
-	const [newBodyList, setNewBodyList] = useState([{ newBody: '' }]);
-
-	const handleNewBodyChange = (e, index) => {
-		const { name, value } = e.target;
-		const list = [...newBodyList];
-		list[index][name] = value;
-		setNewBodyList(list);
-	};
-
-	const handleNewBodyRemove = (index) => {
-		const list = [...newBodyList];
-		list.splice(index, 1);
-		setNewBodyList(list);
-	};
-
-	const handleNewBodyAdd = () => {
-		setNewBodyList([...newBodyList, { newBody: '' }]);
-	};
-
+export default function Body(props) {
+	const guideId = props.guideId;
 	return (
-		<div style={{ border: '1rem solid blue' }} className="form-field">
-			{newBodyList.map((singleNewBody, index) => (
-				<div key={index} className="newBody">
-					<div className="addNewBody">
-						<details open>
-							<summary>
-								<input
-									placeholder="File Name"
-									name="newBody"
-									type="text"
-									id="newBody"
-									value={singleNewBody.newBody}
-									onChange={(e) => handleNewBodyChange(e, index)}
-									required
-								/>
-							</summary>
-							<Language>
-								<CodeEditor />
-							</Language>
-							<Reference />
-						</details>
-						<div className="removeNewBody">
-							{newBodyList.length !== 1 && (
-								<button
-									type="button"
-									onClick={() => handleNewBodyRemove(index)}
-									className="remove-btn"
-								>
-									<span>Remove</span>
-								</button>
-							)}
-						</div>
-
-						{newBodyList.length - 1 === index && (
-							<button
-								type="button"
-								onClick={handleNewBodyAdd}
-								className="add-btn"
-							>
-								<span>Add File</span>
-							</button>
-						)}
-					</div>
-
-					<div></div>
-				</div>
-			))}
+		<div style={{ border: '1rem solid blue' }}>
+			<File guideId={guideId} />
+			<Language guideId={guideId} />
 		</div>
 	);
 }

@@ -1,4 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
+import { db, auth } from '../../../../../firebase';
 
 const LanguageGet = React.createContext();
 const LanguageUpdate = React.createContext();
@@ -11,19 +13,54 @@ export function useLanguageUpdate() {
 	return useContext(LanguageUpdate);
 }
 
-export default function Language({ children }) {
+export default function Language(props) {
 	const [language, setLanguage] = useState('javascript');
+	const [languages, setLanguages] = useState([{ language: '' }]);
 
-	const handleLanguageChange = (e) => {
-		const { value } = e.target;
-		setLanguage(value);
+	let guideId = props.guideId;
+
+	const updateLanguage = async () => {
+		const guideRef = doc(db, 'Guide', guideId);
+		await updateDoc(guideRef, {
+			languages,
+		});
 	};
+
+	const handleLanguageChange = (e, index) => {
+		const { name, value } = e.target;
+		setLanguage(value);
+
+		const list = [...languages];
+		list[index][name] = value;
+		setLanguages(list);
+
+		updateLanguage();
+	};
+
+	// const handleLanguageAdd = () => {
+	// 	setLanguages([...languages, { language: '' }]);
+	// };
 
 	return (
 		<LanguageGet.Provider value={language}>
 			<LanguageUpdate.Provider value={handleLanguageChange}>
 				<div style={{ backgroundColor: '#263238' }}>
-					<select onChange={handleLanguageChange} name="language" id="language">
+					{languages.map((singleLanguage, index) => (
+						<input
+							key={index}
+							placeholder="Language"
+							name="language"
+							type="text"
+							id="Language"
+							value={singleLanguage.language}
+							onChange={(e) => handleLanguageChange(e, index)}
+						/>
+					))}
+					<select
+						onChange={(e) => handleLanguageChange(e)}
+						name="language"
+						id="language"
+					>
 						<option value="javascript">JavaScript</option>
 						<option value="jsx">JSX</option>
 						<option value="xml">XML/HTML</option>
@@ -42,7 +79,7 @@ export default function Language({ children }) {
 						<option value="swift">Swift</option>
 					</select>
 				</div>
-				{children}
+				{props.children}
 			</LanguageUpdate.Provider>
 		</LanguageGet.Provider>
 	);

@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function FrontEnd() {
+function FrontEnd(props) {
 	const [frontEndList, setFrontEndList] = useState([{ frontEnd: '' }]);
 
 	const handleFrontEndChange = (e, index) => {
@@ -19,6 +19,10 @@ function FrontEnd() {
 	const handleFrontEndAdd = () => {
 		setFrontEndList([...frontEndList, { frontEnd: '' }]);
 	};
+
+	useEffect(() => {
+		props.frontEndChild(frontEndList);
+	}, [frontEndList]);
 
 	return (
 		<div className="form-field">
