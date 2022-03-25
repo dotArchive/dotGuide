@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { collection, doc, getDocs, getDoc, query, where } from 'firebase/firestore'
 import { db } from '../../../firebase'
-import { Typography, Box, Button, Card, Container } from '@mui/material'
+import { Typography, Box, IconButton, Button, Card, Container } from '@mui/material'
+import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded'
+import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded'
+import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp'
 
 export default function SingleGuide() {
   let { guideId } = useParams()
   const [guide, setGuide] = useState({})
+  const [isFavorite, setIsFavorite] = useState(false)
+  const [isOwner, setIsOwner] = useState(false)
   const { frontEnd, backEnd, tags, apis, languages, username, title, createdAt, description } =
     guide
 
@@ -18,9 +23,25 @@ export default function SingleGuide() {
       console.log(`unable to get guide!`)
     }
   }
+  const getUser = async () => {
+    const docSnap = await getDoc(doc(db, 'profiles', guide.userId))
+    if (docSnap.exists()) {
+      setGuide(docSnap.data())
+    } else {
+      console.log(`unable to get user!`)
+    }
+  }
   useEffect(() => {
-    return getGuide()
+    getGuide()
   }, [])
+
+  useEffect(() => {
+    getUser()
+  }, [guide])
+
+  useEffect(() => {
+    getUser()
+  }, [isFavorite])
 
   return Object.keys(guide).length ? (
     <Container
@@ -44,18 +65,36 @@ export default function SingleGuide() {
       </Typography>
       <Card
         sx={{ background: '#2f2f2f', p: 1, pl: 2, pr: 2, border: 1.25, borderColor: '#353540' }}>
+        <Box>
+          {/*
+              timestamp and username logic
+          */}
+          <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
+            {`${username} — ${createdAt.toDate().toString().slice(0, 25)}`}
+          </Typography>
+          {/*
+              edit & favorite icons
+          */}
+          <IconButton>
+            {isFavorite ? (
+              <BookmarkRoundedIcon
+                sx={{ color: 'red' }}
+                onClick={() => setIsFavorite(!isFavorite)}
+              />
+            ) : (
+              <BookmarkBorderRoundedIcon
+                sx={{ color: 'white' }}
+                onClick={() => setIsFavorite(!isFavorite)}
+              />
+            )}
+          </IconButton>
+          <IconButton>{isOwner ? <ModeEditSharpIcon sx={{ color: 'white' }} /> : null}</IconButton>
+        </Box>
         {/*
-          timestamp and username logic
-      */}
-        <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
-          {`${username} — ${createdAt.toDate().toString().slice(0, 25)}`}
-        </Typography>
-        {/*
-
-      */}
+            description
+        */}
         <Typography sx={{ color: 'white' }}>{description}</Typography>
       </Card>
-
       {/*
           technologies used begin here
       */}
