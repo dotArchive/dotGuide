@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+
 import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../../../../../firebase';
 
@@ -15,6 +16,7 @@ export function useLanguageUpdate() {
 
 export default function Language(props) {
 	const [language, setLanguage] = useState('javascript');
+
 	const [languages, setLanguages] = useState([{ language: '' }]);
 
 	let guideId = props.guideId;
@@ -36,6 +38,11 @@ export default function Language(props) {
 
 		updateLanguage();
 	};
+	console.log(languages);
+
+	useEffect(() => {
+		props.languageChild(languages);
+	}, [languages]);
 
 	// const handleLanguageAdd = () => {
 	// 	setLanguages([...languages, { language: '' }]);

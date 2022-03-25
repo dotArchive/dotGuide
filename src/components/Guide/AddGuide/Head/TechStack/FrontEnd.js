@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 
 function FrontEnd(props) {
@@ -57,4 +58,4 @@ function FrontEnd(props) {
 	);
 }
 
-export default FrontEnd;
+export default FrontEnd

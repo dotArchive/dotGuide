@@ -38,7 +38,9 @@ const GuidePreview = (guides) => {
                 onClick={() => handleGuideClick(guideId)}
                 key={idx}>
                 <CardContent>
-                  <Typography variant="h5" sx={{ fontSize: '1.85em', fontWeight: 'bold' }}>
+                  <Typography
+                    variant="h5"
+                    sx={{ fontSize: '1.85em', fontWeight: 'bold', textOverflow: 'ellipsis' }}>
                     {title ? title : null}
                   </Typography>
                   <Typography sx={{ fontSize: '1.25em' }}>
