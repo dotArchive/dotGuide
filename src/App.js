@@ -10,6 +10,7 @@ import Login from '../src/components/User/Login';
 import Signup from '../src/components/User/Signup';
 import AddGuide from './components/Guide/AddGuide/AddGuide';
 import SingleGuide from './components/Guide/SingleGuide/SingleGuide';
+import EditUser from './components/User/EditUser';
 
 function App() {
 	return (
@@ -20,6 +21,7 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/profile" element={<Profile />} />
+					<Route path="/edit-profile" element={<EditUser />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/guide/add" element={<AddGuide />} />
 					<Route path="/guide/:guideId" element={<SingleGuide />} />

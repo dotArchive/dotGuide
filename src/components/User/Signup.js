@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  auth,
-  registerWithEmailAndPassword
-} from "../../firebase";
+import { auth, registerWithEmailAndPassword } from "../../firebase";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +17,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (loading) return;
-    if (user) navigate('./profile');
+    if (user) navigate("/profile");
   }, [user, loading]);
 
   return (
@@ -62,6 +59,6 @@ const Signup = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Signup;
