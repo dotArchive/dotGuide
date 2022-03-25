@@ -18,7 +18,7 @@ const Navbar = () => {
   const [direction, setDirection] = useState("left");
   const [user, setUser] = useState({});
   const navigate = useNavigate();
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     onAuthStateChanged(auth, () => {
