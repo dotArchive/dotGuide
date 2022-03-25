@@ -1,5 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
+import { db, auth } from '../../../../../firebase';
+
 const LanguageGet = React.createContext();
 const LanguageUpdate = React.createContext();
 
@@ -13,12 +16,27 @@ export function useLanguageUpdate() {
 
 export default function Language(props) {
 	const [language, setLanguage] = useState('javascript');
-	const [languages, setLanguages] = useState([]);
 
-	const handleLanguageChange = (e) => {
+	const [languages, setLanguages] = useState([{ language: '' }]);
+
+	let guideId = props.guideId;
+
+	const updateLanguage = async () => {
+		const guideRef = doc(db, 'Guide', guideId);
+		await updateDoc(guideRef, {
+			languages,
+		});
+	};
+
+	const handleLanguageChange = (e, index) => {
 		const { name, value } = e.target;
 		setLanguage(value);
-		setLanguages([...languages, value]);
+
+		const list = [...languages];
+		list[index][name] = value;
+		setLanguages(list);
+
+		updateLanguage();
 	};
 	console.log(languages);
 
@@ -26,11 +44,30 @@ export default function Language(props) {
 		props.languageChild(languages);
 	}, [languages]);
 
+	// const handleLanguageAdd = () => {
+	// 	setLanguages([...languages, { language: '' }]);
+	// };
+
 	return (
 		<LanguageGet.Provider value={language}>
 			<LanguageUpdate.Provider value={handleLanguageChange}>
 				<div style={{ backgroundColor: '#263238' }}>
-					<select onChange={handleLanguageChange} name="language" id="language">
+					{languages.map((singleLanguage, index) => (
+						<input
+							key={index}
+							placeholder="Language"
+							name="language"
+							type="text"
+							id="Language"
+							value={singleLanguage.language}
+							onChange={(e) => handleLanguageChange(e, index)}
+						/>
+					))}
+					<select
+						onChange={(e) => handleLanguageChange(e)}
+						name="language"
+						id="language"
+					>
 						<option value="javascript">JavaScript</option>
 						<option value="jsx">JSX</option>
 						<option value="xml">XML/HTML</option>

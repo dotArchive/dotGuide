@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import CodeMirror from './CodeMirror'
-import { useLanguage } from './Language'
+
+import React, { useEffect, useState } from 'react';
+import CodeMirror from './CodeMirror';
+import { useLanguage } from './Language';
 
 export default function CodeEditor(props) {
-  const language = useLanguage()
+	const language = useLanguage();
 
   const [code, setCode] = useState('')
   const [codes, setCodes] = useState([])
