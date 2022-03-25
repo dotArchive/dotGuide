@@ -9,81 +9,77 @@ const users = {
 
 const profiles = {
   documentUID: {
-    guides: {
-      guideID1: true,
-      guideID2: true,
-    },
+    createdAt: new Date(),
     email: 'janedoe@gmail.com',
-    favorites: {
-      guideId1: true,
-      guideId2: true,
-    },
+    favorites: ['guideId1', 'guideId2'],
     githubUrl: 'url',
     isAdmin: false,
     isBanned: false,
     userId: 'cleXAMJVJYgxCEDsLXYZTjbLMui2',
+    username: 'wannaB3',
   },
 }
 
 const guides = {
   documentUID: {
-    body: {
-      fileId1: true,
-      fileId2: true,
-      fileId3: true,
-    },
+    apis: ['test1', 'test2'],
+    backEnd: ['test3', 'test4'],
     createdAt: new Date(),
-    favorites: 675,
+    favorites: 4,
+    files: [
+      {
+        codeBlock: 'code here',
+        fileName: 'index.js',
+        language: 'javascript',
+        references: [
+          {
+            header: 'imports',
+            text: 'React, redux',
+          },
+          {
+            header: 'hooks',
+            text: 'useEffect, useState',
+          },
+          {
+            header: 'event handlers',
+            text: 'how to handle events',
+          },
+          {
+            header: 'jsx',
+            text: "here's what we render",
+          },
+        ],
+      },
+      {
+        codeBlock: 'code here',
+        fileName: 'main.css',
+        language: 'css',
+        references: [
+          {
+            header: 'typography',
+            text: 'p, h1, h2, h3, h4, h5, h6',
+          },
+        ],
+      },
+      {
+        codeBlock: 'code here',
+        fileName: 'api.js',
+        language: 'javascript',
+        references: [
+          {
+            header: 'express routes',
+            text: "here's our express and sequelize",
+          },
+        ],
+      },
+    ],
+    frontEnd: ['test5', 'test6'],
     githubUrl: 'url',
-    head: {
-      apis: {
-        axios: true,
-        'code-mirror': true,
-      },
-      backEnd: {
-        express: true,
-        node: true,
-        postgresql: true,
-      },
-      frontEnd: {
-        'material UI': true,
-        react: true,
-        redux: true,
-      },
-      tags: {
-        axios: true,
-        'code-mirror': true,
-        express: true,
-        node: true,
-        postgresql: true,
-        'material UI': true,
-        react: true,
-        redux: true,
-      },
-    },
-    title: 'how to log in and mean it',
+    isPublic: true,
     isPublished: true,
+    tags: ['test7', 'test8', 'test9'],
+    title: 'how to log in and mean it',
     userId: 'cleXAMJVJYgxCEDsLXYZTjbLMui2',
-  },
-}
-
-const files = {
-  codeBlock: 'code goes here',
-  fileName: 'index.js',
-  guide: 'guideId1',
-  userId: 'cleXAMJVJYgxCEDsLXYZTjbLMui2',
-  references: {
-    1: {
-      'Event Listeners': "here's what's going ot happen",
-    },
-    2: {
-      hooks: 'just keep hooking',
-    },
-    3: {
-      imports: 'explanation',
-    },
-    4: {
-      jsx: "what's really going on",
-    },
+    username: 'wannaB3',
   },
 }
