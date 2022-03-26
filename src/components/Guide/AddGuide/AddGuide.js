@@ -1,11 +1,19 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, getDocs, addDoc, query, where } from 'firebase/firestore';
+import {
+	collection,
+	getDocs,
+	addDoc,
+	updateDoc,
+	doc,
+	query,
+	where,
+} from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../../../firebase';
 import Body from './Body/Body';
 import Head from './Head/Head';
+import './guide.css';
 
 export default function AddGuide() {
 	// Hoisting Head, refactor
@@ -41,6 +49,8 @@ export default function AddGuide() {
 	const [user, setUser] = useState({});
 	const [disable, setDisable] = useState(false);
 	const [guideId, setGuideId] = useState('');
+	const [save, setSave] = useState(false);
+	const [submit, setSubmit] = useState(false);
 
 	const navigate = useNavigate();
 	const username = user.username;
@@ -79,33 +89,47 @@ export default function AddGuide() {
 		myDoc();
 	}, []);
 
-	// Handle Buttons
-	const handleStart = () => {
-		setDisable(true);
+	const setOwner = async () => {
+		const guideRef = doc(db, 'Guide', guideId);
+		await updateDoc(guideRef, {
+			userId,
+			username,
+		});
 	};
+
+	const isPublished = async () => {
+		const guideRef = doc(db, 'Guide', guideId);
+		await updateDoc(guideRef, {
+			userId,
+			username,
+			isPublished: true,
+		});
+	};
+
+	useEffect(() => {
+		setSave(false);
+		if (save === true) setOwner();
+	}, [save]);
+
+	useEffect(() => {
+		setSubmit(false);
+		if (submit === true) {
+			isPublished();
+			navigate('/');
+		}
+	}, [submit]);
 
 	const handleCancel = () => {
 		navigate('/');
 	};
 
-	const handleSave = () => {
-		// setGuide();
-	};
-
-	const handleSubmit = () => {
-		// setGuide();
-		// myDoc();
-	};
-
 	return (
-		<form style={{ border: '1rem solid pink' }}>
-			<button disabled={disable} onClick={handleStart}>
-				Get Started
-			</button>
-
+		<form>
 			<div className="postHeader" style={{ backgroundColor: 'red' }}>
 				<Head
 					guideId={guideId}
+					save={save}
+					submit={submit}
 					titleChild={(data) => setTitle(data)}
 					tagChild={(data) => setTags(data)}
 					urlChild={(data) => setUrls(data)}
@@ -115,22 +139,29 @@ export default function AddGuide() {
 					backEndChild={(data) => setBackEnds(data)}
 				/>
 			</div>
-			<div style={{ backgroundColor: 'blue' }} className="post">
-				<Body guideId={guideId} />
+			<div className="post">
+				<Body guideId={guideId} save={save} submit={submit} />
 			</div>
 
-			<div style={{ backgroundColor: 'pink' }}>
+			<div>
 				<button type="button" onClick={handleCancel} className="cancel-btn">
 					Cancel
 				</button>
-				<button type="button" onClick={handleSave} className="save-btn">
-					Save
+				<button
+					type="button"
+					onClick={() => setSave(true)}
+					className="save-btn"
+				>
+					Save Draft
 				</button>
-				<button type="submit" onClick={handleSubmit} className="submit-btn">
-					Submit
+				<button
+					type="submit"
+					onClick={() => setSubmit(true)}
+					className="submit-btn"
+				>
+					Post Guide
 				</button>
 			</div>
 		</form>
 	);
-
 }
