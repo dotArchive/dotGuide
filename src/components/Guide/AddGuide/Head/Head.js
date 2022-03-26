@@ -88,13 +88,15 @@ export default function Head(props) {
 	// }, [backEnd]);
 
 	return (
-		<div className="head">
+		<div>
 			<Title titleChild={(data) => setTitle(data)} />
-			<FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
-			<BackEnd backEndChild={(data) => setBackEnd(data)} />
-			<Api apiChild={(data) => setApi(data)} />
-			<Tag tagChild={(data) => setTags(data)} />
-			<CodeURL urlChild={(data) => setUrl(data)} />
+			<div className="flexbox">
+				<FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
+				<BackEnd backEndChild={(data) => setBackEnd(data)} />
+				<Api apiChild={(data) => setApi(data)} />
+				<Tag tagChild={(data) => setTags(data)} />
+				<CodeURL urlChild={(data) => setUrl(data)} />
+			</div>
 			<GuideDescription descriptionChild={(data) => setDescription(data)} />
 		</div>
 	);

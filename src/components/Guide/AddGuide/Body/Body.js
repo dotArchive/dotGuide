@@ -53,31 +53,31 @@ export default function Body(props) {
 	};
 
 	return (
-		<div className="body" style={{ backgroundColor: 'green' }}>
+		<div style={{ backgroundColor: 'green' }}>
 			<button type="button" onClick={() => setAdd(true)}>
 				Add New File
 			</button>
 			<button type="button" onClick={() => setRemove(true)}>
 				Remove Last File
 			</button>
-
-			<File fileChild={(data) => setFile(data)} add={add} remove={remove} />
-			<Language
-				languageChild={(data) => setLanguages(data)}
-				add={add}
-				remove={remove}
-			/>
-			<CodeEditor
-				codeChild={(data) => setCode(data)}
-				add={add}
-				remove={remove}
-			/>
-			<Content
-				contentChild={(data) => setContent(data)}
-				add={add}
-				remove={remove}
-			/>
-
+			<div className="flexbox">
+				<File fileChild={(data) => setFile(data)} add={add} remove={remove} />
+				<Language
+					languageChild={(data) => setLanguages(data)}
+					add={add}
+					remove={remove}
+				/>
+				<CodeEditor
+					codeChild={(data) => setCode(data)}
+					add={add}
+					remove={remove}
+				/>
+				<Content
+					contentChild={(data) => setContent(data)}
+					add={add}
+					remove={remove}
+				/>
+			</div>
 			<div>
 				{body.map((obj, index) => {
 					return (
@@ -85,8 +85,10 @@ export default function Body(props) {
 							<summary>
 								{obj.filepath ? `${obj.filepath} Preview` : 'File Preview'}
 							</summary>
-							<CodeMirror language={obj.language} value={obj.codeBlock} />
-							<ReactMarkdown>{obj.content}</ReactMarkdown>
+							<div className="flexbox">
+								<CodeMirror language={obj.language} value={obj.codeBlock} />
+								<ReactMarkdown>{obj.content}</ReactMarkdown>
+							</div>
 						</details>
 					);
 				})}
