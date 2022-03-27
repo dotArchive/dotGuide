@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 function CodeURL(props) {
 	const [codeURL, setcodeURL] = useState([{ URL: '' }]);
 
+	useEffect(() => {
+		props.urlChild(codeURL);
+	}, [codeURL]);
+
 	const handleURLChange = (e, index) => {
 		const { name, value } = e.target;
 		const list = [...codeURL];
@@ -19,10 +23,6 @@ function CodeURL(props) {
 	const handleURLAdd = () => {
 		setcodeURL([...codeURL, { URL: '' }]);
 	};
-
-	useEffect(() => {
-		props.urlChild(codeURL);
-	}, [codeURL]);
 
 	return (
 		<div className="form-field">

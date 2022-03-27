@@ -15,7 +15,6 @@ export default function Body(props) {
 	const [content, setContent] = useState([]);
 	const [add, setAdd] = useState(false);
 	const [remove, setRemove] = useState(false);
-	let body = [];
 
 	useEffect(() => {
 		setAdd(false);
@@ -37,6 +36,7 @@ export default function Body(props) {
 		}
 	});
 
+	let body = [];
 	const guideId = props.guideId;
 
 	for (let i = 0; i < filepath.length; i++) {
@@ -62,12 +62,6 @@ export default function Body(props) {
 		});
 	};
 
-	const updatePreviewBody = async () => {
-		const guideRef = doc(db, 'Guide', guideId);
-		await updateDoc(guideRef, {
-			body,
-		});
-	};
 	return (
 		<div>
 			<button type="button" onClick={() => setAdd(true)}>
@@ -96,16 +90,23 @@ export default function Body(props) {
 			</div>
 			<div>
 				{body.map((obj, index) => {
+					let languageUpper = obj.language;
+					if (languageUpper.length === 3 || languageUpper === 'sass')
+						languageUpper = languageUpper.toUpperCase();
+					if (languageUpper.length >= 4 && languageUpper !== 'sass') {
+						languageUpper =
+							languageUpper[0].toUpperCase() + languageUpper.substring(1);
+					}
+
 					return (
 						<details key={index}>
 							<summary>
 								{obj.filepath ? `${obj.filepath} Preview` : 'File Preview'}
-								{obj.language}
 							</summary>
 
 							<div className="flexbox">
 								<div>
-									CodeBlock
+									CodeBlock :{languageUpper ? languageUpper : 'Select Language'}
 									<CodeMirror language={obj.language} value={obj.codeBlock} />
 								</div>
 								<div>

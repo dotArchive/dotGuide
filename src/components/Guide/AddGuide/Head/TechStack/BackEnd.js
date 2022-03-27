@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 function BackEnd(props) {
 	const [backEndList, setBackEndList] = useState([{ backEnd: '' }]);
 
+	useEffect(() => {
+		props.backEndChild(backEndList);
+	}, [backEndList]);
+
 	const handleBackEndChange = (e, index) => {
 		const { name, value } = e.target;
 		const list = [...backEndList];
@@ -19,10 +23,6 @@ function BackEnd(props) {
 	const handleBackEndAdd = () => {
 		setBackEndList([...backEndList, { backEnd: '' }]);
 	};
-
-	useEffect(() => {
-		props.backEndChild(backEndList);
-	}, [backEndList]);
 
 	return (
 		<div className="form-field">

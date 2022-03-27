@@ -22,21 +22,8 @@ export default function CodeEditor(props) {
 		setCodeBlock(list);
 	};
 
-	// const handleCodeRemove = (index) => {
-	// 	const list = [...codeBlock];
-	// 	list.splice(index, 1);
-	// 	setCodeBlock(list);
-	// };
-
-	// const handleCodeAdd = () => {
-	// 	setCodeBlock([...codeBlock, { codeBlock: '' }]);
-	// };
-
 	return (
 		<div>
-			{/* <button type="button" onClick={handleCodeAdd} className="add-btn">
-				<span>Add Code Block</span>
-			</button> */}
 			{codeBlock.map((singleCode, index) => (
 				<div key={index}>
 					<textarea
@@ -50,15 +37,6 @@ export default function CodeEditor(props) {
 						onChange={(e) => handleCodeChange(e, index)}
 						required
 					/>
-					{/* {codeBlock.length !== 1 && (
-						<button
-							type="button"
-							onClick={() => handleCodeRemove(index)}
-							className="remove-btn"
-						>
-							<span>Remove</span>
-						</button>
-					)} */}
 				</div>
 			))}
 		</div>

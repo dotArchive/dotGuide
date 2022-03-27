@@ -22,20 +22,8 @@ export default function File(props) {
 		setFileList(list);
 	};
 
-	// const handleFileRemove = (index) => {
-	// 	const list = [...fileList];
-	// 	list.splice(index, 1);
-	// 	setFileList(list);
-	// };
-
-	// const handleFileAdd = () => {
-	// 	setFileList([...fileList, { filepath: '' }]);
-	// };
 	return (
-		<div className="form-field">
-			{/* <button type="button" onClick={handleFileAdd} className="add-btn">
-				<span>Add File</span>
-			</button> */}
+		<div>
 			{fileList.map((singleFile, index) => (
 				<div key={index}>
 					<input
@@ -48,15 +36,6 @@ export default function File(props) {
 						onChange={(e) => handleFileChange(e, index)}
 						required
 					/>
-					{/* {fileList.length !== 1 && (
-						<button
-							type="button"
-							onClick={() => handleFileRemove(index)}
-							className="remove-btn"
-						>
-							<span>Remove</span>
-						</button>
-					)} */}
 				</div>
 			))}
 		</div>

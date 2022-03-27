@@ -9,6 +9,7 @@ import Title from './Title';
 import Tag from './Tag';
 import GuideDescription from './GuideDescription';
 import CodeURL from './CodeURL';
+import ReactMarkdown from 'react-markdown';
 
 export default function Head(props) {
 	const [title, setTitle] = useState('');
@@ -20,8 +21,6 @@ export default function Head(props) {
 	const [backEnds, setBackEnd] = useState([]);
 	const [languages, setLanguages] = useState([]);
 
-	let username = props.username;
-
 	useEffect(() => {
 		if (props.save === true) updateHead();
 	});
@@ -30,6 +29,7 @@ export default function Head(props) {
 		if (props.submit === true) updateHead();
 	});
 
+	let username = props.username;
 	const guideId = props.guideId;
 
 	const language = languages.map((language) => {
@@ -92,8 +92,8 @@ export default function Head(props) {
 			<CodeURL urlChild={(data) => setUrl(data)} />
 			<details>
 				<summary>Header Preview</summary>
-				<div>{title}</div>
-				<div>{description}</div>
+				<h1>{title}</h1>
+				<ReactMarkdown>{description}</ReactMarkdown>
 				<div className="flexbox">
 					<div>
 						{languages.map((singleLanguage, index) => {

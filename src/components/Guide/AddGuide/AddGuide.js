@@ -15,68 +15,12 @@ import Body from './Body/Body';
 import Head from './Head/Head';
 
 export default function AddGuide(props) {
-	// Hooks & Variables
+	/*** Hooks ***/
 	const [currentUid, setCurrentUid] = useState('');
 	const [user, setUser] = useState({});
 	const [guideId, setGuideId] = useState('');
 	const [save, setSave] = useState(false);
 	const [submit, setSubmit] = useState(false);
-
-	const navigate = useNavigate();
-	const username = user.username;
-	const userId = user.uid;
-
-	// Get current UserID from FireAuth
-	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			const uid = user.uid;
-			setCurrentUid(uid);
-		});
-		myQuery();
-	}, [currentUid]);
-
-	// Get current User from FireStore
-	const docRef = collection(db, 'users');
-	const q = query(docRef, where('uid', '==', currentUid));
-
-	const myQuery = async () => {
-		const querySnapshot = await getDocs(q);
-
-		querySnapshot.forEach((doc) => {
-			setUser(doc.data());
-		});
-	};
-
-	// Create new Guide Doc
-	useEffect(() => {
-		const myDoc = async () => {
-			const mydocRef = await addDoc(collection(db, 'Guide'), {
-				isPublished: false,
-			});
-			setGuideId(mydocRef.id);
-			return mydocRef;
-		};
-		if (!props.editGuide) {
-			myDoc();
-		}
-	}, []);
-
-	const setOwner = async () => {
-		const guideRef = doc(db, 'Guide', guideId);
-		await updateDoc(guideRef, {
-			userId,
-			username,
-		});
-	};
-
-	const isPublished = async () => {
-		const guideRef = doc(db, 'Guide', guideId);
-		await updateDoc(guideRef, {
-			userId,
-			username,
-			isPublished: true,
-		});
-	};
 
 	useEffect(() => {
 		setSave(false);
@@ -90,6 +34,64 @@ export default function AddGuide(props) {
 			navigate('/');
 		}
 	}, [submit]);
+
+	const navigate = useNavigate();
+	const username = user.username;
+	const userId = user.uid;
+
+	/*** Get current UserID from FireAuth ***/
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+			const uid = user.uid;
+			setCurrentUid(uid);
+		});
+		myQuery();
+	}, [currentUid]);
+
+	/*** Get current User from FireStore ***/
+	const docRef = collection(db, 'users');
+	const q = query(docRef, where('uid', '==', currentUid));
+
+	const myQuery = async () => {
+		const querySnapshot = await getDocs(q);
+
+		querySnapshot.forEach((doc) => {
+			setUser(doc.data());
+		});
+	};
+
+	/*** Create new Guide Doc in FireStore ***/
+	useEffect(() => {
+		const myDoc = async () => {
+			const mydocRef = await addDoc(collection(db, 'Guide'), {
+				isPublished: false,
+			});
+			setGuideId(mydocRef.id);
+			return mydocRef;
+		};
+		if (!props.editGuide) {
+			myDoc();
+		}
+	}, []);
+
+	/*** Sets Owner to new Guide Doc in Firestore ***/
+	const setOwner = async () => {
+		const guideRef = doc(db, 'Guide', guideId);
+		await updateDoc(guideRef, {
+			userId,
+			username,
+		});
+	};
+
+	/*** Updates FireStore & Publish to True ***/
+	const isPublished = async () => {
+		const guideRef = doc(db, 'Guide', guideId);
+		await updateDoc(guideRef, {
+			userId,
+			username,
+			isPublished: true,
+		});
+	};
 
 	const handleCancel = () => {
 		navigate('/');

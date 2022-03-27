@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 function Tag(props) {
 	const [tagList, setTagList] = useState([{ tag: '' }]);
 
+	useEffect(() => {
+		props.tagChild(tagList);
+	}, [tagList]);
+
 	const handleTagChange = (e, index) => {
 		const { name, value } = e.target;
 		const list = [...tagList];
@@ -19,10 +23,6 @@ function Tag(props) {
 	const handleTagAdd = () => {
 		setTagList([...tagList, { tag: '' }]);
 	};
-
-	useEffect(() => {
-		props.tagChild(tagList);
-	}, [tagList]);
 
 	return (
 		<div className="form-field">

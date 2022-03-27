@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 function FrontEnd(props) {
 	const [frontEndList, setFrontEndList] = useState([{ frontEnd: '' }]);
 
+	useEffect(() => {
+		props.frontEndChild(frontEndList);
+	}, [frontEndList]);
+
 	const handleFrontEndChange = (e, index) => {
 		const { name, value } = e.target;
 		const list = [...frontEndList];
@@ -19,10 +23,6 @@ function FrontEnd(props) {
 	const handleFrontEndAdd = () => {
 		setFrontEndList([...frontEndList, { frontEnd: '' }]);
 	};
-
-	useEffect(() => {
-		props.frontEndChild(frontEndList);
-	}, [frontEndList]);
 
 	return (
 		<div className="form-field">

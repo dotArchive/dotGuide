@@ -1,15 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
-
-// const LanguageGet = React.createContext();
-// const LanguageUpdate = React.createContext();
-
-// export function useLanguage() {
-// 	return useContext(LanguageGet);
-// }
-
-// export function useLanguageUpdate() {
-// 	return useContext(LanguageUpdate);
-// }
+import React, { useState, useEffect } from 'react';
 
 export default function Language(props) {
 	const [language, setLanguage] = useState([{ language: '' }]);

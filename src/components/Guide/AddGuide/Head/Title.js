@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 export default function Title(props) {
 	const [title, setTitle] = useState('');
 
+	useEffect(() => {
+		props.titleChild(title);
+	}, [title]);
+
 	const handleTitleChange = (e) => {
 		const { value } = e.target;
 		setTitle(value);
 	};
-
-	useEffect(() => {
-		props.titleChild(title);
-	}, [title]);
 
 	return (
 		<div className="title">
