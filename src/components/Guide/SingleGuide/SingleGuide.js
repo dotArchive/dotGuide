@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { collection, doc, getDocs, getDoc, setDoc, query, where } from 'firebase/firestore'
-import { db } from '../../../firebase'
+import {
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  setDoc,
+  query,
+  where,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from 'firebase/firestore'
+import { db, auth } from '../../../firebase'
 import { Typography, Box, IconButton, Button, Card, Container } from '@mui/material'
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded'
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded'
@@ -10,7 +21,6 @@ import CodeIcon from '@mui/icons-material/Code'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { Controlled } from 'react-codemirror2-react-17'
 import CodeMirror from './CodeMirror'
 
 export default function SingleGuide() {
@@ -24,18 +34,8 @@ export default function SingleGuide() {
 
   //other constants
   const { guideId } = useParams()
-  const {
-    frontEnd,
-    backEnd,
-    tags,
-    apis,
-    languages,
-    username,
-    title,
-    createdAt,
-    description,
-    body,
-  } = guide
+  const { frontEnd, backEnd, tags, apis, languages, username, title, createdAt, description } =
+    guide
   // const { codeBlock, content, filepath, language } = guide.body
   // getters, checkers, and setters start here
   const getGuide = async () => {
@@ -56,16 +56,25 @@ export default function SingleGuide() {
     setDoc(guideRef, { isPublished: true }, { merge: true })
   }
   const setProfileFavorite = async () => {
-    // //option 1
-    // await setDoc(doc(db, 'profiles', guideId), {...guide, isPublished: true})
-    // option 2
-    // const guideRef = doc(db, 'guides', guideId)
-    // setDoc(guideRef, { isPublished: true }, { merge: true })
+    const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
+    const qS = await getDocs(q)
+    const profileId = qS.docs[0].id
+    await updateDoc(doc(db, 'profiles', profileId), {
+      favorites: arrayUnion(guideId),
+    })
+  }
+  const removeProfileFavorite = async () => {
+    const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
+    const qS = await getDocs(q)
+    const profileId = qS.docs[0].id
+    await updateDoc(doc(db, 'profiles', profileId), {
+      favorites: arrayRemove(guideId),
+    })
   }
   const favChecker = () => {
     if (Object.keys(profile).length) {
-      profile.favorites.forEach((favorite) => {
-        if (favorite === guideId) {
+      profile.favorites.forEach((fav) => {
+        if (fav === guideId) {
           setIsFavorite(true)
         }
       })
@@ -82,7 +91,7 @@ export default function SingleGuide() {
   }
   const getProfile = async () => {
     if (Object.keys(guide).length) {
-      const q = query(collection(db, 'profiles'), where('userId', '==', guide.userId))
+      const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
       const qS = await getDocs(q)
       qS.forEach((doc) => {
         setProfile(doc.data())
@@ -110,17 +119,32 @@ export default function SingleGuide() {
       getGuide()
     }
   }, [])
+
   useEffect(() => {
     if (Object.keys(guide).length) {
       getProfile()
     }
   }, [guide])
+
   useEffect(() => {
+    // console.log(profile)
     if (Object.keys(profile).length) {
       favChecker()
       ownerChecker()
     }
   }, [profile])
+
+  useEffect(() => {
+    favChecker()
+    if (Object.keys(profile).length) {
+      if (profile.favorites.includes(guideId)) {
+        setProfileFavorite()
+      }
+      if (!profile.favorites.includes(guideId)) {
+        removeProfileFavorite()
+      }
+    }
+  }, [isFavorite])
 
   //use effects end here
 
@@ -234,7 +258,7 @@ export default function SingleGuide() {
       }}>
       {/* {console.log(guide)} */}
       {/* {console.log(guide.body)} */}
-      {console.log(profile)}
+      {/* {console.log(profile)} */}
       {/* {console.log(isFavorite)} */}
       {/* {console.log(isOwner)} */}
       {/*
@@ -263,7 +287,18 @@ export default function SingleGuide() {
                   {isOwner ? <ModeEditSharpIcon sx={{ color: 'white' }} /> : null}
                 </IconButton>
                 {/* isFavorite */}
-                <IconButton onClick={() => setIsFavorite(!isFavorite)}>
+                <IconButton
+                  onClick={() => {
+                    if (!isFavorite) {
+                      setProfile({ ...profile, favorites: [...profile.favorites, guideId] })
+                    } else if (isFavorite) {
+                      setProfile({
+                        ...profile,
+                        favorites: profile.favorites.filter((fav) => fav !== guideId),
+                      })
+                    }
+                    setIsFavorite(!isFavorite)
+                  }}>
                   {isFavorite ? (
                     <BookmarkRoundedIcon sx={{ color: 'red' }} />
                   ) : (
