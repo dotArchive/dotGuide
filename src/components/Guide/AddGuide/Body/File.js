@@ -39,6 +39,7 @@ export default function File(props) {
 			{fileList.map((singleFile, index) => (
 				<div key={index}>
 					<input
+						className="filePath"
 						placeholder="File Path"
 						name="filepath"
 						type="text"

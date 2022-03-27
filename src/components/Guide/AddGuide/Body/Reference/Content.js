@@ -44,10 +44,12 @@ export default function Content(props) {
 			{contentList.map((singleContent, index) => (
 				<div key={index}>
 					<textarea
-						placeholder="Markdown Content"
+						placeholder="Reference Content"
 						name="content"
 						type="text"
 						id="content"
+						rows="1"
+						className="textArea"
 						value={singleContent.content}
 						onChange={(e) => handleContentChange(e, index)}
 						required

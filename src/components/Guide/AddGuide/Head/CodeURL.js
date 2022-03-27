@@ -29,30 +29,31 @@ function CodeURL(props) {
 			<button type="button" onClick={handleURLAdd} className="add-btn">
 				Add
 			</button>
-			{codeURL.map((singleURL, index) => (
-				<div key={index} className="URL">
-					<div className="addURL">
-						<input
-							placeholder="Github URL"
-							name="URL"
-							type="text"
-							id="URL"
-							value={singleURL.URL}
-							onChange={(e) => handleURLChange(e, index)}
-						/>
-
-						{codeURL.length !== 1 && (
-							<button
-								type="button"
-								onClick={() => handleURLRemove(index)}
-								className="remove-btn"
-							>
-								<span>Remove</span>
-							</button>
-						)}
+			<div className="flexbox">
+				{codeURL.map((singleURL, index) => (
+					<div key={index} className="URL">
+						<div className="addURL">
+							<input
+								placeholder="URL"
+								name="URL"
+								type="text"
+								id="URL"
+								value={singleURL.URL}
+								onChange={(e) => handleURLChange(e, index)}
+							/>
+							{codeURL.length !== 1 && (
+								<button
+									type="button"
+									onClick={() => handleURLRemove(index)}
+									className="remove-btn"
+								>
+									<span>Remove</span>
+								</button>
+							)}
+						</div>
 					</div>
-				</div>
-			))}
+				))}
+			</div>
 		</div>
 	);
 }

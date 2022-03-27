@@ -40,10 +40,12 @@ export default function CodeEditor(props) {
 			{codeBlock.map((singleCode, index) => (
 				<div key={index}>
 					<textarea
+						className="textArea"
 						placeholder="Code Block"
 						name="codeBlock"
 						type="text"
 						id="codeBlock"
+						rows="1"
 						value={singleCode.codeBlock}
 						onChange={(e) => handleCodeChange(e, index)}
 						required

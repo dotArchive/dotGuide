@@ -27,15 +27,13 @@ export default function Body(props) {
 
 	useEffect(() => {
 		if (props.save === true) {
-			updateBodyName();
-			updatePreviewBody();
+			updateBody();
 		}
 	});
 
 	useEffect(() => {
 		if (props.submit === true) {
-			updateBodyName();
-			updatePreviewBody();
+			updateBody();
 		}
 	});
 
@@ -51,7 +49,7 @@ export default function Body(props) {
 		body.push(mergeData);
 	}
 
-	const updateBodyName = async () => {
+	const updateBody = async () => {
 		const guideRef = doc(db, 'Guide', guideId);
 		await updateDoc(guideRef, {
 			bodyRef: {
@@ -60,6 +58,7 @@ export default function Body(props) {
 				content,
 				language,
 			},
+			body,
 		});
 	};
 
@@ -103,9 +102,16 @@ export default function Body(props) {
 								{obj.filepath ? `${obj.filepath} Preview` : 'File Preview'}
 								{obj.language}
 							</summary>
+
 							<div className="flexbox">
-								<CodeMirror language={obj.language} value={obj.codeBlock} />
-								<ReactMarkdown>{obj.content}</ReactMarkdown>
+								<div>
+									CodeBlock
+									<CodeMirror language={obj.language} value={obj.codeBlock} />
+								</div>
+								<div>
+									Reference
+									<ReactMarkdown>{obj.content}</ReactMarkdown>
+								</div>
 							</div>
 						</details>
 					);

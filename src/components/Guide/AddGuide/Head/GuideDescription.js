@@ -7,7 +7,8 @@ export default function GuideDescription(props) {
 	const [content, setContent] = useState('');
 
 	const handleContentChange = (e) => {
-		setContent(e);
+		const { value } = e.target;
+		setContent(value);
 	};
 
 	useEffect(() => {
@@ -40,7 +41,14 @@ export default function GuideDescription(props) {
 		<div>
 			{/* <details open> */}
 			{/* <summary>Description</summary> */}
-			<textarea placeholder="Description"></textarea>
+			<textarea
+				placeholder="Guide Description"
+				name="description"
+				type="text"
+				id="description"
+				value={content}
+				onChange={handleContentChange}
+			/>
 			{/* <SimpleMDE
 					options={options}
 					value={content}

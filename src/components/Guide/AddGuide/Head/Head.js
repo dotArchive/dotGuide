@@ -20,12 +20,14 @@ export default function Head(props) {
 	const [backEnds, setBackEnd] = useState([]);
 	const [languages, setLanguages] = useState([]);
 
+	let username = props.username;
+
 	useEffect(() => {
-		if (props.save === true) updateBodyName();
+		if (props.save === true) updateHead();
 	});
 
 	useEffect(() => {
-		if (props.submit === true) updateBodyName();
+		if (props.submit === true) updateHead();
 	});
 
 	const guideId = props.guideId;
@@ -49,10 +51,11 @@ export default function Head(props) {
 		return backEnd;
 	});
 
-	const updateBodyName = async () => {
+	const updateHead = async () => {
 		const guideRef = doc(db, 'Guide', guideId);
 		await updateDoc(guideRef, {
 			title,
+			description,
 			head: {
 				API,
 				frontEnd,
@@ -60,7 +63,16 @@ export default function Head(props) {
 				language,
 				url,
 				tag,
-				description,
+			},
+			search: {
+				API,
+				frontEnd,
+				backEnd,
+				language,
+				url,
+				tag,
+				title,
+				username,
 			},
 		});
 	};
@@ -74,9 +86,47 @@ export default function Head(props) {
 				<FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
 				<BackEnd backEndChild={(data) => setBackEnd(data)} />
 				<Api apiChild={(data) => setApi(data)} />
-				<Tag tagChild={(data) => setTags(data)} />
 			</div>
+			<Tag tagChild={(data) => setTags(data)} />
+
 			<CodeURL urlChild={(data) => setUrl(data)} />
+			<details>
+				<summary>Header Preview</summary>
+				<div>{title}</div>
+				<div>{description}</div>
+				<div className="flexbox">
+					<div>
+						{languages.map((singleLanguage, index) => {
+							return <div key={index}>{singleLanguage.language}</div>;
+						})}
+					</div>
+					<div>
+						{frontEnd.map((singlefrontEnd, index) => {
+							return <div key={index}>{singlefrontEnd.frontEnd}</div>;
+						})}
+					</div>
+					<div>
+						{backEnd.map((singlebackEnd, index) => {
+							return <div key={index}>{singlebackEnd.backEnd}</div>;
+						})}
+					</div>
+					<div>
+						{API.map((singleAPI, index) => {
+							return <div key={index}>{singleAPI.API}</div>;
+						})}
+					</div>
+				</div>
+				<div className="flexbox">
+					{tag.map((singletag, index) => {
+						return <div key={index}>{singletag.tag}</div>;
+					})}
+				</div>
+				<div className="flexbox">
+					{url.map((singleurl, index) => {
+						return <div key={index}>{singleurl.URL}</div>;
+					})}
+				</div>
+			</details>
 		</div>
 	);
 }

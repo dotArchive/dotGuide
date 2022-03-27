@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
 	collection,
 	getDocs,
 	addDoc,
 	updateDoc,
 	doc,
-	getDoc,
 	query,
 	where,
 } from 'firebase/firestore';
@@ -19,7 +18,6 @@ export default function AddGuide(props) {
 	// Hooks & Variables
 	const [currentUid, setCurrentUid] = useState('');
 	const [user, setUser] = useState({});
-	const [disable, setDisable] = useState(false);
 	const [guideId, setGuideId] = useState('');
 	const [save, setSave] = useState(false);
 	const [submit, setSubmit] = useState(false);
@@ -100,7 +98,12 @@ export default function AddGuide(props) {
 	return (
 		<form>
 			<div className="post">
-				<Head guideId={guideId} save={save} submit={submit} />
+				<Head
+					username={username}
+					guideId={guideId}
+					save={save}
+					submit={submit}
+				/>
 			</div>
 			<div className="post">
 				<Body guideId={guideId} save={save} submit={submit} />
