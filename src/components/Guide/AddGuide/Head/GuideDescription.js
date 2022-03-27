@@ -38,18 +38,19 @@ export default function GuideDescription(props) {
 
 	return (
 		<div>
-			<details open>
-				<summary>Description</summary>
-				<SimpleMDE
+			{/* <details open> */}
+			{/* <summary>Description</summary> */}
+			<textarea placeholder="Description"></textarea>
+			{/* <SimpleMDE
 					options={options}
 					value={content}
 					onChange={handleContentChange}
-				/>
-			</details>
-			<details>
+				/> */}
+			{/* </details> */}
+			{/* <details>
 				<summary>Description Preview</summary>
 				<ReactMarkdown>{content}</ReactMarkdown>
-			</details>
+			</details> */}
 		</div>
 	);
 }

@@ -22,7 +22,10 @@ export default function Language(props) {
 	});
 
 	useEffect(() => {
-		if (props.languageChild) props.languageChild(language);
+		if (props.languageChild && props.languageGrandChild) {
+			props.languageChild(language);
+			props.languageGrandChild(language);
+		}
 	}, [language]);
 
 	const handleLanguageChange = (e, index) => {
@@ -32,20 +35,20 @@ export default function Language(props) {
 		setLanguage(list);
 	};
 
-	// const handleLanguageRemove = (index) => {
-	// 	const list = [...language];
-	// 	list.splice(index, 1);
-	// 	setLanguage(list);
-	// };
+	const handleLanguageRemove = (index) => {
+		const list = [...language];
+		list.splice(index, 1);
+		setLanguage(list);
+	};
 
-	// const handleLanguageAdd = () => {
-	// 	setLanguage([...language, { language: '' }]);
-	// };
+	const handleLanguageAdd = () => {
+		setLanguage([...language, { language: '' }]);
+	};
 
 	return (
 		<div>
 			{/* <button type="button" onClick={handleLanguageAdd} className="add-btn">
-				Add Language
+				Add
 			</button> */}
 			{language.map((singleLanguage, index) => (
 				<div key={index}>
@@ -55,7 +58,7 @@ export default function Language(props) {
 						id="language"
 						value={singleLanguage.language}
 					>
-						<option>Select Language</option>
+						<option value="">Select Language</option>
 						<option value="javascript">JavaScript</option>
 						<option value="jsx">JSX</option>
 						<option value="xml">XML/HTML</option>
@@ -73,8 +76,8 @@ export default function Language(props) {
 						<option value="sass">SASS</option>
 						<option value="swift">Swift</option>
 					</select>
-					{/* 
-					{language.length !== 1 && (
+
+					{/* {language.length !== 1 && (
 						<button
 							type="button"
 							onClick={() => handleLanguageRemove(index)}

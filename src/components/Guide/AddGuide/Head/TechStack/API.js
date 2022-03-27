@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 function API(props) {
 	const [APIList, setAPIList] = useState([{ API: '' }]);
 
+	useEffect(() => {
+		props.apiChild(APIList);
+	}, [APIList]);
+
 	const handleAPIChange = (e, index) => {
 		const { name, value } = e.target;
 		const list = [...APIList];
@@ -19,10 +23,6 @@ function API(props) {
 	const handleAPIAdd = () => {
 		setAPIList([...APIList, { API: '' }]);
 	};
-
-	useEffect(() => {
-		props.apiChild(APIList);
-	}, [APIList]);
 
 	return (
 		<div className="form-field">

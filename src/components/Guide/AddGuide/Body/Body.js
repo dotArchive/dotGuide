@@ -15,6 +15,7 @@ export default function Body(props) {
 	const [content, setContent] = useState([]);
 	const [add, setAdd] = useState(false);
 	const [remove, setRemove] = useState(false);
+	let body = [];
 
 	useEffect(() => {
 		setAdd(false);
@@ -39,7 +40,6 @@ export default function Body(props) {
 	});
 
 	const guideId = props.guideId;
-	let body = [];
 
 	for (let i = 0; i < filepath.length; i++) {
 		let mergeData = {
@@ -101,6 +101,7 @@ export default function Body(props) {
 						<details key={index}>
 							<summary>
 								{obj.filepath ? `${obj.filepath} Preview` : 'File Preview'}
+								{obj.language}
 							</summary>
 							<div className="flexbox">
 								<CodeMirror language={obj.language} value={obj.codeBlock} />
@@ -110,10 +111,6 @@ export default function Body(props) {
 					);
 				})}
 			</div>
-
-			{/* <button type="button" onClick={() => updateBodyName()}>
-				Update FireStore
-			</button> */}
 		</div>
 	);
 }

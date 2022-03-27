@@ -4,6 +4,7 @@ import { db } from '../../../../firebase';
 import BackEnd from './TechStack/BackEnd';
 import FrontEnd from './TechStack/FrontEnd';
 import Api from './TechStack/API';
+import Language from './TechStack/Language';
 import Title from './Title';
 import Tag from './Tag';
 import GuideDescription from './GuideDescription';
@@ -17,6 +18,7 @@ export default function Head(props) {
 	const [apis, setApi] = useState([]);
 	const [frontEnds, setFrontEnd] = useState([]);
 	const [backEnds, setBackEnd] = useState([]);
+	const [languages, setLanguages] = useState([]);
 
 	useEffect(() => {
 		if (props.save === true) updateBodyName();
@@ -28,6 +30,9 @@ export default function Head(props) {
 
 	const guideId = props.guideId;
 
+	const language = languages.map((language) => {
+		return language;
+	});
 	const tag = tags.map((tag) => {
 		return tag;
 	});
@@ -52,6 +57,7 @@ export default function Head(props) {
 				API,
 				frontEnd,
 				backEnd,
+				language,
 				url,
 				tag,
 				description,
@@ -62,14 +68,15 @@ export default function Head(props) {
 	return (
 		<div>
 			<Title titleChild={(data) => setTitle(data)} />
+			<GuideDescription descriptionChild={(data) => setDescription(data)} />
 			<div className="flexbox">
+				<Language languageChild={(data) => setLanguages(data)} />
 				<FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
 				<BackEnd backEndChild={(data) => setBackEnd(data)} />
 				<Api apiChild={(data) => setApi(data)} />
 				<Tag tagChild={(data) => setTags(data)} />
-				<CodeURL urlChild={(data) => setUrl(data)} />
 			</div>
-			<GuideDescription descriptionChild={(data) => setDescription(data)} />
+			<CodeURL urlChild={(data) => setUrl(data)} />
 		</div>
 	);
 }
