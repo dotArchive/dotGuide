@@ -59,17 +59,34 @@ export default function Head(props) {
 		});
 	};
 
+	/*
+	body = props.guide.body
+		codeBlock = props.guide.body[0].codeBlock
+		content = props.guide.body[0].content
+		filepath = props.guide.body[0].filepath
+		language = props.guide.body[0].language
+
+	*/
 	return (
 		<div>
-			<Title titleChild={(data) => setTitle(data)} />
+			<Title guide={props.guide} titleChild={(data) => setTitle(data)} />
 			<div className="flexbox">
-				<FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
-				<BackEnd backEndChild={(data) => setBackEnd(data)} />
-				<Api apiChild={(data) => setApi(data)} />
-				<Tag tagChild={(data) => setTags(data)} />
-				<CodeURL urlChild={(data) => setUrl(data)} />
+				<FrontEnd
+					guide={props.guide}
+					frontEndChild={(data) => setFrontEnd(data)}
+				/>
+				<BackEnd
+					guide={props.guide}
+					backEndChild={(data) => setBackEnd(data)}
+				/>
+				<Api guide={props.guide} apiChild={(data) => setApi(data)} />
+				<Tag guide={props.guide} tagChild={(data) => setTags(data)} />
+				<CodeURL guide={props.guide} urlChild={(data) => setUrl(data)} />
 			</div>
-			<GuideDescription descriptionChild={(data) => setDescription(data)} />
+			<GuideDescription
+				guide={props.guide}
+				descriptionChild={(data) => setDescription(data)}
+			/>
 		</div>
 	);
 }

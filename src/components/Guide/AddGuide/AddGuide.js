@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
 	collection,
 	getDocs,
 	addDoc,
 	updateDoc,
 	doc,
+	getDoc,
 	query,
 	where,
 } from 'firebase/firestore';
@@ -13,37 +14,8 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../../../firebase';
 import Body from './Body/Body';
 import Head from './Head/Head';
-import './guide.css';
 
-export default function AddGuide() {
-	// Hoisting Head, refactor
-	const [title, setTitle] = useState('');
-	const [description, setDescription] = useState('');
-	const [tags, setTags] = useState([]);
-	const [urls, setUrls] = useState([]);
-	const [APIs, setAPIs] = useState([]);
-	const [frontEnds, setFrontEnds] = useState([]);
-	const [backEnds, setBackEnds] = useState([]);
-
-	// Constants for Setting FireStore Guide
-	// const tag = tags.map((tag) => {
-	// 	return tag;
-	// });
-	// const url = urls.map((url) => {
-	// 	return url;
-	// });
-	// const API = APIs.map((API) => {
-	// 	return API;
-	// });
-	// const frontEnd = frontEnds.map((frontEnd) => {
-	// 	return frontEnd;
-	// });
-	// const backEnd = backEnds.map((backEnd) => {
-	// 	return backEnd;
-	// })
-
-	//////////////////////////////
-
+export default function AddGuide(props) {
 	// Hooks & Variables
 	const [currentUid, setCurrentUid] = useState('');
 	const [user, setUser] = useState({});
@@ -86,7 +58,9 @@ export default function AddGuide() {
 			setGuideId(mydocRef.id);
 			return mydocRef;
 		};
-		myDoc();
+		if (!props.editGuide) {
+			myDoc();
+		}
 	}, []);
 
 	const setOwner = async () => {
@@ -125,19 +99,8 @@ export default function AddGuide() {
 
 	return (
 		<form>
-			<div className="postHeader" style={{ backgroundColor: 'red' }}>
-				<Head
-					guideId={guideId}
-					save={save}
-					submit={submit}
-					titleChild={(data) => setTitle(data)}
-					tagChild={(data) => setTags(data)}
-					urlChild={(data) => setUrls(data)}
-					descriptionChild={(data) => setDescription(data)}
-					apiChild={(data) => setAPIs(data)}
-					frontEndChild={(data) => setFrontEnds(data)}
-					backEndChild={(data) => setBackEnds(data)}
-				/>
+			<div className="post">
+				<Head guideId={guideId} save={save} submit={submit} />
 			</div>
 			<div className="post">
 				<Body guideId={guideId} save={save} submit={submit} />

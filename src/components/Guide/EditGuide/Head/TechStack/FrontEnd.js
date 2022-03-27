@@ -3,6 +3,15 @@ import { useEffect, useState } from 'react';
 function FrontEnd(props) {
 	const [frontEndList, setFrontEndList] = useState([{ frontEnd: '' }]);
 
+	useEffect(() => {
+		if (props.guide.head) {
+			let editFrontEnd = props.guide.head.frontEnd.map((singleFrontEnd) => {
+				return singleFrontEnd;
+			});
+			setFrontEndList([...editFrontEnd, { frontEnd: '' }]);
+		}
+	}, [props.guide.userId]);
+
 	const handleFrontEndChange = (e, index) => {
 		const { name, value } = e.target;
 		const list = [...frontEndList];

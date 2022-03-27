@@ -3,6 +3,19 @@ import { useEffect, useState } from 'react';
 function Tag(props) {
 	const [tagList, setTagList] = useState([{ tag: '' }]);
 
+	useEffect(() => {
+		if (props.guide.head) {
+			let editTag = props.guide.head.tag.map((singleTag) => {
+				return singleTag;
+			});
+			setTagList([...editTag, { tag: '' }]);
+		}
+	}, [props.guide.userId]);
+
+	useEffect(() => {
+		props.tagChild(tagList);
+	}, [tagList]);
+
 	const handleTagChange = (e, index) => {
 		const { name, value } = e.target;
 		const list = [...tagList];
@@ -20,10 +33,6 @@ function Tag(props) {
 		setTagList([...tagList, { tag: '' }]);
 	};
 
-	useEffect(() => {
-		props.tagChild(tagList);
-	}, [tagList]);
-
 	return (
 		<div className="form-field">
 			<button type="button" onClick={handleTagAdd} className="add-btn">
@@ -33,7 +42,6 @@ function Tag(props) {
 				<div key={index} className="tag">
 					<div className="addTag">
 						<input
-							// defaultValue={props.editGuide.head.tag}
 							placeholder="Tag"
 							name="tag"
 							type="text"
