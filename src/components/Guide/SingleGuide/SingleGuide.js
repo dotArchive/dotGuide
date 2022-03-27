@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { collection, doc, getDocs, getDoc, setDoc, query, where } from 'firebase/firestore'
 import { db } from '../../../firebase'
 import { Typography, Box, IconButton, Button, Card, Container } from '@mui/material'
@@ -8,21 +8,36 @@ import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded
 import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp'
 import CodeIcon from '@mui/icons-material/Code'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
-import { PublishedWithChanges } from '@mui/icons-material'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import { Controlled } from 'react-codemirror2-react-17'
+import CodeMirror from './CodeMirror'
 
 export default function SingleGuide() {
-  const navigate = useNavigate()
-  const { guideId } = useParams()
+  //useStates
   const [guide, setGuide] = useState({})
   const [profile, setProfile] = useState({})
   const [isFavorite, setIsFavorite] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
-  const [showBody, setShowBody] = useState(false)
   const [isPublished, setIsPublished] = useState(false)
-  const { frontEnd, backEnd, tags, apis, languages, username, title, createdAt, description } =
-    guide
+  const [showBody, setShowBody] = useState(false)
 
-  // getters, checkers, and setters
+  //other constants
+  const { guideId } = useParams()
+  const {
+    frontEnd,
+    backEnd,
+    tags,
+    apis,
+    languages,
+    username,
+    title,
+    createdAt,
+    description,
+    body,
+  } = guide
+  // const { codeBlock, content, filepath, language } = guide.body
+  // getters, checkers, and setters start here
   const getGuide = async () => {
     const docRef = doc(db, 'guides', guideId)
     const docSnap = await getDoc(docRef)
@@ -39,6 +54,13 @@ export default function SingleGuide() {
     // option 2
     const guideRef = doc(db, 'guides', guideId)
     setDoc(guideRef, { isPublished: true }, { merge: true })
+  }
+  const setProfileFavorite = async () => {
+    // //option 1
+    // await setDoc(doc(db, 'profiles', guideId), {...guide, isPublished: true})
+    // option 2
+    // const guideRef = doc(db, 'guides', guideId)
+    // setDoc(guideRef, { isPublished: true }, { merge: true })
   }
   const favChecker = () => {
     if (Object.keys(profile).length) {
@@ -100,13 +122,18 @@ export default function SingleGuide() {
     }
   }, [profile])
 
-  // useEffect(() => {
-  // // this useEffect checks to see if isFavorite has changed, if it does, it sets the profile in db to the user's current state
-  // }, [isFavorite])
   //use effects end here
 
   // styles start here
-  const singleGuideCard = {
+  const singleGuideTopCard = {
+    background: '#2f2f2f',
+    p: 1,
+    pl: 2,
+    mt: 1,
+    border: 1.25,
+    borderColor: '#353540',
+  }
+  const singleGuideTagCards = {
     background: '#2f2f2f',
     p: 1,
     pl: 2,
@@ -131,7 +158,7 @@ export default function SingleGuide() {
     border: 1.25,
     borderColor: '#353540',
   }
-  const singleGuideCardTypography = {
+  const singleGuideTagCardTypography = {
     color: 'white',
     fontSize: '0.7em',
     minHeight: 18,
@@ -183,6 +210,18 @@ export default function SingleGuide() {
     borderRadius: 3,
     textAlign: 'center',
   }
+  const singleGuideReferenceCard = {
+    background: '#2f2f2f',
+    p: 1,
+    pl: 2,
+    mt: 1,
+    overflow: 'auto',
+    height: '450px',
+    border: 1.25,
+    borderColor: '#353540',
+    color: 'white',
+  }
+
   // styles end here
 
   return Object.keys(guide).length ? (
@@ -194,7 +233,8 @@ export default function SingleGuide() {
         justifyContent: 'center',
       }}>
       {/* {console.log(guide)} */}
-      {/* {console.log(profile)} */}
+      {/* {console.log(guide.body)} */}
+      {console.log(profile)}
       {/* {console.log(isFavorite)} */}
       {/* {console.log(isOwner)} */}
       {/*
@@ -208,16 +248,7 @@ export default function SingleGuide() {
         <>
           {/* start headcomponent */}
           {/* top card */}
-          <Card
-            elevation={12}
-            sx={{
-              background: '#2f2f2f',
-              p: 1,
-              pl: 2,
-              mt: 1,
-              border: 1.25,
-              borderColor: '#353540',
-            }}>
+          <Card elevation={12} sx={singleGuideTopCard}>
             <Box sx={{ display: 'flex', flowDirection: 'row', justifyContent: 'space-between' }}>
               {/* timestamp and username logic */}
               <Typography sx={{ color: 'white', fontSize: '0.75em', minHeight: 40 }}>
@@ -245,9 +276,8 @@ export default function SingleGuide() {
             <Typography sx={{ color: 'white', mr: 2 }}>{description}</Typography>
           </Card>
 
-          <Typography sx={{ color: 'white', ml: 1, mt: 1 }}>
-            {/* technologies used begin here */}Technologies Used
-          </Typography>
+          {/* technologies used begin here */}
+          <Typography sx={{ color: 'white', ml: 1, mt: 1 }}>Technologies Used</Typography>
           <Box
             sx={{
               display: 'flex',
@@ -257,14 +287,14 @@ export default function SingleGuide() {
           start the tech cards here
       */}
 
-            <Card elevation={12} sx={singleGuideCard}>
+            <Card elevation={12} sx={singleGuideTagCards}>
               <Typography sx={{ color: 'white' }} gutterBottom>
                 Languages
               </Typography>
               {languages.length ? (
                 languages.map((item, idx) => {
                   return (
-                    <Typography key={idx} sx={singleGuideCardTypography}>
+                    <Typography key={idx} sx={singleGuideTagCardTypography}>
                       {`${item}`}
                     </Typography>
                   )
@@ -274,15 +304,15 @@ export default function SingleGuide() {
               )}
             </Card>
 
-            <Card elevation={12} sx={singleGuideCard}>
+            <Card elevation={12} sx={singleGuideTagCards}>
               <Typography sx={{ color: 'white' }} gutterBottom>
                 Front End
               </Typography>
               {frontEnd.length ? (
                 frontEnd.map((item, idx) => {
                   return (
-                    <Typography key={idx} sx={singleGuideCardTypography}>
-                      {`${item}`}
+                    <Typography key={idx} sx={singleGuideTagCardTypography}>
+                      {`${item.frontEnd}`}
                     </Typography>
                   )
                 })
@@ -291,14 +321,14 @@ export default function SingleGuide() {
               )}
             </Card>
 
-            <Card elevation={12} sx={singleGuideCard}>
+            <Card elevation={12} sx={singleGuideTagCards}>
               <Typography sx={{ color: 'white' }} gutterBottom>
                 Back End
               </Typography>
               {backEnd.length ? (
                 backEnd.map((item, idx) => {
                   return (
-                    <Typography key={idx} sx={singleGuideCardTypography}>
+                    <Typography key={idx} sx={singleGuideTagCardTypography}>
                       {`${item.backEnd}`}
                     </Typography>
                   )
@@ -357,12 +387,33 @@ export default function SingleGuide() {
       ) : (
         <>
           {/* start body component */}
-          <Box>Test</Box>
+          {guide.body.length ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ width: '49%', mx: 0.5 }}>
+                <Typography sx={{ color: 'white', ml: 1, mt: 1 }}>CodeBlock</Typography>
+                <Card sx={singleGuideReferenceCard}>
+                  <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
+                    {guide.body[0].filepath}
+                  </Typography>
+                  <CodeMirror language={guide.body[0].language} value={guide.body[0].codeBlock} />
+                </Card>
+              </Box>
+              <Box sx={{ width: '51%', mx: 0.5 }}>
+                <Typography sx={{ color: 'white', ml: 1, mt: 1 }}>Reference</Typography>
+                <Card sx={singleGuideReferenceCard}>
+                  <ReactMarkdown children={guide.body[0].content} remarkPlugins={[remarkGfm]} />
+                </Card>
+              </Box>
+            </Box>
+          ) : (
+            <Typography sx={{ color: 'white' }}>"loading..."</Typography>
+          )}
+
           {/* end body component */}
         </>
       )}
       {/*
-      button for body/head transition starts here
+      button for published and body/head transition starts here
       */}
       <Box
         sx={{
