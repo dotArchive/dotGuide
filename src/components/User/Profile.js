@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../../firebase";
@@ -16,31 +14,36 @@ import { onAuthStateChanged } from "firebase/auth";
 const Profile = () => {
   const [user, setUser] = useState({});
   const [uid, setUid] = useState();
+
   const navigate = useNavigate();
 
+  // Get User from firebase Auth
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const userUid = user.uid;
-        setUid(userUid);
+        setUid(user.uid);
       }
     });
-  }, []);
+    myDoc();
+  }, [uid]);
+
+  const docRef = collection(db, 'users');
+	const q = query(docRef, where('uid', '==', `${uid}`));
 
   const myDoc = async () => {
-    const docRef = doc(db, "users", `${uid}`);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      setUser(docSnap.data());
-    }
+    const docSnap = await getDocs(q);
+
+		docSnap.forEach((doc) => {
+			setUser(doc.data());
+		});
   };
 
-  myDoc();
+  console.log(user)
 
   return (
     <div>
-      <div>Username: {user.username}</div>
-      <div>Email: {user.email}</div>
+      <div style={{ color: "white" }}>Username: {user.username}</div>
+      <div style={{ color: "white" }}>Email: {user.email}</div>
       <div>
         <button onClick={() => navigate("/edit-profile")}>Edit Profile</button>
       </div>
