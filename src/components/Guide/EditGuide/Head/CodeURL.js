@@ -4,6 +4,15 @@ function CodeURL(props) {
 	const [codeURL, setcodeURL] = useState([{ URL: '' }]);
 
 	useEffect(() => {
+		if (props.guide.head) {
+			let editUrl = props.guide.head.url.map((singleUrl) => {
+				return singleUrl;
+			});
+			setcodeURL([...editUrl, { URL: '' }]);
+		}
+	}, [props.guide.userId]);
+
+	useEffect(() => {
 		props.urlChild(codeURL);
 	}, [codeURL]);
 

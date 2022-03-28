@@ -4,6 +4,10 @@ export default function Title(props) {
 	const [title, setTitle] = useState('');
 
 	useEffect(() => {
+		setTitle(props.guide.title);
+	}, [props.guide.userId]);
+
+	useEffect(() => {
 		props.titleChild(title);
 	}, [title]);
 

@@ -71,18 +71,26 @@ export default function Body(props) {
 				Remove Last File
 			</button>
 			<div className="flexbox">
-				<File fileChild={(data) => setFile(data)} add={add} remove={remove} />
+				<File
+					guide={props.guide}
+					fileChild={(data) => setFile(data)}
+					add={add}
+					remove={remove}
+				/>
 				<Language
+					guide={props.guide}
 					languageChild={(data) => setLanguages(data)}
 					add={add}
 					remove={remove}
 				/>
 				<CodeEditor
+					guide={props.guide}
 					codeChild={(data) => setCode(data)}
 					add={add}
 					remove={remove}
 				/>
 				<Content
+					guide={props.guide}
 					contentChild={(data) => setContent(data)}
 					add={add}
 					remove={remove}

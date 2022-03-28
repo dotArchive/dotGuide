@@ -29,7 +29,6 @@ export default function Head(props) {
 		if (props.submit === true) updateHead();
 	});
 
-	let username = props.username;
 	const guideId = props.guideId;
 
 	const language = languages.map((language) => {
@@ -72,24 +71,35 @@ export default function Head(props) {
 				url,
 				tag,
 				title,
-				username,
 			},
 		});
 	};
 
 	return (
 		<div>
-			<Title titleChild={(data) => setTitle(data)} />
-			<GuideDescription descriptionChild={(data) => setDescription(data)} />
+			<Title guide={props.guide} titleChild={(data) => setTitle(data)} />
+			<GuideDescription
+				guide={props.guide}
+				descriptionChild={(data) => setDescription(data)}
+			/>
 			<div className="flexbox">
-				<Language languageChild={(data) => setLanguages(data)} />
-				<FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
-				<BackEnd backEndChild={(data) => setBackEnd(data)} />
-				<Api apiChild={(data) => setApi(data)} />
+				<Language
+					guide={props.guide}
+					languageChild={(data) => setLanguages(data)}
+				/>
+				<FrontEnd
+					guide={props.guide}
+					frontEndChild={(data) => setFrontEnd(data)}
+				/>
+				<BackEnd
+					guide={props.guide}
+					backEndChild={(data) => setBackEnd(data)}
+				/>
+				<Api guide={props.guide} apiChild={(data) => setApi(data)} />
 			</div>
-			<Tag tagChild={(data) => setTags(data)} />
+			<Tag guide={props.guide} tagChild={(data) => setTags(data)} />
 
-			<CodeURL urlChild={(data) => setUrl(data)} />
+			<CodeURL guide={props.guide} urlChild={(data) => setUrl(data)} />
 			<details>
 				<summary>Header Preview</summary>
 				<h1>{title}</h1>

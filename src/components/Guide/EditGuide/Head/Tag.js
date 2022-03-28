@@ -4,6 +4,15 @@ function Tag(props) {
 	const [tagList, setTagList] = useState([{ tag: '' }]);
 
 	useEffect(() => {
+		if (props.guide.head) {
+			let editTag = props.guide.head.tag.map((singleTag) => {
+				return singleTag;
+			});
+			setTagList([...editTag, { tag: '' }]);
+		}
+	}, [props.guide.userId]);
+
+	useEffect(() => {
 		props.tagChild(tagList);
 	}, [tagList]);
 
