@@ -1,4 +1,15 @@
 import { useEffect, useState } from 'react';
+import {
+	Typography,
+	Box,
+	IconButton,
+	Button,
+	Card,
+	Container,
+} from '@mui/material';
+import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
+import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
+import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp';
 
 function Tag(props) {
 	const [tagList, setTagList] = useState([{ tag: '' }]);
@@ -32,7 +43,20 @@ function Tag(props) {
 			<div className="flexbox">
 				{tagList.map((singletag, index) => (
 					<div key={index} className="tag">
-						<div className="addTag">
+						<Typography
+							sx={{
+								color: 'white',
+								fontSize: '0.7em',
+								minHeight: 18,
+								p: 0.5,
+								mt: 0.5,
+								mb: 0.5,
+								border: 1,
+								borderColor: 'white',
+								borderRadius: 3,
+								textAlign: 'center',
+							}}
+						>
 							<input
 								placeholder="Tag"
 								name="tag"
@@ -41,7 +65,6 @@ function Tag(props) {
 								value={singletag.tag}
 								onChange={(e) => handleTagChange(e, index)}
 							/>
-
 							{tagList.length !== 1 && (
 								<button
 									type="button"
@@ -51,7 +74,7 @@ function Tag(props) {
 									<span>Remove</span>
 								</button>
 							)}
-						</div>
+						</Typography>
 					</div>
 				))}
 			</div>

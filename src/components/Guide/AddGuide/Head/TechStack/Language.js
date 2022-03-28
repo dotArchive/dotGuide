@@ -1,4 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import {
+	Typography,
+	Box,
+	IconButton,
+	Button,
+	Card,
+	Container,
+} from '@mui/material';
+import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
+import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
+import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp';
 
 export default function Language(props) {
 	const [language, setLanguage] = useState([{ language: '' }]);
@@ -26,11 +37,29 @@ export default function Language(props) {
 
 	return (
 		<div>
+			<Typography sx={{ color: 'white' }} gutterBottom>
+				Languages
+			</Typography>
 			<button type="button" onClick={handleLanguageAdd} className="add-btn">
 				Add
 			</button>
 			{language.map((singleLanguage, index) => (
-				<div key={index}>
+				<Typography
+					key={index}
+					sx={{
+						color: 'white',
+						fontSize: '0.7em',
+						minHeight: 18,
+						p: 0.5,
+						mt: 0.5,
+						mb: 0.5,
+						border: 1,
+						borderColor: 'white',
+						borderRadius: 3,
+						textAlign: 'center',
+					}}
+				>
+					{' '}
 					<input
 						placeholder="Programming Language"
 						name="language"
@@ -39,7 +68,6 @@ export default function Language(props) {
 						value={singleLanguage.language}
 						onChange={(e) => handleLanguageChange(e, index)}
 					/>
-
 					{language.length !== 1 && (
 						<button
 							type="button"
@@ -49,7 +77,7 @@ export default function Language(props) {
 							<span>Remove</span>
 						</button>
 					)}
-				</div>
+				</Typography>
 			))}
 		</div>
 	);

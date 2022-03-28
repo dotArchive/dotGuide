@@ -10,6 +10,18 @@ import Tag from './Tag';
 import GuideDescription from './GuideDescription';
 import CodeURL from './CodeURL';
 import ReactMarkdown from 'react-markdown';
+//MUI
+import {
+	Typography,
+	Box,
+	IconButton,
+	Button,
+	Card,
+	Container,
+} from '@mui/material';
+import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
+import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
+import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp';
 
 export default function Head(props) {
 	const [title, setTitle] = useState('');
@@ -20,6 +32,7 @@ export default function Head(props) {
 	const [frontEnds, setFrontEnd] = useState([]);
 	const [backEnds, setBackEnd] = useState([]);
 	const [languages, setLanguages] = useState([]);
+	const [isFavorite, setIsFavorite] = useState(false);
 
 	useEffect(() => {
 		if (props.save === true) updateHead();
@@ -78,21 +91,110 @@ export default function Head(props) {
 	};
 
 	return (
-		<div>
+		<Container
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				alignContent: 'center',
+				justifyContent: 'center',
+			}}
+		>
 			<Title titleChild={(data) => setTitle(data)} />
-			<GuideDescription descriptionChild={(data) => setDescription(data)} />
-			<div className="flexbox">
-				<Language languageChild={(data) => setLanguages(data)} />
+			<Card
+				sx={{
+					background: '#2f2f2f',
+					p: 1,
+					pl: 2,
+					pr: 2,
+					border: 1.25,
+					borderColor: '#353540',
+				}}
+			>
+				<Typography sx={{ color: 'white', fontSize: '0.75em' }}>
+					{`${username} — Tue Mar 22 2022 18:00`}
+				</Typography>
+				<IconButton>
+					{isFavorite ? (
+						<BookmarkRoundedIcon
+							sx={{ color: 'red' }}
+							onClick={() => setIsFavorite(!isFavorite)}
+						/>
+					) : (
+						<BookmarkBorderRoundedIcon
+							sx={{ color: 'white' }}
+							onClick={() => setIsFavorite(!isFavorite)}
+						/>
+					)}
+				</IconButton>
+				<IconButton>
+					<ModeEditSharpIcon sx={{ color: 'white' }} />
+				</IconButton>
+
+				<GuideDescription descriptionChild={(data) => setDescription(data)} />
+			</Card>
+			<Typography sx={{ color: 'white', ml: 1 }}>Technologies Used</Typography>
+			<Box
+				sx={{
+					display: 'flex',
+					// flexDirection: 'row',
+					justifyContent: 'space-between',
+					// alignContent: 'center',
+				}}
+			>
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						p: 1,
+						pl: 2,
+						pr: 2,
+						mr: 1,
+						width: '25%',
+						minHeight: '10vh',
+						textOverflow: 'ellipsis',
+						border: 1.25,
+						borderColor: '#353540',
+					}}
+				>
+					<Language languageChild={(data) => setLanguages(data)} />
+				</Card>
 				<FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
 				<BackEnd backEndChild={(data) => setBackEnd(data)} />
 				<Api apiChild={(data) => setApi(data)} />
-			</div>
-			<Tag tagChild={(data) => setTags(data)} />
+			</Box>
+			<Typography sx={{ color: 'white', mt: 1, ml: 1 }}>Other Tags</Typography>
+			<Card
+				sx={{
+					background: '#2f2f2f',
+					// mt: 0,
+					border: 1.25,
+					borderColor: '#353540',
+				}}
+			>
+				<Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
+					<Tag tagChild={(data) => setTags(data)} />
+				</Box>
+			</Card>
+			<Typography sx={{ color: 'white', mt: 1, ml: 1 }}>URLs</Typography>
+			<Card
+				sx={{
+					background: '#2f2f2f',
+					// mt: 0,
+					border: 1.25,
+					borderColor: '#353540',
+				}}
+			>
+				<Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
+					<CodeURL urlChild={(data) => setUrl(data)} />
+				</Box>
+			</Card>
 
-			<CodeURL urlChild={(data) => setUrl(data)} />
 			<details>
 				<summary>Header Preview</summary>
-				<h1>{title}</h1>
+				<Typography variant="h3" sx={{ color: 'white', ml: 1 }}>
+					{title}
+				</Typography>
+
+				{`${username} — Tue Mar 22 2022 18:00`}
 				<ReactMarkdown>{description}</ReactMarkdown>
 				<div className="flexbox">
 					<div>
@@ -127,6 +229,6 @@ export default function Head(props) {
 					})}
 				</div>
 			</details>
-		</div>
+		</Container>
 	);
 }

@@ -78,6 +78,7 @@ export default function Head(props) {
 	return (
 		<div>
 			<Title guide={props.guide} titleChild={(data) => setTitle(data)} />
+
 			<GuideDescription
 				guide={props.guide}
 				descriptionChild={(data) => setDescription(data)}
