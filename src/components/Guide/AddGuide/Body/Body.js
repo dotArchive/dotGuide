@@ -25,15 +25,19 @@ export default function Body(props) {
   }, [remove])
 
   useEffect(() => {
-    if (props.save === true) updateBodyName()
+    if (props.save === true) {
+      updateBody()
+    }
   })
 
   useEffect(() => {
-    if (props.submit === true) updateBodyName()
+    if (props.submit === true) {
+      updateBody()
+    }
   })
 
-  const guideId = props.guideId
   let body = []
+  const guideId = props.guideId
 
   for (let i = 0; i < filepath.length; i++) {
     let mergeData = {
@@ -45,15 +49,21 @@ export default function Body(props) {
     body.push(mergeData)
   }
 
-  const updateBodyName = async () => {
-    const guideRef = doc(db, 'guides', guideId)
+  const updateBody = async () => {
+    const guideRef = doc(db, 'Guide', guideId)
     await updateDoc(guideRef, {
+      bodyRef: {
+        codeBlock,
+        filepath,
+        content,
+        language,
+      },
       body,
     })
   }
 
   return (
-    <div style={{ backgroundColor: 'green' }}>
+    <div>
       <button type="button" onClick={() => setAdd(true)}>
         Add New File
       </button>
@@ -68,21 +78,31 @@ export default function Body(props) {
       </div>
       <div>
         {body.map((obj, index) => {
+          let languageUpper = obj.language
+          if (languageUpper.length === 3 || languageUpper === 'sass')
+            languageUpper = languageUpper.toUpperCase()
+          if (languageUpper.length >= 4 && languageUpper !== 'sass') {
+            languageUpper = languageUpper[0].toUpperCase() + languageUpper.substring(1)
+          }
+
           return (
             <details key={index}>
               <summary>{obj.filepath ? `${obj.filepath} Preview` : 'File Preview'}</summary>
+
               <div className="flexbox">
-                <CodeMirror language={obj.language} value={obj.codeBlock} />
-                <ReactMarkdown>{obj.content}</ReactMarkdown>
+                <div>
+                  CodeBlock :{languageUpper ? languageUpper : 'Select Language'}
+                  <CodeMirror language={obj.language} value={obj.codeBlock} />
+                </div>
+                <div>
+                  Reference
+                  <ReactMarkdown>{obj.content}</ReactMarkdown>
+                </div>
               </div>
             </details>
           )
         })}
       </div>
-
-      {/* <button type="button" onClick={() => updateBodyName()}>
-				Update FireStore
-			</button> */}
     </div>
   )
 }

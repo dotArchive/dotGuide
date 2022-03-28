@@ -4,10 +4,12 @@ import { db } from '../../../../firebase'
 import BackEnd from './TechStack/BackEnd'
 import FrontEnd from './TechStack/FrontEnd'
 import Api from './TechStack/API'
+import Language from './TechStack/Language'
 import Title from './Title'
 import Tag from './Tag'
 import GuideDescription from './GuideDescription'
 import CodeURL from './CodeURL'
+import ReactMarkdown from 'react-markdown'
 
 export default function Head(props) {
   const [title, setTitle] = useState('')
@@ -17,17 +19,22 @@ export default function Head(props) {
   const [apis, setApi] = useState([])
   const [frontEnds, setFrontEnd] = useState([])
   const [backEnds, setBackEnd] = useState([])
+  const [languages, setLanguages] = useState([])
 
   useEffect(() => {
-    if (props.save === true) updateBodyName()
+    if (props.save === true) updateHead()
   })
 
   useEffect(() => {
-    if (props.submit === true) updateBodyName()
+    if (props.submit === true) updateHead()
   })
 
+  let username = props.username
   const guideId = props.guideId
 
+  const language = languages.map((language) => {
+    return language
+  })
   const tag = tags.map((tag) => {
     return tag
   })
@@ -44,59 +51,71 @@ export default function Head(props) {
     return backEnd
   })
 
-  const updateBodyName = async () => {
+  const updateHead = async () => {
     const guideRef = doc(db, 'guides', guideId)
     await updateDoc(guideRef, {
       title,
+      description,
       API,
       frontEnd,
       backEnd,
+      language,
       url,
-      tags: tag,
-      description,
-      languages: [],
+      tag,
+      username,
     })
   }
-
-  // useEffect(() => {
-  // 	props.titleChild(title);
-  // }, [title]);
-
-  // useEffect(() => {
-  // 	props.descriptionChild(description);
-  // }, [description]);
-
-  // useEffect(() => {
-  // 	props.tagChild(tag);
-  // }, [tag]);
-
-  // useEffect(() => {
-  // 	props.urlChild(url);
-  // }, [url]);
-
-  // useEffect(() => {
-  // 	props.apiChild(api);
-  // }, [api]);
-
-  // useEffect(() => {
-  // 	props.frontEndChild(frontEnd);
-  // }, [frontEnd]);
-
-  // useEffect(() => {
-  // 	props.backEndChild(backEnd);
-  // }, [backEnd]);
 
   return (
     <div>
       <Title titleChild={(data) => setTitle(data)} />
+      <GuideDescription descriptionChild={(data) => setDescription(data)} />
       <div className="flexbox">
+        <Language languageChild={(data) => setLanguages(data)} />
         <FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
         <BackEnd backEndChild={(data) => setBackEnd(data)} />
         <Api apiChild={(data) => setApi(data)} />
-        <Tag tagChild={(data) => setTags(data)} />
-        <CodeURL urlChild={(data) => setUrl(data)} />
       </div>
-      <GuideDescription descriptionChild={(data) => setDescription(data)} />
+      <Tag tagChild={(data) => setTags(data)} />
+
+      <CodeURL urlChild={(data) => setUrl(data)} />
+      <details>
+        <summary>Header Preview</summary>
+        <h1>{title}</h1>
+        <ReactMarkdown>{description}</ReactMarkdown>
+        <div className="flexbox">
+          <div>
+            {languages.map((singleLanguage, index) => {
+              return <div key={index}>{singleLanguage.language}</div>
+            })}
+          </div>
+          <div>
+            {frontEnd.map((singlefrontEnd, index) => {
+              return <div key={index}>{singlefrontEnd.frontEnd}</div>
+            })}
+          </div>
+          <div>
+            {backEnd.map((singlebackEnd, index) => {
+              return <div key={index}>{singlebackEnd.backEnd}</div>
+            })}
+          </div>
+          <div>
+            {API.map((singleAPI, index) => {
+              return <div key={index}>{singleAPI.API}</div>
+            })}
+          </div>
+        </div>
+        <div className="flexbox">
+          {tag.map((singletag, index) => {
+            return <div key={index}>{singletag.tag}</div>
+          })}
+        </div>
+        <div className="flexbox">
+          {url.map((singleurl, index) => {
+            return <div key={index}>{singleurl.URL}</div>
+          })}
+        </div>
+      </details>
     </div>
   )
 }

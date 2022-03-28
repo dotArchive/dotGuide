@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 
 export default function Language(props) {
 	const [language, setLanguage] = useState([{ language: '' }]);
+
+	useEffect(() => {
+		if (props.guide.bodyRef) {
+			let editLanguage = props.guide.bodyRef.language.map((singlelanguage) => {
+				return singlelanguage;
+			});
+			setLanguage([...editLanguage, { language: '' }]);
+		}
+	}, [props.guide.userId]);
+
 	useEffect(() => {
 		if (props.add === true) setLanguage([...language, { language: '' }]);
 	});

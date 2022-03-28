@@ -4,6 +4,12 @@ export default function GuideDescription(props) {
 	const [content, setContent] = useState('');
 
 	useEffect(() => {
+		if (props.guide.head) {
+			setContent(props.guide.head.description);
+		}
+	}, [props.guide.userId]);
+
+	useEffect(() => {
 		props.descriptionChild(content);
 	}, [content]);
 

@@ -1,0 +1,21 @@
+.flexbox {
+	display: flex;
+}
+
+.post {
+	color: white;
+}
+
+select {
+	height: 22px;
+	margin-bottom: 3.9px;
+}
+.filePath {
+	height: 16px;
+	margin-bottom: 3.9px;
+}
+
+.textArea {
+	min-height: 1rem;
+	min-width: 11rem;
+}

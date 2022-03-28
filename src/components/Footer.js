@@ -6,11 +6,11 @@ const Footer = () => {
 			<p>
 				Web Design & Development by{' '}
 				<a
-					href="https://github.com/dotArchive/forum"
+					href="https://github.com/dotArchive/dotGuide"
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					Capstone Project
+					{`<dotGuide />`}
 				</a>
 			</p>
 		</div>

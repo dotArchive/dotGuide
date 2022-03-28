@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db, auth } from '../../firebase'
-import { collection, getDocs, where, query } from 'firebase/firestore'
+import { collection, getDocs, where, query, getDoc, doc } from 'firebase/firestore'
 import { onAuthStateChanged } from 'firebase/auth'
 
 const Profile = () => {
@@ -10,6 +10,7 @@ const Profile = () => {
 
   const navigate = useNavigate()
 
+  // Get User from firebase Auth
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
