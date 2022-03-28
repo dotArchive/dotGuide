@@ -45,9 +45,9 @@ const Navbar = () => {
 					direction={direction}
 					FabProps={{
 						sx: {
-							bgcolor: 'black',
+							bgcolor: '#f57c00',
 							'&:hover': {
-								bgcolor: 'black',
+								bgcolor: '#f57c00',
 							},
 						},
 					}}
@@ -86,9 +86,9 @@ const Navbar = () => {
 					direction={direction}
 					FabProps={{
 						sx: {
-							bgcolor: 'black',
+							bgcolor: '#f57c00',
 							'&:hover': {
-								bgcolor: 'black',
+								bgcolor: '#f57c00',
 							},
 						},
 					}}

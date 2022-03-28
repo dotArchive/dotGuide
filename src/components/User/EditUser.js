@@ -36,6 +36,12 @@ export default function EditUser() {
     getUser();
   }, [uid]);
 
+  useEffect(() => {
+    setUsername(user.username);
+    setEmail(user.email);
+    setPassword(user.password);
+  }, [user]);
+
   const docRef = collection(db, "users");
   const q = query(docRef, where("uid", "==", `${uid}`));
 
@@ -69,9 +75,21 @@ export default function EditUser() {
 
   // console.log(user.id)
 
+  // const handleClick = () => {
+  //   if (!username) {
+  //     alert("Username is required");
+  //   } else if (!email) {
+  //     alert("Email is required");
+  //   } else if (!password) {
+  //     alert("Password is required");
+  //   } else {
+  //     updateProfile()
+  //   }
+  // }
+
   return (
     <div>
-      <div>Edit User</div>
+      <div style={{color: "white"}}>Edit User</div>
       <div>
         <input
           placeholder={user.username}
@@ -86,7 +104,8 @@ export default function EditUser() {
       </div>
       <div>
         <input
-          placeholder={password}
+          type="password"
+          placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         ></input>
       </div>
