@@ -19,7 +19,7 @@ const Profile = () => {
 
   // Get User from firebase Auth
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         setUid(user.uid);
       }
@@ -37,8 +37,6 @@ const Profile = () => {
 			setUser(doc.data());
 		});
   };
-
-  console.log(user)
 
   return (
     <div>
