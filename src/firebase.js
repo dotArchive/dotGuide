@@ -1,12 +1,23 @@
 import { initializeApp } from 'firebase/app';
 import {
-	getAuth,
-	signInWithEmailAndPassword,
-	createUserWithEmailAndPassword,
-	sendPasswordResetEmail,
-	signOut,
-} from 'firebase/auth';
-import { getFirestore, setDoc, doc } from 'firebase/firestore';
+  getAuth,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut,
+  setPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
+import {
+  getFirestore,
+  getDoc,
+  collection,
+  addDoc,
+  setDoc,
+  doc,
+} from "firebase/firestore";
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -20,17 +31,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const auth = getAuth();
+const db = getFirestore();
 
 const logInWithEmailAndPassword = async (email, password) => {
-	try {
-		await signInWithEmailAndPassword(auth, email, password);
-	} catch (err) {
-		console.error(err);
-		alert(err.message);
-	}
-};
+    setPersistence(auth, browserLocalPersistence).then(() => {
+      return signInWithEmailAndPassword(auth, email, password);
+    })
+  }
+
 
 const registerWithEmailAndPassword = async (username, email, password) => {
 	const res = await createUserWithEmailAndPassword(auth, email, password);

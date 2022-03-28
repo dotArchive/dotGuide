@@ -14,56 +14,67 @@ import {
   getDocs,
   doc,
   updateDoc,
-	setDoc,
-	getDoc
+  setDoc,
+  getDoc,
 } from "firebase/firestore";
 
 export default function EditUser() {
-  const [currentUid, setCurrentUid] = useState("");
+  const [uid, setUid] = useState("");
   const [user, setUser] = useState({});
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("Password");
   const [confirmPassword, setConfirmPassword] = useState("Confirm Password");
   const navigate = useNavigate();
-  const userAuth = auth.currentUser;
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const uid = user.uid;
-        setCurrentUid(uid);
+        setUid(user.uid);
       }
     });
+    getUser();
+  }, [uid]);
 
-    myQuery();
-  }, [currentUid]);
+  const docRef = collection(db, "users");
+  const q = query(docRef, where("uid", "==", `${uid}`));
 
-  const myQuery = async () => {
-    const docRef = collection(db, "users");
-    const q = query(docRef, where("uid", "==", currentUid));
-    const querySnapshot = await getDocs(q);
+  const getUser = async () => {
+    const docSnap = await getDocs(q);
 
-    querySnapshot.forEach((doc) => {
+    docSnap.forEach((doc) => {
       setUser(doc.data());
     });
   };
 
-	console.log(user.id)
+  const updateProfile = async () => {
+    const docRef = doc(db, "users", uid);
+    await updateDoc(docRef, {
+      username: username,
+      email: email,
+      password: password,
+    });
+    navigate("/profile");
+  };
 
-  // const updateFirestoreFields = async () => {
-	// 	const translateDoc = doc(db, "translate", "custom_doc_id")
-	// 	await setDoc(translateDoc, {
-	// 		eng_tot,
-	// 		sank_tot
-	// 	});  };
+  // const myQuery = async () => {
+  //   const docRef = collection(db, "users");
+  //   const q = query(docRef, where("uid", "==", currentUid));
+  //   const querySnapshot = await getDocs(q);
+
+  //   querySnapshot.forEach((doc) => {
+  //     setUser(doc.data());
+  //   });
+  // };
+
+  // console.log(user.id)
 
   return (
     <div>
       <div>Edit User</div>
       <div>
         <input
-          placeholder={user.name}
+          placeholder={user.username}
           onChange={(e) => setUsername(e.target.value)}
         ></input>
       </div>
@@ -79,14 +90,14 @@ export default function EditUser() {
           onChange={(e) => setPassword(e.target.value)}
         ></input>
       </div>
-      <div>
+      {/* <div>
         <input
           placeholder={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         ></input>
-      </div>
+      </div> */}
       <div>
-        {/* <button onClick={updateFirestoreFields}>Save</button> */}
+        <button onClick={() => updateProfile()}>Save</button>
         <button onClick={() => navigate("/profile")}>Cancel</button>
       </div>
     </div>
