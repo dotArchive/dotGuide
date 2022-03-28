@@ -4,6 +4,15 @@ function API(props) {
 	const [APIList, setAPIList] = useState([{ API: '' }]);
 
 	useEffect(() => {
+		if (props.guide.head) {
+			let editAPI = props.guide.head.API.map((singleAPI) => {
+				return singleAPI;
+			});
+			setAPIList([...editAPI, { API: '' }]);
+		}
+	}, [props.guide.userId]);
+
+	useEffect(() => {
 		props.apiChild(APIList);
 	}, [APIList]);
 

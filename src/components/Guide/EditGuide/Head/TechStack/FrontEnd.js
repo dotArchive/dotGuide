@@ -4,6 +4,15 @@ function FrontEnd(props) {
 	const [frontEndList, setFrontEndList] = useState([{ frontEnd: '' }]);
 
 	useEffect(() => {
+		if (props.guide.head) {
+			let editFrontEnd = props.guide.head.frontEnd.map((singleFrontEnd) => {
+				return singleFrontEnd;
+			});
+			setFrontEndList([...editFrontEnd, { frontEnd: '' }]);
+		}
+	}, [props.guide.userId]);
+
+	useEffect(() => {
 		props.frontEndChild(frontEndList);
 	}, [frontEndList]);
 

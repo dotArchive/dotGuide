@@ -4,6 +4,15 @@ export default function File(props) {
 	const [fileList, setFileList] = useState([{ filepath: '' }]);
 
 	useEffect(() => {
+		if (props.guide.bodyRef) {
+			let editFile = props.guide.bodyRef.filepath.map((singleFile) => {
+				return singleFile;
+			});
+			setFileList([...editFile, { filepath: '' }]);
+		}
+	}, [props.guide.userId]);
+
+	useEffect(() => {
 		if (props.add === true) setFileList([...fileList, { filepath: '' }]);
 	});
 

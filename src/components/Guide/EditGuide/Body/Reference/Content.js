@@ -4,6 +4,15 @@ export default function Content(props) {
 	const [contentList, setContentList] = useState([{ content: '' }]);
 
 	useEffect(() => {
+		if (props.guide.bodyRef) {
+			let editContent = props.guide.bodyRef.content.map((singleContent) => {
+				return singleContent;
+			});
+			setContentList([...editContent, { content: '' }]);
+		}
+	}, [props.guide.userId]);
+
+	useEffect(() => {
 		if (props.add === true) setContentList([...contentList, { content: '' }]);
 	});
 
