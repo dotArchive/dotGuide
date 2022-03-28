@@ -42,7 +42,7 @@ const guidePreviews = [
   },
 ]
 
-const popularTags = ['Javascript', 'React', 'Express', 'Vue.js', 'Firebase']
+const popularTags = ['JavaScript', 'React', 'Express', 'Vue.js', 'Firebase']
 
 export const Home = () => {
   const navigate = useNavigate()
@@ -57,17 +57,13 @@ export const Home = () => {
   return (
     <div id="home" style={{ mt: 3, display: 'flex', flexDirection: 'column' }}>
       <Typography variant="h3" sx={{ textAlign: 'center', color: '#cccccc', mb: 3 }}>
-        About:
+        {`<dotGuide />`}
       </Typography>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Typography sx={{ width: '80%', color: '#cccccc' }}>
-          You really think you can fly that thing? What do they got in there? King Kong? Must go
-          faster... go, go, go, go, go! You're a very talented young man, with your own clever
-          thoughts and ideas. Do you need a manager? Hey, take a look at the earthlings. Goodbye!
-          Remind me to thank John for a lovely weekend. Yeah, but your scientists were so
-          preoccupied with whether or not they could, they didn't stop to think if they should. Just
-          my luck, no ice. Remind me to thank John for a lovely weekend. They're using our own
-          satellites against us. And the clock is ticking.
+          Tool for software developers to standardized guides. Developers are given a template for
+          all the information you might want in a guide. A finished guide displays a side-by-side
+          view of code and reference’s that explain specific portions of the code block.
         </Typography>
       </Box>
       <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>

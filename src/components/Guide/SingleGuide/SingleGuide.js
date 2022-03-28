@@ -267,6 +267,47 @@ export default function SingleGuide() {
       <Typography variant="h3" sx={{ color: 'white', ml: 1 }}>
         {title.toUpperCase()}
       </Typography>
+      {console.log(guide)}
+      {/* Title */}
+
+      <Typography variant="h3" sx={{ color: 'white', ml: 1 }}>
+        {title.toUpperCase()}
+
+        {/* top card */}
+      </Typography>
+      <Card
+        sx={{ background: '#2f2f2f', p: 1, pl: 2, pr: 2, border: 1.25, borderColor: '#353540' }}>
+        <Box>
+          {/* timestamp and username logic */}
+          <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
+            {`${username} — ${createdAt.toDate().toString().slice(0, 25)}`}
+          </Typography>
+          {/*
+              edit & favorite icons
+          */}
+          <IconButton>
+            {isFavorite ? (
+              <BookmarkRoundedIcon
+                sx={{ color: 'red' }}
+                onClick={() => setIsFavorite(!isFavorite)}
+              />
+            ) : (
+              <BookmarkBorderRoundedIcon
+                sx={{ color: 'white' }}
+                onClick={() => setIsFavorite(!isFavorite)}
+              />
+            )}
+          </IconButton>
+          <IconButton>{isOwner ? <ModeEditSharpIcon sx={{ color: 'white' }} /> : null}</IconButton>
+        </Box>
+        {/*
+            description
+        */}
+        <Typography sx={{ color: 'white' }}>{description}</Typography>
+      </Card>
+      {/*
+          technologies used begin here
+      */}
 
       {!showBody ? (
         <>

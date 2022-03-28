@@ -1,43 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db, auth } from '../../firebase'
-import { collection, getDocs, where, query, getDoc, doc } from 'firebase/firestore'
+import { collection, getDocs, where, query } from 'firebase/firestore'
 import { onAuthStateChanged } from 'firebase/auth'
-import { Button } from '@mui/material'
 
 const Profile = () => {
   const [user, setUser] = useState({})
-  const [uid, setUid] = useState('')
-  const navigate = useNavigate()
+  const [uid, setUid] = useState()
 
-  const myDoc = async () => {
-    const docRef = doc(db, 'users', `${uid}`)
-    const docSnap = await getDoc(docRef)
-    if (docSnap.exists()) {
-      setUser(docSnap.data())
-    }
-  }
+  const navigate = useNavigate()
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const userUid = user.uid
-        setUid(userUid)
+        setUid(user.uid)
       }
     })
-  }, [])
-
-  useEffect(() => {
     myDoc()
   }, [uid])
 
+  const docRef = collection(db, 'users')
+  const q = query(docRef, where('uid', '==', `${uid}`))
+
+  const myDoc = async () => {
+    const docSnap = await getDocs(q)
+
+    docSnap.forEach((doc) => {
+      setUser(doc.data())
+    })
+  }
+
   return (
     <div>
-      {console.log(user)}
-      <div>Username: {user.username}</div>
-      <div>Email: {user.email}</div>
+      <div style={{ color: 'white' }}>Username: {user.username}</div>
+      <div style={{ color: 'white' }}>Email: {user.email}</div>
       <div>
-        <Button onClick={() => navigate('/edit-profile')}>Edit Profile</Button>
+        <button onClick={() => navigate('/edit-profile')}>Edit Profile</button>
       </div>
     </div>
   )
