@@ -38,30 +38,32 @@ function Tag(props) {
 			<button type="button" onClick={handleTagAdd} className="add-btn">
 				Add
 			</button>
-			{tagList.map((singletag, index) => (
-				<div key={index} className="tag">
-					<div className="addTag">
-						<input
-							placeholder="Tag"
-							name="tag"
-							type="text"
-							id="tag"
-							value={singletag.tag}
-							onChange={(e) => handleTagChange(e, index)}
-						/>
+			<div className="flexbox">
+				{tagList.map((singletag, index) => (
+					<div key={index} className="tag">
+						<div className="addTag">
+							<input
+								placeholder="Tag"
+								name="tag"
+								type="text"
+								id="tag"
+								value={singletag.tag}
+								onChange={(e) => handleTagChange(e, index)}
+							/>
 
-						{tagList.length !== 1 && (
-							<button
-								type="button"
-								onClick={() => handleTagRemove(index)}
-								className="remove-btn"
-							>
-								<span>Remove</span>
-							</button>
-						)}
+							{tagList.length !== 1 && (
+								<button
+									type="button"
+									onClick={() => handleTagRemove(index)}
+									className="remove-btn"
+								>
+									<span>Remove</span>
+								</button>
+							)}
+						</div>
 					</div>
-				</div>
-			))}
+				))}
+			</div>
 		</div>
 	);
 }

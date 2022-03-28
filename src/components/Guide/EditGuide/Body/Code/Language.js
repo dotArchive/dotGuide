@@ -1,15 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
-
-// const LanguageGet = React.createContext();
-// const LanguageUpdate = React.createContext();
-
-// export function useLanguage() {
-// 	return useContext(LanguageGet);
-// }
-
-// export function useLanguageUpdate() {
-// 	return useContext(LanguageUpdate);
-// }
+import React, { useState, useEffect } from 'react';
 
 export default function Language(props) {
 	const [language, setLanguage] = useState([{ language: '' }]);
@@ -32,7 +21,7 @@ export default function Language(props) {
 	});
 
 	useEffect(() => {
-		if (props.languageChild) props.languageChild(language);
+		props.languageChild(language);
 	}, [language]);
 
 	const handleLanguageChange = (e, index) => {
@@ -42,21 +31,8 @@ export default function Language(props) {
 		setLanguage(list);
 	};
 
-	// const handleLanguageRemove = (index) => {
-	// 	const list = [...language];
-	// 	list.splice(index, 1);
-	// 	setLanguage(list);
-	// };
-
-	// const handleLanguageAdd = () => {
-	// 	setLanguage([...language, { language: '' }]);
-	// };
-
 	return (
 		<div>
-			{/* <button type="button" onClick={handleLanguageAdd} className="add-btn">
-				Add Language
-			</button> */}
 			{language.map((singleLanguage, index) => (
 				<div key={index}>
 					<select
@@ -65,7 +41,7 @@ export default function Language(props) {
 						id="language"
 						value={singleLanguage.language}
 					>
-						<option>Select Language</option>
+						<option value="">Language</option>
 						<option value="javascript">JavaScript</option>
 						<option value="jsx">JSX</option>
 						<option value="xml">XML/HTML</option>
@@ -83,16 +59,6 @@ export default function Language(props) {
 						<option value="sass">SASS</option>
 						<option value="swift">Swift</option>
 					</select>
-					{/* 
-					{language.length !== 1 && (
-						<button
-							type="button"
-							onClick={() => handleLanguageRemove(index)}
-							className="remove-btn"
-						>
-							<span>Remove</span>
-						</button>
-					)} */}
 				</div>
 			))}
 		</div>

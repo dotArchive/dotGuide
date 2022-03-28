@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 export default function File(props) {
 	const [fileList, setFileList] = useState([{ filepath: '' }]);
+
 	useEffect(() => {
 		if (props.guide.bodyRef) {
 			let editFile = props.guide.bodyRef.filepath.map((singleFile) => {
@@ -31,10 +32,11 @@ export default function File(props) {
 	};
 
 	return (
-		<div className="form-field">
+		<div>
 			{fileList.map((singleFile, index) => (
 				<div key={index}>
 					<input
+						className="filePath"
 						placeholder="File Path"
 						name="filepath"
 						type="text"

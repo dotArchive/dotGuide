@@ -20,7 +20,6 @@ export default function Title(props) {
 		<div className="title">
 			<input
 				onChange={handleTitleChange}
-				defaultValue={props.guide.title}
 				placeholder="Title"
 				name="title"
 				type="text"

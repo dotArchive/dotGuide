@@ -4,10 +4,12 @@ import { db } from '../../../../firebase';
 import BackEnd from './TechStack/BackEnd';
 import FrontEnd from './TechStack/FrontEnd';
 import Api from './TechStack/API';
+import Language from './TechStack/Language';
 import Title from './Title';
 import Tag from './Tag';
 import GuideDescription from './GuideDescription';
 import CodeURL from './CodeURL';
+import ReactMarkdown from 'react-markdown';
 
 export default function Head(props) {
 	const [title, setTitle] = useState('');
@@ -17,17 +19,21 @@ export default function Head(props) {
 	const [apis, setApi] = useState([]);
 	const [frontEnds, setFrontEnd] = useState([]);
 	const [backEnds, setBackEnd] = useState([]);
+	const [languages, setLanguages] = useState([]);
 
 	useEffect(() => {
-		if (props.save === true) updateBodyName();
+		if (props.save === true) updateHead();
 	});
 
 	useEffect(() => {
-		if (props.submit === true) updateBodyName();
+		if (props.submit === true) updateHead();
 	});
 
 	const guideId = props.guideId;
 
+	const language = languages.map((language) => {
+		return language;
+	});
 	const tag = tags.map((tag) => {
 		return tag;
 	});
@@ -44,33 +50,43 @@ export default function Head(props) {
 		return backEnd;
 	});
 
-	const updateBodyName = async () => {
+	const updateHead = async () => {
 		const guideRef = doc(db, 'Guide', guideId);
 		await updateDoc(guideRef, {
 			title,
+			description,
 			head: {
 				API,
 				frontEnd,
 				backEnd,
+				language,
 				url,
 				tag,
-				description,
+			},
+			search: {
+				API,
+				frontEnd,
+				backEnd,
+				language,
+				url,
+				tag,
+				title,
 			},
 		});
 	};
 
-	/*
-	body = props.guide.body
-		codeBlock = props.guide.body[0].codeBlock
-		content = props.guide.body[0].content
-		filepath = props.guide.body[0].filepath
-		language = props.guide.body[0].language
-
-	*/
 	return (
 		<div>
 			<Title guide={props.guide} titleChild={(data) => setTitle(data)} />
+			<GuideDescription
+				guide={props.guide}
+				descriptionChild={(data) => setDescription(data)}
+			/>
 			<div className="flexbox">
+				<Language
+					guide={props.guide}
+					languageChild={(data) => setLanguages(data)}
+				/>
 				<FrontEnd
 					guide={props.guide}
 					frontEndChild={(data) => setFrontEnd(data)}
@@ -80,13 +96,47 @@ export default function Head(props) {
 					backEndChild={(data) => setBackEnd(data)}
 				/>
 				<Api guide={props.guide} apiChild={(data) => setApi(data)} />
-				<Tag guide={props.guide} tagChild={(data) => setTags(data)} />
-				<CodeURL guide={props.guide} urlChild={(data) => setUrl(data)} />
 			</div>
-			<GuideDescription
-				guide={props.guide}
-				descriptionChild={(data) => setDescription(data)}
-			/>
+			<Tag guide={props.guide} tagChild={(data) => setTags(data)} />
+
+			<CodeURL guide={props.guide} urlChild={(data) => setUrl(data)} />
+			<details>
+				<summary>Header Preview</summary>
+				<h1>{title}</h1>
+				<ReactMarkdown>{description}</ReactMarkdown>
+				<div className="flexbox">
+					<div>
+						{languages.map((singleLanguage, index) => {
+							return <div key={index}>{singleLanguage.language}</div>;
+						})}
+					</div>
+					<div>
+						{frontEnd.map((singlefrontEnd, index) => {
+							return <div key={index}>{singlefrontEnd.frontEnd}</div>;
+						})}
+					</div>
+					<div>
+						{backEnd.map((singlebackEnd, index) => {
+							return <div key={index}>{singlebackEnd.backEnd}</div>;
+						})}
+					</div>
+					<div>
+						{API.map((singleAPI, index) => {
+							return <div key={index}>{singleAPI.API}</div>;
+						})}
+					</div>
+				</div>
+				<div className="flexbox">
+					{tag.map((singletag, index) => {
+						return <div key={index}>{singletag.tag}</div>;
+					})}
+				</div>
+				<div className="flexbox">
+					{url.map((singleurl, index) => {
+						return <div key={index}>{singleurl.URL}</div>;
+					})}
+				</div>
+			</details>
 		</div>
 	);
 }

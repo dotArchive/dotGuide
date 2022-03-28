@@ -1,8 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown';
-import SimpleMDE from 'react-simplemde-editor';
-import 'easymde/dist/easymde.min.css';
-import 'textarea-markdown';
+import React, { useState, useEffect } from 'react';
 
 export default function Content(props) {
 	const [contentList, setContentList] = useState([{ content: '' }]);
