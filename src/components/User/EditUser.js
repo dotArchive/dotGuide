@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { auth, db } from "../../firebase";
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { auth, db } from '../../firebase'
 import {
-  updateEmail,
-  updateProfile,
-  updatePassword,
+  // updateEmail,
+  // updateProfile,
+  // updatePassword,
   onAuthStateChanged,
-} from "firebase/auth";
+} from 'firebase/auth'
 import {
   collection,
   query,
@@ -79,16 +79,10 @@ export default function EditUser() {
         ></input>
       </div>
       <div>
-        <input
-          placeholder={user.email}
-          onChange={(e) => setEmail(e.target.value)}
-        ></input>
+        <input placeholder={user.email} onChange={(e) => setEmail(e.target.value)}></input>
       </div>
       <div>
-        <input
-          placeholder={password}
-          onChange={(e) => setPassword(e.target.value)}
-        ></input>
+        <input placeholder={password} onChange={(e) => setPassword(e.target.value)}></input>
       </div>
       {/* <div>
         <input
@@ -101,5 +95,5 @@ export default function EditUser() {
         <button onClick={() => navigate("/profile")}>Cancel</button>
       </div>
     </div>
-  );
+  )
 }
