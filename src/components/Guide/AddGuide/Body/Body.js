@@ -55,6 +55,7 @@ export default function Body(props) {
     const guideRef = doc(db, 'guides', guideId)
     await updateDoc(guideRef, {
       body,
+      languages: language,
     })
   }
 
