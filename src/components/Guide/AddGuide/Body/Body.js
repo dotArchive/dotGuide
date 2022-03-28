@@ -26,12 +26,14 @@ export default function Body(props) {
 
   useEffect(() => {
     if (props.save === true) {
+      console.log('updating body, save')
       updateBody()
     }
   })
 
   useEffect(() => {
     if (props.submit === true) {
+      console.log('updating body, publish')
       updateBody()
     }
   })
@@ -50,14 +52,8 @@ export default function Body(props) {
   }
 
   const updateBody = async () => {
-    const guideRef = doc(db, 'Guide', guideId)
+    const guideRef = doc(db, 'guides', guideId)
     await updateDoc(guideRef, {
-      bodyRef: {
-        codeBlock,
-        filepath,
-        content,
-        language,
-      },
       body,
     })
   }

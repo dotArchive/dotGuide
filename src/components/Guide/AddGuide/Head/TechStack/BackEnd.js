@@ -1,60 +1,59 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 function BackEnd(props) {
-	const [backEndList, setBackEndList] = useState([{ backEnd: '' }]);
+  const [backEndList, setBackEndList] = useState([''])
 
-	useEffect(() => {
-		props.backEndChild(backEndList);
-	}, [backEndList]);
+  useEffect(() => {
+    props.backEndChild(backEndList)
+  }, [backEndList])
 
-	const handleBackEndChange = (e, index) => {
-		const { name, value } = e.target;
-		const list = [...backEndList];
-		list[index][name] = value;
-		setBackEndList(list);
-	};
+  const handleBackEndChange = (e, index) => {
+    const { value } = e.target
+    const list = [...backEndList]
+    list[index] = value
+    setBackEndList(list)
+  }
 
-	const handleBackEndRemove = (index) => {
-		const list = [...backEndList];
-		list.splice(index, 1);
-		setBackEndList(list);
-	};
+  const handleBackEndRemove = (index) => {
+    const list = [...backEndList]
+    list.splice(index, 1)
+    setBackEndList(list)
+  }
 
-	const handleBackEndAdd = () => {
-		setBackEndList([...backEndList, { backEnd: '' }]);
-	};
+  const handleBackEndAdd = () => {
+    setBackEndList([...backEndList, ''])
+  }
 
-	return (
-		<div className="form-field">
-			<button type="button" onClick={handleBackEndAdd} className="add-btn">
-				Add
-			</button>
-			{backEndList.map((singlebackEnd, index) => (
-				<div key={index} className="backEnd">
-					<div className="addBackEnd">
-						<input
-							placeholder="Back-End Technology"
-							name="backEnd"
-							type="text"
-							id="backEnd"
-							value={singlebackEnd.backEnd}
-							onChange={(e) => handleBackEndChange(e, index)}
-						/>
+  return (
+    <div className="form-field">
+      <button type="button" onClick={handleBackEndAdd} className="add-btn">
+        Add
+      </button>
+      {backEndList.map((singlebackEnd, index) => (
+        <div key={index} className="backEnd">
+          <div className="addBackEnd">
+            <input
+              placeholder="Back-End Technology"
+              name="backEnd"
+              type="text"
+              id="backEnd"
+              value={singlebackEnd.backEnd}
+              onChange={(e) => handleBackEndChange(e, index)}
+            />
 
-						{backEndList.length !== 1 && (
-							<button
-								type="button"
-								onClick={() => handleBackEndRemove(index)}
-								className="remove-btn"
-							>
-								<span>Remove</span>
-							</button>
-						)}
-					</div>
-				</div>
-			))}
-		</div>
-	);
+            {backEndList.length !== 1 && (
+              <button
+                type="button"
+                onClick={() => handleBackEndRemove(index)}
+                className="remove-btn">
+                <span>Remove</span>
+              </button>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
 }
 
-export default BackEnd;
+export default BackEnd

@@ -59,7 +59,7 @@ export default function Head(props) {
       API,
       frontEnd,
       backEnd,
-      language,
+      // languages: language,
       url,
       tag,
       username,
@@ -71,7 +71,7 @@ export default function Head(props) {
       <Title titleChild={(data) => setTitle(data)} />
       <GuideDescription descriptionChild={(data) => setDescription(data)} />
       <div className="flexbox">
-        <Language languageChild={(data) => setLanguages(data)} />
+        {/* <Language languageChild={(data) => setLanguages(data)} /> */}
         <FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
         <BackEnd backEndChild={(data) => setBackEnd(data)} />
         <Api apiChild={(data) => setApi(data)} />
