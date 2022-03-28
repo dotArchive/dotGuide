@@ -4,6 +4,17 @@ export default function CodeEditor(props) {
 	const [codeBlock, setCodeBlock] = useState([{ codeBlock: '' }]);
 
 	useEffect(() => {
+		if (props.guide.bodyRef) {
+			let editCodeBlock = props.guide.bodyRef.codeBlock.map(
+				(singleCodeBlock) => {
+					return singleCodeBlock;
+				}
+			);
+			setCodeBlock([...editCodeBlock, { codeBlock: '' }]);
+		}
+	}, [props.guide.userId]);
+
+	useEffect(() => {
 		if (props.add === true) setCodeBlock([...codeBlock, { codeBlock: '' }]);
 	});
 

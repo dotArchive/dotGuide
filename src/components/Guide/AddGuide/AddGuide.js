@@ -1,52 +1,45 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, getDocs, addDoc, query, where } from 'firebase/firestore';
+import {
+	collection,
+	getDocs,
+	addDoc,
+	updateDoc,
+	doc,
+	query,
+	where,
+} from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../../../firebase';
 import Body from './Body/Body';
 import Head from './Head/Head';
 
-export default function AddGuide() {
-	// Hoisting Head, refactor
-	const [title, setTitle] = useState('');
-	const [description, setDescription] = useState('');
-	const [tags, setTags] = useState([]);
-	const [urls, setUrls] = useState([]);
-	const [APIs, setAPIs] = useState([]);
-	const [frontEnds, setFrontEnds] = useState([]);
-	const [backEnds, setBackEnds] = useState([]);
-
-	// Constants for Setting FireStore Guide
-	// const tag = tags.map((tag) => {
-	// 	return tag;
-	// });
-	// const url = urls.map((url) => {
-	// 	return url;
-	// });
-	// const API = APIs.map((API) => {
-	// 	return API;
-	// });
-	// const frontEnd = frontEnds.map((frontEnd) => {
-	// 	return frontEnd;
-	// });
-	// const backEnd = backEnds.map((backEnd) => {
-	// 	return backEnd;
-	// })
-
-	//////////////////////////////
-
-	// Hooks & Variables
+export default function AddGuide(props) {
+	/*** Hooks ***/
 	const [currentUid, setCurrentUid] = useState('');
 	const [user, setUser] = useState({});
-	const [disable, setDisable] = useState(false);
 	const [guideId, setGuideId] = useState('');
+	const [save, setSave] = useState(false);
+	const [submit, setSubmit] = useState(false);
+
+	useEffect(() => {
+		setSave(false);
+		if (save === true) setOwner();
+	}, [save]);
+
+	useEffect(() => {
+		setSubmit(false);
+		if (submit === true) {
+			isPublished();
+			navigate('/');
+		}
+	}, [submit]);
 
 	const navigate = useNavigate();
 	const username = user.username;
 	const userId = user.uid;
 
-	// Get current UserID from FireAuth
+	/*** Get current UserID from FireAuth ***/
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			const uid = user.uid;
@@ -55,7 +48,7 @@ export default function AddGuide() {
 		myQuery();
 	}, [currentUid]);
 
-	// Get current User from FireStore
+	/*** Get current User from FireStore ***/
 	const docRef = collection(db, 'users');
 	const q = query(docRef, where('uid', '==', currentUid));
 
@@ -67,7 +60,7 @@ export default function AddGuide() {
 		});
 	};
 
-	// Create new Guide Doc
+	/*** Create new Guide Doc in FireStore ***/
 	useEffect(() => {
 		const myDoc = async () => {
 			const mydocRef = await addDoc(collection(db, 'Guide'), {
@@ -76,61 +69,67 @@ export default function AddGuide() {
 			setGuideId(mydocRef.id);
 			return mydocRef;
 		};
-		myDoc();
+		if (!props.editGuide) {
+			myDoc();
+		}
 	}, []);
 
-	// Handle Buttons
-	const handleStart = () => {
-		setDisable(true);
+	/*** Sets Owner to new Guide Doc in Firestore ***/
+	const setOwner = async () => {
+		const guideRef = doc(db, 'Guide', guideId);
+		await updateDoc(guideRef, {
+			userId,
+			username,
+		});
+	};
+
+	/*** Updates FireStore & Publish to True ***/
+	const isPublished = async () => {
+		const guideRef = doc(db, 'Guide', guideId);
+		await updateDoc(guideRef, {
+			userId,
+			username,
+			isPublished: true,
+		});
 	};
 
 	const handleCancel = () => {
 		navigate('/');
 	};
 
-	const handleSave = () => {
-		// setGuide();
-	};
-
-	const handleSubmit = () => {
-		// setGuide();
-		// myDoc();
-	};
-
 	return (
-		<form style={{ border: '1rem solid pink' }}>
-			<button disabled={disable} onClick={handleStart}>
-				Get Started
-			</button>
-
-			<div className="postHeader" style={{ backgroundColor: 'red' }}>
+		<form>
+			<div className="post">
 				<Head
+					username={username}
 					guideId={guideId}
-					titleChild={(data) => setTitle(data)}
-					tagChild={(data) => setTags(data)}
-					urlChild={(data) => setUrls(data)}
-					descriptionChild={(data) => setDescription(data)}
-					apiChild={(data) => setAPIs(data)}
-					frontEndChild={(data) => setFrontEnds(data)}
-					backEndChild={(data) => setBackEnds(data)}
+					save={save}
+					submit={submit}
 				/>
 			</div>
-			<div style={{ backgroundColor: 'blue' }} className="post">
-				<Body guideId={guideId} />
+			<div className="post">
+				<Body guideId={guideId} save={save} submit={submit} />
 			</div>
 
-			<div style={{ backgroundColor: 'pink' }}>
+			<div>
 				<button type="button" onClick={handleCancel} className="cancel-btn">
 					Cancel
 				</button>
-				<button type="button" onClick={handleSave} className="save-btn">
-					Save
+				<button
+					type="button"
+					onClick={() => setSave(true)}
+					className="save-btn"
+				>
+					Save Draft
 				</button>
-				<button type="submit" onClick={handleSubmit} className="submit-btn">
-					Submit
+				<button
+					type="submit"
+					onClick={() => setSubmit(true)}
+					className="submit-btn"
+				>
+					Post Guide
 				</button>
 			</div>
 		</form>
 	);
-
 }

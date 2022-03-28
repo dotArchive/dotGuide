@@ -4,6 +4,15 @@ function BackEnd(props) {
 	const [backEndList, setBackEndList] = useState([{ backEnd: '' }]);
 
 	useEffect(() => {
+		if (props.guide.head) {
+			let editBackEnd = props.guide.head.backEnd.map((singleBackEnd) => {
+				return singleBackEnd;
+			});
+			setBackEndList([...editBackEnd, { backEnd: '' }]);
+		}
+	}, [props.guide.userId]);
+
+	useEffect(() => {
 		props.backEndChild(backEndList);
 	}, [backEndList]);
 
