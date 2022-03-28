@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Typography,
 	Box,
@@ -6,10 +6,16 @@ import {
 	Button,
 	Card,
 	Container,
+	TextField,
+	InputAdornment,
 } from '@mui/material';
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp';
+import Visibility from '@mui/icons-material/Visibility';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { ClassNames } from '@emotion/react';
 
 function CodeURL(props) {
 	const [codeURL, setcodeURL] = useState([{ URL: '' }]);
@@ -37,46 +43,57 @@ function CodeURL(props) {
 
 	return (
 		<div className="form-field">
-			<button type="button" onClick={handleURLAdd} className="add-btn">
-				Add
-			</button>
-			<div className="flexbox">
+			<div className="flexbox" style={{ justifyContent: 'flex-end' }}>
+				<IconButton
+					sx={{ paddingLeft: '2.5px' }}
+					size="small"
+					onClick={handleURLAdd}
+				>
+					<AddCircleOutlineIcon sx={{ color: 'green' }} />
+				</IconButton>
+
 				{codeURL.map((singleURL, index) => (
 					<div key={index} className="URL">
-						<div className="addURL">
-							<Typography
-								sx={{
-									color: 'white',
-									fontSize: '0.7em',
-									minHeight: 18,
-									p: 0.5,
-									mt: 0.5,
-									mb: 0.5,
-									border: 1,
-									borderColor: 'white',
-									borderRadius: 3,
-									textAlign: 'center',
-								}}
-							>
-								<input
-									placeholder="URL"
-									name="URL"
-									type="text"
-									id="URL"
-									value={singleURL.URL}
-									onChange={(e) => handleURLChange(e, index)}
-								/>
-								{codeURL.length !== 1 && (
-									<button
-										type="button"
-										onClick={() => handleURLRemove(index)}
-										className="remove-btn"
+						<TextField
+							key={index}
+							sx={{
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderColor: 'white',
+										borderRadius: 3,
+										mt: 0.5,
+										mb: 0.5,
+
+										// fontSize: '0.7em',
+									},
+									'& adornedEnd': {
+										pr: 0,
+									},
+								},
+							}}
+							color="warning"
+							name="language"
+							id="language"
+							onChange={(e) => handleURLChange(e, index)}
+							variant="outlined"
+							value={singleURL.URL}
+							size="small"
+							InputProps={{
+								startAdornment: (
+									<InputAdornment
+										style={{ marginLeft: '-15px' }}
+										position="start"
 									>
-										<span>Remove</span>
-									</button>
-								)}
-							</Typography>
-						</div>
+										<IconButton
+											size="small"
+											onClick={() => handleURLRemove(index)}
+										>
+											<RemoveCircleOutlineIcon sx={{ color: 'red' }} />
+										</IconButton>
+									</InputAdornment>
+								),
+							}}
+						/>
 					</div>
 				))}
 			</div>

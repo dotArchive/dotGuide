@@ -22,4 +22,9 @@ select {
 
 input {
 	color: white !important;
+	border-color: white !important;
+}
+
+.textField label {
+	color: rgb(199, 199, 199);
 }

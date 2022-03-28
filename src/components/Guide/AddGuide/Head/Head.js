@@ -97,6 +97,7 @@ export default function Head(props) {
 				flexDirection: 'column',
 				alignContent: 'center',
 				justifyContent: 'center',
+				color: 'white',
 			}}
 		>
 			<Title titleChild={(data) => setTitle(data)} />
@@ -110,9 +111,12 @@ export default function Head(props) {
 					borderColor: '#353540',
 				}}
 			>
-				<Typography sx={{ color: 'white', fontSize: '0.75em' }}>
-					{`${username} — Tue Mar 22 2022 18:00`}
-				</Typography>
+				<div className="flexbox" style={{ justifyContent: 'space-between' }}>
+					<Typography sx={{ color: 'white', fontSize: '0.75em' }}>
+						{`${username} — Tue Mar 22 2022 18:00`}
+					</Typography>
+					<CodeURL urlChild={(data) => setUrl(data)} />
+				</div>
 				<IconButton>
 					{isFavorite ? (
 						<BookmarkRoundedIcon

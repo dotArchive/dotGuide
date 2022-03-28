@@ -14,24 +14,19 @@ export default function Title(props) {
 	};
 
 	return (
-		<div className="title">
-			<TextField
-				color="warning"
-				name="title"
-				onChange={handleTitleChange}
-				id="title"
-				variant="standard"
-				label="Title"
-				required
-			/>
-			{/* <input
-				onChange={handleTitleChange}
-				placeholder="Title"
-				name="title"
-				type="text"
-				id="title"
-				required
-			/> */}
-		</div>
+		<TextField
+			className="textField"
+			sx={{
+				multilineColor: 'white',
+			}}
+			color="warning"
+			name="title"
+			onChange={handleTitleChange}
+			id="title"
+			variant="standard"
+			placeholder="Title"
+			size="medium"
+			required
+		/>
 	);
 }
