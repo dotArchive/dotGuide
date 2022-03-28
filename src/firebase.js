@@ -42,13 +42,14 @@ const logInWithEmailAndPassword = async (email, password) => {
 
 
 const registerWithEmailAndPassword = async (username, email, password) => {
-	const res = await createUserWithEmailAndPassword(auth, email, password);
-	const user = res.user;
-	await setDoc(doc(db, 'users', `${user.uid}`), {
-		username: username,
-		email: email,
-		password: password,
-	});
+  const res = await createUserWithEmailAndPassword(auth, email, password);
+  const user = res.user;
+  await setDoc(doc(db, "users", `${user.uid}`), {
+    uid: user.uid,
+    username: username,
+    email: email,
+    password: password,
+  });
 };
 
 // const registerWithEmailAndPassword = async (name, email, password) => {
