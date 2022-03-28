@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { TextField } from '@mui/material';
 
 export default function Title(props) {
 	const [title, setTitle] = useState('');
@@ -14,14 +15,23 @@ export default function Title(props) {
 
 	return (
 		<div className="title">
-			<input
+			<TextField
+				color="warning"
+				name="title"
+				onChange={handleTitleChange}
+				id="title"
+				variant="standard"
+				label="Title"
+				required
+			/>
+			{/* <input
 				onChange={handleTitleChange}
 				placeholder="Title"
 				name="title"
 				type="text"
 				id="title"
 				required
-			/>
+			/> */}
 		</div>
 	);
 }
