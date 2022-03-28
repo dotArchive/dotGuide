@@ -9,6 +9,7 @@ import {
   query,
   where,
   serverTimestamp,
+  arrayUnion,
 } from 'firebase/firestore'
 import { onAuthStateChanged } from 'firebase/auth'
 import { db, auth } from '../../../firebase'
@@ -83,6 +84,7 @@ export default function AddGuide() {
     const myDoc = async () => {
       const mydocRef = await addDoc(collection(db, 'guides'), {
         isPublished: false,
+        createdAt: serverTimestamp(),
       })
       setGuideId(mydocRef.id)
       return mydocRef
@@ -96,6 +98,13 @@ export default function AddGuide() {
       userId,
       username,
     })
+    const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
+    const qS = await getDocs(q)
+    const profileId = qS.docs[0].id
+    await updateDoc(doc(db, 'profiles', profileId), {
+      guides: arrayUnion(guideId),
+    })
+    console.log('setting owner')
   }
 
   const isPublished = async () => {
@@ -104,8 +113,14 @@ export default function AddGuide() {
       userId,
       username,
       isPublished: true,
-      createdAt: serverTimestamp(),
     })
+    const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
+    const qS = await getDocs(q)
+    const profileId = qS.docs[0].id
+    await updateDoc(doc(db, 'profiles', profileId), {
+      guides: arrayUnion(guideId),
+    })
+    console.log('setting published')
   }
 
   useEffect(() => {
