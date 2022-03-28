@@ -1,73 +1,61 @@
 import React, { useState, useContext, useEffect } from 'react';
 
-import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
-import { db, auth } from '../../../../../firebase';
+// const LanguageGet = React.createContext();
+// const LanguageUpdate = React.createContext();
 
-const LanguageGet = React.createContext();
-const LanguageUpdate = React.createContext();
+// export function useLanguage() {
+// 	return useContext(LanguageGet);
+// }
 
-export function useLanguage() {
-	return useContext(LanguageGet);
-}
-
-export function useLanguageUpdate() {
-	return useContext(LanguageUpdate);
-}
+// export function useLanguageUpdate() {
+// 	return useContext(LanguageUpdate);
+// }
 
 export default function Language(props) {
-	const [language, setLanguage] = useState('javascript');
+	const [language, setLanguage] = useState([{ language: '' }]);
+	useEffect(() => {
+		if (props.add === true) setLanguage([...language, { language: '' }]);
+	});
 
-	const [languages, setLanguages] = useState([{ language: '' }]);
+	useEffect(() => {
+		if (props.remove === true) language.pop();
+	});
 
-	let guideId = props.guideId;
-
-	const updateLanguage = async () => {
-		const guideRef = doc(db, 'Guide', guideId);
-		await updateDoc(guideRef, {
-			languages,
-		});
-	};
+	useEffect(() => {
+		if (props.languageChild) props.languageChild(language);
+	}, [language]);
 
 	const handleLanguageChange = (e, index) => {
 		const { name, value } = e.target;
-		setLanguage(value);
-
-		const list = [...languages];
+		const list = [...language];
 		list[index][name] = value;
-		setLanguages(list);
-
-		updateLanguage();
+		setLanguage(list);
 	};
-	console.log(languages);
 
-	useEffect(() => {
-		props.languageChild(languages);
-	}, [languages]);
+	// const handleLanguageRemove = (index) => {
+	// 	const list = [...language];
+	// 	list.splice(index, 1);
+	// 	setLanguage(list);
+	// };
 
 	// const handleLanguageAdd = () => {
-	// 	setLanguages([...languages, { language: '' }]);
+	// 	setLanguage([...language, { language: '' }]);
 	// };
 
 	return (
-		<LanguageGet.Provider value={language}>
-			<LanguageUpdate.Provider value={handleLanguageChange}>
-				<div style={{ backgroundColor: '#263238' }}>
-					{languages.map((singleLanguage, index) => (
-						<input
-							key={index}
-							placeholder="Language"
-							name="language"
-							type="text"
-							id="Language"
-							value={singleLanguage.language}
-							onChange={(e) => handleLanguageChange(e, index)}
-						/>
-					))}
+		<div>
+			{/* <button type="button" onClick={handleLanguageAdd} className="add-btn">
+				Add Language
+			</button> */}
+			{language.map((singleLanguage, index) => (
+				<div key={index}>
 					<select
-						onChange={(e) => handleLanguageChange(e)}
+						onChange={(e) => handleLanguageChange(e, index)}
 						name="language"
 						id="language"
+						value={singleLanguage.language}
 					>
+						<option>Select Language</option>
 						<option value="javascript">JavaScript</option>
 						<option value="jsx">JSX</option>
 						<option value="xml">XML/HTML</option>
@@ -85,9 +73,18 @@ export default function Language(props) {
 						<option value="sass">SASS</option>
 						<option value="swift">Swift</option>
 					</select>
+					{/* 
+					{language.length !== 1 && (
+						<button
+							type="button"
+							onClick={() => handleLanguageRemove(index)}
+							className="remove-btn"
+						>
+							<span>Remove</span>
+						</button>
+					)} */}
 				</div>
-				{props.children}
-			</LanguageUpdate.Provider>
-		</LanguageGet.Provider>
+			))}
+		</div>
 	);
 }

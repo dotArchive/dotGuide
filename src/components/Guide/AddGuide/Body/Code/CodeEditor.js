@@ -1,21 +1,64 @@
-
-import React, { useEffect, useState } from 'react';
-import CodeMirror from './CodeMirror';
-import { useLanguage } from './Language';
+import { useEffect, useState } from 'react';
 
 export default function CodeEditor(props) {
-	const language = useLanguage();
+	const [codeBlock, setCodeBlock] = useState([{ codeBlock: '' }]);
 
-  const [code, setCode] = useState('')
-  const [codes, setCodes] = useState([])
+	useEffect(() => {
+		if (props.add === true) setCodeBlock([...codeBlock, { codeBlock: '' }]);
+	});
 
-  useEffect(() => {
-    props.codeChild(code)
-  }, [code])
+	useEffect(() => {
+		if (props.remove === true) codeBlock.pop();
+	});
 
-  return (
-    <div>
-      <CodeMirror language={language} value={code} onChange={setCode} />
-    </div>
-  )
+	useEffect(() => {
+		props.codeChild(codeBlock);
+	}, [codeBlock]);
+
+	const handleCodeChange = (e, index) => {
+		const { name, value } = e.target;
+		const list = [...codeBlock];
+		list[index][name] = value;
+		setCodeBlock(list);
+	};
+
+	// const handleCodeRemove = (index) => {
+	// 	const list = [...codeBlock];
+	// 	list.splice(index, 1);
+	// 	setCodeBlock(list);
+	// };
+
+	// const handleCodeAdd = () => {
+	// 	setCodeBlock([...codeBlock, { codeBlock: '' }]);
+	// };
+
+	return (
+		<div>
+			{/* <button type="button" onClick={handleCodeAdd} className="add-btn">
+				<span>Add Code Block</span>
+			</button> */}
+			{codeBlock.map((singleCode, index) => (
+				<div key={index}>
+					<textarea
+						placeholder="Code Block"
+						name="codeBlock"
+						type="text"
+						id="codeBlock"
+						value={singleCode.codeBlock}
+						onChange={(e) => handleCodeChange(e, index)}
+						required
+					/>
+					{/* {codeBlock.length !== 1 && (
+						<button
+							type="button"
+							onClick={() => handleCodeRemove(index)}
+							className="remove-btn"
+						>
+							<span>Remove</span>
+						</button>
+					)} */}
+				</div>
+			))}
+		</div>
+	);
 }
