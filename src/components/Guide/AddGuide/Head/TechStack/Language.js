@@ -23,31 +23,31 @@ import { ClassNames } from '@emotion/react';
 // 	},
 // }));
 
+
 export default function Language(props) {
-	const [language, setLanguage] = useState([{ language: '' }]);
+  const [language, setLanguage] = useState([''])
 
-	// const classes = useStyles();
 
-	useEffect(() => {
-		props.languageChild(language);
-	}, [language]);
+  useEffect(() => {
+    props.languageChild(language)
+  }, [language])
 
-	const handleLanguageChange = (e, index) => {
-		const { name, value } = e.target;
-		const list = [...language];
-		list[index][name] = value;
-		setLanguage(list);
-	};
+  const handleLanguageChange = (e, index) => {
+    const { value } = e.target
+    const list = [...language]
+    list[index] = value
+    setLanguage(list)
+  }
 
-	const handleLanguageRemove = (index) => {
-		const list = [...language];
-		list.splice(index, 1);
-		setLanguage(list);
-	};
+  const handleLanguageRemove = (index) => {
+    const list = [...language]
+    list.splice(index, 1)
+    setLanguage(list)
+  }
 
-	const handleLanguageAdd = () => {
-		setLanguage([...language, { language: '' }]);
-	};
+  const handleLanguageAdd = () => {
+    setLanguage([...language, ''])
+  }
 
 	return (
 		<div>
@@ -104,20 +104,5 @@ export default function Language(props) {
 			))}
 		</div>
 	);
-}
 
-// <Typography
-// 	key={index}
-// 	sx={{
-// 		color: 'white',
-// 		fontSize: '0.7em',
-// 		minHeight: 18,
-// 		p: 0.5,
-// 		mt: 0.5,
-// 		mb: 0.5,
-// 		border: 1,
-// 		borderColor: 'white',
-// 		borderRadius: 3,
-// 		textAlign: 'center',
-// 	}}
-// >
+}

@@ -95,6 +95,9 @@ function FrontEnd(props) {
 			))}
 		</div>
 	);
+
+
+
 }
 
-export default FrontEnd;
+export default FrontEnd

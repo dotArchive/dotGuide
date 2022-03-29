@@ -93,6 +93,7 @@ function API(props) {
 			))}
 		</div>
 	);
+
 }
 
-export default API;
+export default API

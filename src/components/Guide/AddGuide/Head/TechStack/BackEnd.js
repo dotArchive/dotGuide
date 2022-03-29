@@ -94,6 +94,7 @@ function BackEnd(props) {
 			))}
 		</div>
 	);
+
 }
 
-export default BackEnd;
+export default BackEnd

@@ -68,6 +68,7 @@ export default function AddGuide(props) {
       const mydocRef = await addDoc(collection(db, 'guides'), {
         isPublished: false,
         createdAt: serverTimestamp(),
+        favorites: 0,
       })
       setGuideId(mydocRef.id)
       return mydocRef
@@ -79,7 +80,7 @@ export default function AddGuide(props) {
 
   /*** Sets Owner to new Guide Doc in Firestore ***/
   const setOwner = async () => {
-    const guideRef = doc(db, 'Guide', guideId)
+    const guideRef = doc(db, 'guides', guideId)
     await updateDoc(guideRef, {
       userId,
       username,

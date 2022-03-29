@@ -245,4 +245,5 @@ export default function Head(props) {
 			</Box>
 		</Container>
 	);
+
 }

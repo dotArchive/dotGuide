@@ -104,6 +104,7 @@ function Tag(props) {
 			</div>
 		</div>
 	);
+
 }
 
-export default Tag;
+export default Tag

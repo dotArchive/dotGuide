@@ -17,29 +17,30 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { ClassNames } from '@emotion/react';
 
+
 function CodeURL(props) {
-	const [codeURL, setcodeURL] = useState([{ URL: '' }]);
+  const [codeURL, setcodeURL] = useState([''])
 
-	useEffect(() => {
-		props.urlChild(codeURL);
-	}, [codeURL]);
+  useEffect(() => {
+    props.urlChild(codeURL)
+  }, [codeURL])
 
-	const handleURLChange = (e, index) => {
-		const { name, value } = e.target;
-		const list = [...codeURL];
-		list[index][name] = value;
-		setcodeURL(list);
-	};
+  const handleURLChange = (e, index) => {
+    const { value } = e.target
+    const list = [...codeURL]
+    list[index] = value
+    setcodeURL(list)
+  }
 
-	const handleURLRemove = (index) => {
-		const list = [...codeURL];
-		list.splice(index, 1);
-		setcodeURL(list);
-	};
+  const handleURLRemove = (index) => {
+    const list = [...codeURL]
+    list.splice(index, 1)
+    setcodeURL(list)
+  }
 
-	const handleURLAdd = () => {
-		setcodeURL([...codeURL, { URL: '' }]);
-	};
+  const handleURLAdd = () => {
+    setcodeURL([...codeURL, ''])
+  }
 
 	return (
 		<div className="form-field">
@@ -101,6 +102,7 @@ function CodeURL(props) {
 			</div>
 		</div>
 	);
+
 }
 
-export default CodeURL;
+export default CodeURL
