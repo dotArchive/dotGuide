@@ -11,9 +11,22 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
+  increment,
 } from 'firebase/firestore'
 import { db, auth } from '../../../firebase'
-import { Typography, Box, IconButton, Button, Card, Container } from '@mui/material'
+import {
+  Typography,
+  Box,
+  IconButton,
+  Button,
+  Card,
+  Container,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from '@mui/material'
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded'
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded'
 import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp'
@@ -31,11 +44,12 @@ export default function SingleGuide() {
   const [isOwner, setIsOwner] = useState(false)
   const [isPublished, setIsPublished] = useState(false)
   const [showBody, setShowBody] = useState(false)
+  const [favorites, setFavorites] = useState(0)
+  const [file, setFile] = useState(0)
 
   //other constants
   const { guideId } = useParams()
-  const { frontEnd, backEnd, tags, apis, languages, username, title, createdAt, description } =
-    guide
+  const { frontEnd, backEnd, tags, API, languages, username, title, createdAt, description } = guide
   // const { codeBlock, content, filepath, language } = guide.body
   // getters, checkers, and setters start here
   const getGuide = async () => {
@@ -55,21 +69,30 @@ export default function SingleGuide() {
     const guideRef = doc(db, 'guides', guideId)
     setDoc(guideRef, { isPublished: true }, { merge: true })
   }
+
   const setProfileFavorite = async () => {
-    const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
-    const qS = await getDocs(q)
+    const qS = await getDocs(
+      query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
+    )
     const profileId = qS.docs[0].id
     await updateDoc(doc(db, 'profiles', profileId), {
       favorites: arrayUnion(guideId),
     })
+    await updateDoc(doc(db, 'guides', guideId), { favorites: increment(1) })
+    setFavorites(favorites + 1)
   }
+
   const removeProfileFavorite = async () => {
-    const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
-    const qS = await getDocs(q)
+    const qS = await getDocs(
+      query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
+    )
     const profileId = qS.docs[0].id
     await updateDoc(doc(db, 'profiles', profileId), {
       favorites: arrayRemove(guideId),
     })
+    await updateDoc(doc(db, 'guides', guideId), { favorites: increment(-1) })
+
+    setFavorites(favorites - 1)
   }
   const favChecker = () => {
     if (Object.keys(profile).length) {
@@ -97,7 +120,7 @@ export default function SingleGuide() {
         setProfile(doc.data())
       })
     } else {
-      // console.log('try profile again')
+      console.log('try profile again')
     }
   }
   const editGuide = () => {
@@ -123,6 +146,7 @@ export default function SingleGuide() {
   useEffect(() => {
     if (Object.keys(guide).length) {
       getProfile()
+      setFavorites(guide.favorites)
     }
   }, [guide])
 
@@ -134,17 +158,16 @@ export default function SingleGuide() {
     }
   }, [profile])
 
-  useEffect(() => {
-    favChecker()
-    if (Object.keys(profile).length) {
-      if (profile.favorites.includes(guideId)) {
-        setProfileFavorite()
-      }
-      if (!profile.favorites.includes(guideId)) {
-        removeProfileFavorite()
-      }
-    }
-  }, [isFavorite])
+  useEffect(() => {}, [file])
+
+  // useEffect(() => {
+  //   if (Object.keys(profile).length) {
+  //     if (profile.favorites.includes(guideId)) {
+  //     }
+  //     if (!profile.favorites.includes(guideId)) {
+  //     }
+  //   }
+  // }, [isFavorite])
 
   //use effects end here
 
@@ -267,56 +290,15 @@ export default function SingleGuide() {
       <Typography variant="h3" sx={{ color: 'white', ml: 1 }}>
         {title.toUpperCase()}
       </Typography>
-      {console.log(guide)}
       {/* Title */}
-
-      <Typography variant="h3" sx={{ color: 'white', ml: 1 }}>
-        {title.toUpperCase()}
-
-        {/* top card */}
-      </Typography>
-      <Card
-        sx={{ background: '#2f2f2f', p: 1, pl: 2, pr: 2, border: 1.25, borderColor: '#353540' }}>
-        <Box>
-          {/* timestamp and username logic */}
-          <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
-            {`${username} — ${createdAt.toDate().toString().slice(0, 25)}`}
-          </Typography>
-          {/*
-              edit & favorite icons
-          */}
-          <IconButton>
-            {isFavorite ? (
-              <BookmarkRoundedIcon
-                sx={{ color: 'red' }}
-                onClick={() => setIsFavorite(!isFavorite)}
-              />
-            ) : (
-              <BookmarkBorderRoundedIcon
-                sx={{ color: 'white' }}
-                onClick={() => setIsFavorite(!isFavorite)}
-              />
-            )}
-          </IconButton>
-          <IconButton>{isOwner ? <ModeEditSharpIcon sx={{ color: 'white' }} /> : null}</IconButton>
-        </Box>
-        {/*
-            description
-        */}
-        <Typography sx={{ color: 'white' }}>{description}</Typography>
-      </Card>
-      {/*
-          technologies used begin here
-      */}
-
       {!showBody ? (
         <>
           {/* start headcomponent */}
           {/* top card */}
           <Card elevation={12} sx={singleGuideTopCard}>
-            <Box sx={{ display: 'flex', flowDirection: 'row', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', minHeight: '40px' }}>
               {/* timestamp and username logic */}
-              <Typography sx={{ color: 'white', fontSize: '0.75em', minHeight: 40 }}>
+              <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
                 {`${username} — ${createdAt.toDate().toString().slice(0, 25)}`}
               </Typography>
 
@@ -332,11 +314,13 @@ export default function SingleGuide() {
                   onClick={() => {
                     if (!isFavorite) {
                       setProfile({ ...profile, favorites: [...profile.favorites, guideId] })
+                      setProfileFavorite()
                     } else if (isFavorite) {
                       setProfile({
                         ...profile,
                         favorites: profile.favorites.filter((fav) => fav !== guideId),
                       })
+                      removeProfileFavorite()
                     }
                     setIsFavorite(!isFavorite)
                   }}>
@@ -345,6 +329,7 @@ export default function SingleGuide() {
                   ) : (
                     <BookmarkBorderRoundedIcon sx={{ color: 'white' }} />
                   )}
+                  <Typography sx={{ mx: 2, color: '#f57c00' }}>{favorites}</Typography>
                 </IconButton>
               </Box>
             </Box>
@@ -353,7 +338,6 @@ export default function SingleGuide() {
           </Card>
 
           {/* technologies used begin here */}
-          <Typography sx={{ color: 'white', ml: 1, mt: 1 }}>Technologies Used</Typography>
           <Box
             sx={{
               display: 'flex',
@@ -388,7 +372,7 @@ export default function SingleGuide() {
                 frontEnd.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
-                      {`${item.frontEnd}`}
+                      {`${item}`}
                     </Typography>
                   )
                 })
@@ -405,7 +389,7 @@ export default function SingleGuide() {
                 backEnd.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
-                      {`${item.backEnd}`}
+                      {`${item}`}
                     </Typography>
                   )
                 })
@@ -418,11 +402,11 @@ export default function SingleGuide() {
               <Typography sx={{ color: 'white' }} gutterBottom>
                 APIs
               </Typography>
-              {apis ? (
-                apis.map((item, idx) => {
+              {API ? (
+                API.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideApiCardTypography}>
-                      {`${item.API}`}
+                      {`${item}`}
                     </Typography>
                   )
                 })
@@ -432,24 +416,24 @@ export default function SingleGuide() {
             </Card>
           </Box>
 
-          <Typography sx={{ color: 'white', mt: 1, ml: 1 }}>
-            {/* start the tags here */}
-            Other Tags
-          </Typography>
-
           <Card
             elevation={12}
             sx={{
               background: '#2f2f2f',
               border: 1.25,
               borderColor: '#353540',
+              mt: 1,
             }}>
+            <Typography sx={{ color: 'white', mb: 1, ml: 1 }}>
+              {/* start the tags here */}
+              Tags
+            </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
               {tags.length ? (
                 tags.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideTagTypography}>
-                      {`${item.tag}`}
+                      {`${item}`}
                     </Typography>
                   )
                 })
@@ -465,19 +449,104 @@ export default function SingleGuide() {
           {/* start body component */}
           {guide.body.length ? (
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Box sx={{ width: '49%', mx: 0.5 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', width: '49%', mx: 0.5 }}>
                 <Typography sx={{ color: 'white', ml: 1, mt: 1 }}>CodeBlock</Typography>
                 <Card sx={singleGuideReferenceCard}>
-                  <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
-                    {guide.body[0].filepath}
-                  </Typography>
-                  <CodeMirror language={guide.body[0].language} value={guide.body[0].codeBlock} />
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                    <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
+                      {guide.body[file].filepath}
+                    </Typography>
+
+                    <Box sx={{ ml: 2 }}>
+                      <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
+                        {guide.body[file].language}
+                      </Typography>
+                      <FormControl
+                        fullWidth
+                        size="small"
+                        sx={{
+                          py: 0.5,
+                          mt: 0.5,
+                          width: '20ch',
+                          color: 'white',
+                          '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#f57c00',
+                          },
+                          '& label.Mui-focused': {
+                            color: '#f57c00',
+                          },
+                          '& label': {
+                            color: 'white',
+                          },
+                          '&:hover label': {
+                            color: '#f57c00',
+                          },
+                          '& .MuiInputBase-input': {
+                            color: 'white',
+                            py: 0.5,
+                          },
+                          '& .MuiOutlinedInput-root': {
+                            '&:hover fieldset': {
+                              borderColor: '#f57c00',
+                            },
+                            '&:focus fieldset': {
+                              borderColor: '#f57c00',
+                            },
+                            '& fieldset': {
+                              borderColor: 'white',
+                            },
+                            '&:focus .MuiInputLabel-root': {
+                              borderColor: '#f57c00',
+                            },
+                          },
+                        }}>
+                        <InputLabel>File</InputLabel>
+                        <Select
+                          value={file}
+                          label={'File'}
+                          MenuProps={{
+                            PaperProps: {
+                              sx: {
+                                bgcolor: '#303035',
+                                color: 'white',
+                              },
+                            },
+                          }}
+                          onChange={(e) => setFile(e.target.value)}>
+                          {guide.body.length
+                            ? guide.body.map((file, idx) => {
+                                return (
+                                  <MenuItem
+                                    key={idx}
+                                    value={idx}
+                                    disableGutters={true}
+                                    dense={true}
+                                    sx={{
+                                      py: 0,
+                                      pl: 1,
+                                      backgroundColor: '#cccccc55',
+                                      fontSize: '1em',
+                                      color: 'white',
+                                    }}>
+                                    {file.filepath}
+                                  </MenuItem>
+                                )
+                              })
+                            : null}
+                        </Select>
+                      </FormControl>
+                    </Box>
+                  </Box>
+                  <CodeMirror
+                    language={guide.body[file].language}
+                    value={guide.body[file].codeBlock}
+                  />
                 </Card>
               </Box>
               <Box sx={{ width: '51%', mx: 0.5 }}>
                 <Typography sx={{ color: 'white', ml: 1, mt: 1 }}>Reference</Typography>
                 <Card sx={singleGuideReferenceCard}>
-                  <ReactMarkdown children={guide.body[0].content} remarkPlugins={[remarkGfm]} />
+                  <ReactMarkdown children={guide.body[file].content} remarkPlugins={[remarkGfm]} />
                 </Card>
               </Box>
             </Box>
@@ -520,7 +589,7 @@ export default function SingleGuide() {
           elevation={12}
           sx={{
             background: '#353540',
-            color: 'Gold',
+            color: '#f57c00',
             '&:hover': { background: '#505060' },
             border: 1,
             borderColor: '#2f2f2f',

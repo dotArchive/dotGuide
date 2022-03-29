@@ -4,9 +4,9 @@ import { db } from '../../../../firebase'
 import BackEnd from './TechStack/BackEnd'
 import FrontEnd from './TechStack/FrontEnd'
 import Api from './TechStack/API'
-import Language from './TechStack/Language'
 import Title from './Title'
 import Tag from './Tag'
+// import Language from '../Body/Code/Language'
 import GuideDescription from './GuideDescription'
 import CodeURL from './CodeURL'
 import ReactMarkdown from 'react-markdown'
@@ -19,7 +19,7 @@ export default function Head(props) {
   const [apis, setApi] = useState([])
   const [frontEnds, setFrontEnd] = useState([])
   const [backEnds, setBackEnd] = useState([])
-  const [languages, setLanguages] = useState([])
+  // const [languages, setLanguages] = useState([])
 
   useEffect(() => {
     if (props.save === true) updateHead()
@@ -32,9 +32,9 @@ export default function Head(props) {
   let username = props.username
   const guideId = props.guideId
 
-  const language = languages.map((language) => {
-    return language
-  })
+  // const language = languages.map((language) => {
+  //   return language
+  // })
   const tag = tags.map((tag) => {
     return tag
   })
@@ -52,6 +52,14 @@ export default function Head(props) {
   })
 
   const updateHead = async () => {
+    let tagArr = []
+    let len = API.length + frontEnd.length + backEnd.length + tag.length
+    for (let i = 0; i < len; i++) {
+      if (API[i]) tagArr.push(API[i])
+      if (frontEnd[i]) tagArr.push(frontEnd[i])
+      if (backEnd[i]) tagArr.push(backEnd[i])
+      if (tag[i]) tagArr.push(tag[i])
+    }
     const guideRef = doc(db, 'guides', guideId)
     await updateDoc(guideRef, {
       title,
@@ -59,9 +67,8 @@ export default function Head(props) {
       API,
       frontEnd,
       backEnd,
-      // languages: language,
       url,
-      tag,
+      tags: tagArr,
       username,
     })
   }
@@ -84,11 +91,11 @@ export default function Head(props) {
         <h1>{title}</h1>
         <ReactMarkdown>{description}</ReactMarkdown>
         <div className="flexbox">
-          <div>
-            {languages.map((singleLanguage, index) => {
+          {/* <div>
+            {language.map((singleLanguage, index) => {
               return <div key={index}>{singleLanguage.language}</div>
             })}
-          </div>
+          </div> */}
           <div>
             {frontEnd.map((singlefrontEnd, index) => {
               return <div key={index}>{singlefrontEnd.frontEnd}</div>
