@@ -41,11 +41,11 @@ const Navbar = () => {
 				<SpeedDial
 					ariaLabel="SpeedDial basic example"
 					sx={{ position: 'absolute', bottom: 16, right: 16 }}
-					icon={<SpeedDialIcon />}
+					icon={<SpeedDialIcon sx={{ color: '#2f2f2f' }} />}
 					direction={direction}
 					FabProps={{
 						sx: {
-							bgcolor: '#f57c00',
+							bgcolor: '#468ef3',
 							'&:hover': {
 								bgcolor: '#f57c00',
 							},

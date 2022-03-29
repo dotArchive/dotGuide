@@ -9,16 +9,9 @@ import Title from './Title';
 import Tag from './Tag';
 import GuideDescription from './GuideDescription';
 import CodeURL from './CodeURL';
-import ReactMarkdown from 'react-markdown';
+
 //MUI
-import {
-	Typography,
-	Box,
-	IconButton,
-	Button,
-	Card,
-	Container,
-} from '@mui/material';
+import { Typography, Box, IconButton, Card, Container } from '@mui/material';
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp';
@@ -245,5 +238,4 @@ export default function Head(props) {
 			</Box>
 		</Container>
 	);
-
 }

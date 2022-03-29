@@ -23,31 +23,29 @@ import { ClassNames } from '@emotion/react';
 // 	},
 // }));
 
-
 export default function Language(props) {
-  const [language, setLanguage] = useState([''])
+	const [language, setLanguage] = useState(['']);
 
+	useEffect(() => {
+		props.languageChild(language);
+	}, [language]);
 
-  useEffect(() => {
-    props.languageChild(language)
-  }, [language])
+	const handleLanguageChange = (e, index) => {
+		const { value } = e.target;
+		const list = [...language];
+		list[index] = value;
+		setLanguage(list);
+	};
 
-  const handleLanguageChange = (e, index) => {
-    const { value } = e.target
-    const list = [...language]
-    list[index] = value
-    setLanguage(list)
-  }
+	const handleLanguageRemove = (index) => {
+		const list = [...language];
+		list.splice(index, 1);
+		setLanguage(list);
+	};
 
-  const handleLanguageRemove = (index) => {
-    const list = [...language]
-    list.splice(index, 1)
-    setLanguage(list)
-  }
-
-  const handleLanguageAdd = () => {
-    setLanguage([...language, ''])
-  }
+	const handleLanguageAdd = () => {
+		setLanguage([...language, '']);
+	};
 
 	return (
 		<div>
@@ -57,7 +55,7 @@ export default function Language(props) {
 					size="small"
 					onClick={handleLanguageAdd}
 				>
-					<AddCircleOutlineIcon sx={{ color: '#66bb6a' }} />
+					<AddCircleOutlineIcon sx={{ color: '#468ef3' }} />
 				</IconButton>
 
 				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
@@ -104,5 +102,4 @@ export default function Language(props) {
 			))}
 		</div>
 	);
-
 }

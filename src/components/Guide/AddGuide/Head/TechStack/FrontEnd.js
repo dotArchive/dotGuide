@@ -48,7 +48,7 @@ function FrontEnd(props) {
 					size="small"
 					onClick={handleFrontEndAdd}
 				>
-					<AddCircleOutlineIcon sx={{ color: '#66bb6a' }} />
+					<AddCircleOutlineIcon sx={{ color: '#468ef3' }} />
 				</IconButton>
 
 				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
@@ -95,9 +95,6 @@ function FrontEnd(props) {
 			))}
 		</div>
 	);
-
-
-
 }
 
-export default FrontEnd
+export default FrontEnd;

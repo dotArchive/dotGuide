@@ -48,7 +48,7 @@ function BackEnd(props) {
 					size="small"
 					onClick={handleBackEndAdd}
 				>
-					<AddCircleOutlineIcon sx={{ color: '#66bb6a' }} />
+					<AddCircleOutlineIcon sx={{ color: '#468ef3' }} />
 				</IconButton>
 
 				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
@@ -94,7 +94,6 @@ function BackEnd(props) {
 			))}
 		</div>
 	);
-
 }
 
-export default BackEnd
+export default BackEnd;
