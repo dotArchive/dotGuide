@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { doc, updateDoc } from 'firebase/firestore'
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../../firebase'
 import Language from './Code/Language'
 import CodeEditor from './Code/CodeEditor'
@@ -10,7 +10,7 @@ import File from './File'
 
 export default function Body(props) {
   const [filepath, setFile] = useState([])
-  const [language, setLanguages] = useState([])
+  const [language, setLanguage] = useState([])
   const [codeBlock, setCode] = useState([])
   const [content, setContent] = useState([])
   const [add, setAdd] = useState(false)
@@ -26,17 +26,20 @@ export default function Body(props) {
 
   useEffect(() => {
     if (props.save === true) {
+      console.log('updating body, save')
       updateBody()
     }
   })
 
   useEffect(() => {
     if (props.submit === true) {
+      console.log('updating body, publish')
       updateBody()
     }
   })
 
   let body = []
+  let languagesArr = []
   const guideId = props.guideId
 
   for (let i = 0; i < filepath.length; i++) {
@@ -46,24 +49,21 @@ export default function Body(props) {
       ...codeBlock[i],
       ...content[i],
     }
+    languagesArr.push(language[i].language)
     body.push(mergeData)
   }
 
   const updateBody = async () => {
-    const guideRef = doc(db, 'Guide', guideId)
+    const guideRef = doc(db, 'guides', guideId)
     await updateDoc(guideRef, {
-      bodyRef: {
-        codeBlock,
-        filepath,
-        content,
-        language,
-      },
       body,
+      languages: languagesArr,
     })
   }
 
   return (
     <div>
+      {console.log(language)}
       <button type="button" onClick={() => setAdd(true)}>
         Add New File
       </button>
@@ -72,7 +72,7 @@ export default function Body(props) {
       </button>
       <div className="flexbox">
         <File fileChild={(data) => setFile(data)} add={add} remove={remove} />
-        <Language languageChild={(data) => setLanguages(data)} add={add} remove={remove} />
+        <Language languageChild={(data) => setLanguage(data)} add={add} remove={remove} />
         <CodeEditor codeChild={(data) => setCode(data)} add={add} remove={remove} />
         <Content contentChild={(data) => setContent(data)} add={add} remove={remove} />
       </div>
