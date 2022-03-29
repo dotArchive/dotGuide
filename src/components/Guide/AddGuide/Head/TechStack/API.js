@@ -49,7 +49,7 @@ function API(props) {
 					size="small"
 					onClick={handleAPIAdd}
 				>
-					<AddCircleOutlineIcon sx={{ color: '#66bb6a' }} />
+					<AddCircleOutlineIcon sx={{ color: '#468ef3' }} />
 				</IconButton>
 
 				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
@@ -93,7 +93,6 @@ function API(props) {
 			))}
 		</div>
 	);
-
 }
 
-export default API
+export default API;

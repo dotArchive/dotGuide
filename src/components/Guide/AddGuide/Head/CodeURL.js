@@ -17,30 +17,29 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { ClassNames } from '@emotion/react';
 
-
 function CodeURL(props) {
-  const [codeURL, setcodeURL] = useState([''])
+	const [codeURL, setcodeURL] = useState(['']);
 
-  useEffect(() => {
-    props.urlChild(codeURL)
-  }, [codeURL])
+	useEffect(() => {
+		props.urlChild(codeURL);
+	}, [codeURL]);
 
-  const handleURLChange = (e, index) => {
-    const { value } = e.target
-    const list = [...codeURL]
-    list[index] = value
-    setcodeURL(list)
-  }
+	const handleURLChange = (e, index) => {
+		const { value } = e.target;
+		const list = [...codeURL];
+		list[index] = value;
+		setcodeURL(list);
+	};
 
-  const handleURLRemove = (index) => {
-    const list = [...codeURL]
-    list.splice(index, 1)
-    setcodeURL(list)
-  }
+	const handleURLRemove = (index) => {
+		const list = [...codeURL];
+		list.splice(index, 1);
+		setcodeURL(list);
+	};
 
-  const handleURLAdd = () => {
-    setcodeURL([...codeURL, ''])
-  }
+	const handleURLAdd = () => {
+		setcodeURL([...codeURL, '']);
+	};
 
 	return (
 		<div className="form-field">
@@ -50,7 +49,7 @@ function CodeURL(props) {
 					size="small"
 					onClick={handleURLAdd}
 				>
-					<AddCircleOutlineIcon sx={{ color: '#66bb6a' }} />
+					<AddCircleOutlineIcon sx={{ color: '#468ef3' }} />
 				</IconButton>
 				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
 					URLs
@@ -102,7 +101,6 @@ function CodeURL(props) {
 			</div>
 		</div>
 	);
-
 }
 
-export default CodeURL
+export default CodeURL;
