@@ -433,17 +433,19 @@ export default function SingleGuide() {
               Tags
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
-              {tags.length ? (
-                tags.map((item, idx) => {
-                  return (
-                    <Typography key={idx} sx={singleGuideTagTypography}>
-                      {`${item}`}
-                    </Typography>
-                  )
-                })
-              ) : (
-                <Typography sx={singleGuideAltCardTypography}>no tags yet!</Typography>
-              )}
+              {tags.length
+                ? tags.map((item, idx) => {
+                    return item ? (
+                      <Typography key={idx} sx={singleGuideTagTypography}>
+                        {`${item}`}
+                      </Typography>
+                    ) : (
+                      <Typography key={idx} sx={singleGuideTagTypography}>
+                        no tags yet!
+                      </Typography>
+                    )
+                  })
+                : null}
             </Box>
           </Card>
           {/* end head component */}

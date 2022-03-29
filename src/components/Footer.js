@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center', mt: 1, background: 'transparent' }}>
       <Card
-        elevation="none"
+        elevation={0}
         sx={{ width: '100%', textAlign: 'center', backgroundColor: 'transparent', color: 'white' }}
         id="footer">
         <Typography sx={{ color: 'white' }}>

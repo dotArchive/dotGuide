@@ -8,10 +8,11 @@ import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded'
 
 const UserGuidePreview = (guides) => {
   const [arr, setArr] = useState([])
+  const [guideIds, setGuideIds] = useState([])
   const navigate = useNavigate()
-
   useEffect(() => {
-    setArr(guides.props)
+    setArr(guides.props.guides)
+    setGuideIds(guides.props.list)
   }, [guides.props])
 
   const handleGuideClick = (guideId) => {
@@ -22,7 +23,8 @@ const UserGuidePreview = (guides) => {
     <>
       {arr.length
         ? arr.map((guide, idx) => {
-            const { title, username, favorites, tags, guideId } = guide
+            const { title, username, favorites, tags } = guide
+            console.log(guide)
 
             return (
               <Card
@@ -38,7 +40,10 @@ const UserGuidePreview = (guides) => {
                   border: 1.25,
                   borderColor: '#353540',
                 }}
-                onClick={() => handleGuideClick(guideId)}
+                onClick={() => {
+                  handleGuideClick(guideIds[idx])
+                  // console.log(guideIds[idx])
+                }}
                 key={idx}>
                 <CardContent
                   sx={{

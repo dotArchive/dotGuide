@@ -69,7 +69,6 @@ const Profile = () => {
     const myFavorites = async () => {
       const favoritesArr = []
       let favorites = profile.favorites
-      console.log(profile.favorites)
       favorites.forEach(async (favorite) => {
         const guideRef = doc(db, 'guides', favorite)
         const gS = await getDoc(guideRef)
@@ -91,9 +90,11 @@ const Profile = () => {
     }
     myProfile()
   }
-
+  const guideProps = { guides: guides, list: profile.guides }
+  const favProps = { guides: favorites, list: profile.favorites }
   return (
     <Container>
+      {/* {console.log(guideProps, favProps)} */}
       <Card sx={{ borderRadius: 1, border: 1.25, borderColor: '#353540' }}>
         <CardContent sx={{ color: 'white', bgcolor: '#2f2f2f' }}>
           <Typography sx={{ mb: 0.5 }}>Username: {user.username}</Typography>
@@ -134,7 +135,7 @@ const Profile = () => {
                 }}>
                 Close Guides
               </Button>
-              <UserGuidePreview props={guides} />
+              <UserGuidePreview props={guideProps} />
             </>
           )}
         </Box>
@@ -165,7 +166,7 @@ const Profile = () => {
                 }}>
                 Close Favorites
               </Button>
-              <UserGuidePreview props={favorites} />
+              <UserGuidePreview props={favProps} />
             </>
           )}
         </Box>
