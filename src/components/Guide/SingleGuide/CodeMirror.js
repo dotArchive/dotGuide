@@ -2,8 +2,8 @@ import React from 'react'
 
 /****CODEMIRROR****/
 import { Controlled } from 'react-codemirror2-react-17'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/material.css'
+import './codemirror.css'
+import './material.css'
 import 'codemirror/addon/search/search'
 import 'codemirror/addon/edit/closebrackets'
 import 'codemirror/addon/edit/matchbrackets'

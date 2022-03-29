@@ -25,6 +25,10 @@ input {
 	border-color: white !important;
 }
 
-.textField label {
-	color: rgb(199, 199, 199);
+textarea {
+	color: white !important;
+}
+
+label {
+	color: white !important;
 }

@@ -65,28 +65,17 @@ export default function Head(props) {
 	});
 
 	const updateHead = async () => {
-		const guideRef = doc(db, 'Guide', guideId);
+		const guideRef = doc(db, 'guides', guideId);
 		await updateDoc(guideRef, {
 			title,
 			description,
-			head: {
-				API,
-				frontEnd,
-				backEnd,
-				language,
-				url,
-				tag,
-			},
-			search: {
-				API,
-				frontEnd,
-				backEnd,
-				language,
-				url,
-				tag,
-				title,
-				username,
-			},
+			API,
+			frontEnd,
+			backEnd,
+			language,
+			url,
+			tag,
+			username,
 		});
 	};
 
@@ -109,40 +98,41 @@ export default function Head(props) {
 					pr: 2,
 					border: 1.25,
 					borderColor: '#353540',
+					mb: '0.5rem',
 				}}
 			>
 				<div className="flexbox" style={{ justifyContent: 'space-between' }}>
 					<Typography sx={{ color: 'white', fontSize: '0.75em' }}>
 						{`${username} — Tue Mar 22 2022 18:00`}
 					</Typography>
-					<CodeURL urlChild={(data) => setUrl(data)} />
+					<div>
+						<IconButton>
+							<ModeEditSharpIcon sx={{ color: 'white' }} />
+						</IconButton>
+						<IconButton>
+							{isFavorite ? (
+								<BookmarkRoundedIcon
+									sx={{ color: '#d32f2f' }}
+									onClick={() => setIsFavorite(!isFavorite)}
+								/>
+							) : (
+								<BookmarkBorderRoundedIcon
+									sx={{ color: 'white' }}
+									onClick={() => setIsFavorite(!isFavorite)}
+								/>
+							)}
+						</IconButton>
+					</div>
 				</div>
-				<IconButton>
-					{isFavorite ? (
-						<BookmarkRoundedIcon
-							sx={{ color: 'red' }}
-							onClick={() => setIsFavorite(!isFavorite)}
-						/>
-					) : (
-						<BookmarkBorderRoundedIcon
-							sx={{ color: 'white' }}
-							onClick={() => setIsFavorite(!isFavorite)}
-						/>
-					)}
-				</IconButton>
-				<IconButton>
-					<ModeEditSharpIcon sx={{ color: 'white' }} />
-				</IconButton>
 
 				<GuideDescription descriptionChild={(data) => setDescription(data)} />
 			</Card>
-			<Typography sx={{ color: 'white', ml: 1 }}>Technologies Used</Typography>
+			<Typography sx={{ color: 'white', ml: 1 }}></Typography>
 			<Box
 				sx={{
 					display: 'flex',
-					// flexDirection: 'row',
 					justifyContent: 'space-between',
-					// alignContent: 'center',
+					gap: '10px',
 				}}
 			>
 				<Card
@@ -151,88 +141,108 @@ export default function Head(props) {
 						p: 1,
 						pl: 2,
 						pr: 2,
-						mr: 1,
+						// mr: 1,
 						width: '25%',
 						minHeight: '10vh',
 						textOverflow: 'ellipsis',
 						border: 1.25,
 						borderColor: '#353540',
+						flexGrow: 1,
 					}}
 				>
 					<Language languageChild={(data) => setLanguages(data)} />
 				</Card>
-				<FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
-				<BackEnd backEndChild={(data) => setBackEnd(data)} />
-				<Api apiChild={(data) => setApi(data)} />
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						p: 1,
+						pl: 2,
+						pr: 2,
+						// mr: 1,
+						width: '25%',
+						minHeight: '10vh',
+						textOverflow: 'ellipsis',
+						border: 1.25,
+						borderColor: '#353540',
+						flexGrow: 1,
+					}}
+				>
+					<FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
+				</Card>
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						p: 1,
+						pl: 2,
+						pr: 2,
+						// mr: 1,
+						width: '25%',
+						minHeight: '10vh',
+						textOverflow: 'ellipsis',
+						border: 1.25,
+						borderColor: '#353540',
+						flexGrow: 1,
+					}}
+				>
+					<BackEnd backEndChild={(data) => setBackEnd(data)} />
+				</Card>
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						p: 1,
+						pl: 2,
+						pr: 2,
+						// mr: 1,
+						width: '25%',
+						minHeight: '10vh',
+						textOverflow: 'ellipsis',
+						border: 1.25,
+						borderColor: '#353540',
+						flexGrow: 1,
+					}}
+				>
+					<Api apiChild={(data) => setApi(data)} />
+				</Card>
 			</Box>
-			<Typography sx={{ color: 'white', mt: 1, ml: 1 }}>Other Tags</Typography>
-			<Card
+			<Typography sx={{ color: 'white', mt: 1, ml: 1 }}></Typography>
+
+			<Box
 				sx={{
-					background: '#2f2f2f',
-					// mt: 0,
-					border: 1.25,
-					borderColor: '#353540',
+					display: 'flex',
+					mb: 1,
+					justifyContent: 'space-between',
+					gap: '10px',
 				}}
 			>
-				<Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						border: 1.25,
+						borderColor: '#353540',
+						flexGrow: 1,
+						p: 1,
+						pl: 2,
+						pr: 2,
+						width: '50%',
+					}}
+				>
 					<Tag tagChild={(data) => setTags(data)} />
-				</Box>
-			</Card>
-			<Typography sx={{ color: 'white', mt: 1, ml: 1 }}>URLs</Typography>
-			<Card
-				sx={{
-					background: '#2f2f2f',
-					// mt: 0,
-					border: 1.25,
-					borderColor: '#353540',
-				}}
-			>
-				<Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
+				</Card>
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						border: 1.25,
+						borderColor: '#353540',
+						flexGrow: 1,
+						p: 1,
+						pl: 2,
+						pr: 2,
+						width: '50%',
+					}}
+				>
 					<CodeURL urlChild={(data) => setUrl(data)} />
-				</Box>
-			</Card>
-
-			<details>
-				<summary>Header Preview</summary>
-				<Typography variant="h3" sx={{ color: 'white', ml: 1 }}>
-					{title}
-				</Typography>
-
-				{`${username} — Tue Mar 22 2022 18:00`}
-				<ReactMarkdown>{description}</ReactMarkdown>
-				<div className="flexbox">
-					<div>
-						{languages.map((singleLanguage, index) => {
-							return <div key={index}>{singleLanguage.language}</div>;
-						})}
-					</div>
-					<div>
-						{frontEnd.map((singlefrontEnd, index) => {
-							return <div key={index}>{singlefrontEnd.frontEnd}</div>;
-						})}
-					</div>
-					<div>
-						{backEnd.map((singlebackEnd, index) => {
-							return <div key={index}>{singlebackEnd.backEnd}</div>;
-						})}
-					</div>
-					<div>
-						{API.map((singleAPI, index) => {
-							return <div key={index}>{singleAPI.API}</div>;
-						})}
-					</div>
-				</div>
-				<div className="flexbox">
-					{tag.map((singletag, index) => {
-						return <div key={index}>{singletag.tag}</div>;
-					})}
-				</div>
-				<div className="flexbox">
-					{url.map((singleurl, index) => {
-						return <div key={index}>{singleurl.URL}</div>;
-					})}
-				</div>
-			</details>
+				</Card>
+			</Box>
 		</Container>
 	);
 }

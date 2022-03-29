@@ -43,15 +43,19 @@ function CodeURL(props) {
 
 	return (
 		<div className="form-field">
-			<div className="flexbox" style={{ justifyContent: 'flex-end' }}>
+			<div className="flexbox">
 				<IconButton
 					sx={{ paddingLeft: '2.5px' }}
 					size="small"
 					onClick={handleURLAdd}
 				>
-					<AddCircleOutlineIcon sx={{ color: 'green' }} />
+					<AddCircleOutlineIcon sx={{ color: '#66bb6a' }} />
 				</IconButton>
-
+				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+					URLs
+				</Typography>
+			</div>
+			<div className="flexbox" style={{ flexWrap: 'wrap' }}>
 				{codeURL.map((singleURL, index) => (
 					<div key={index} className="URL">
 						<TextField
@@ -63,8 +67,6 @@ function CodeURL(props) {
 										borderRadius: 3,
 										mt: 0.5,
 										mb: 0.5,
-
-										// fontSize: '0.7em',
 									},
 									'& adornedEnd': {
 										pr: 0,
@@ -76,7 +78,7 @@ function CodeURL(props) {
 							id="language"
 							onChange={(e) => handleURLChange(e, index)}
 							variant="outlined"
-							value={singleURL.URL}
+							value={singleURL.codeURL}
 							size="small"
 							InputProps={{
 								startAdornment: (
@@ -88,7 +90,7 @@ function CodeURL(props) {
 											size="small"
 											onClick={() => handleURLRemove(index)}
 										>
-											<RemoveCircleOutlineIcon sx={{ color: 'red' }} />
+											<RemoveCircleOutlineIcon sx={{ color: 'gray' }} />
 										</IconButton>
 									</InputAdornment>
 								),

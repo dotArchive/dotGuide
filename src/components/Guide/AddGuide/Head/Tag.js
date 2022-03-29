@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Typography,
 	Box,
@@ -6,10 +6,16 @@ import {
 	Button,
 	Card,
 	Container,
+	TextField,
+	InputAdornment,
 } from '@mui/material';
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp';
+import Visibility from '@mui/icons-material/Visibility';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { ClassNames } from '@emotion/react';
 
 function Tag(props) {
 	const [tagList, setTagList] = useState([{ tag: '' }]);
@@ -37,44 +43,62 @@ function Tag(props) {
 
 	return (
 		<div className="form-field">
-			<button type="button" onClick={handleTagAdd} className="add-btn">
-				Add
-			</button>
-			<div className="flexbox">
+			<div
+				className="flexbox"
+				style={{ paddingRight: '2rem', flexWrap: 'wrap' }}
+			>
+				<IconButton
+					sx={{ paddingLeft: '2.5px' }}
+					size="small"
+					onClick={handleTagAdd}
+				>
+					<AddCircleOutlineIcon sx={{ color: '#66bb6a' }} />
+				</IconButton>
+				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+					Tags
+				</Typography>
+			</div>
+			<div className="flexbox" style={{ flexWrap: 'wrap' }}>
 				{tagList.map((singletag, index) => (
-					<div key={index} className="tag">
-						<Typography
+					<div key={index} className="URL">
+						<TextField
+							key={index}
 							sx={{
-								color: 'white',
-								fontSize: '0.7em',
-								minHeight: 18,
-								p: 0.5,
-								mt: 0.5,
-								mb: 0.5,
-								border: 1,
-								borderColor: 'white',
-								borderRadius: 3,
-								textAlign: 'center',
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderColor: 'white',
+										borderRadius: 3,
+										mt: 0.5,
+										mb: 0.5,
+									},
+									'& adornedEnd': {
+										pr: 0,
+									},
+								},
 							}}
-						>
-							<input
-								placeholder="Tag"
-								name="tag"
-								type="text"
-								id="tag"
-								value={singletag.tag}
-								onChange={(e) => handleTagChange(e, index)}
-							/>
-							{tagList.length !== 1 && (
-								<button
-									type="button"
-									onClick={() => handleTagRemove(index)}
-									className="remove-btn"
-								>
-									<span>Remove</span>
-								</button>
-							)}
-						</Typography>
+							color="warning"
+							name="language"
+							id="language"
+							onChange={(e) => handleTagChange(e, index)}
+							variant="outlined"
+							value={singletag.tagList}
+							size="small"
+							InputProps={{
+								startAdornment: (
+									<InputAdornment
+										style={{ marginLeft: '-15px' }}
+										position="start"
+									>
+										<IconButton
+											size="small"
+											onClick={() => handleTagRemove(index)}
+										>
+											<RemoveCircleOutlineIcon sx={{ color: 'gray' }} />
+										</IconButton>
+									</InputAdornment>
+								),
+							}}
+						/>
 					</div>
 				))}
 			</div>

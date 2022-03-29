@@ -57,7 +57,7 @@ export default function Language(props) {
 					size="small"
 					onClick={handleLanguageAdd}
 				>
-					<AddCircleOutlineIcon sx={{ color: 'green' }} />
+					<AddCircleOutlineIcon sx={{ color: '#66bb6a' }} />
 				</IconButton>
 
 				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
@@ -75,8 +75,6 @@ export default function Language(props) {
 								borderRadius: 3,
 								mt: 0.5,
 								mb: 0.5,
-
-								// fontSize: '0.7em',
 							},
 							'& adornedEnd': {
 								pr: 0,
@@ -97,7 +95,7 @@ export default function Language(props) {
 									size="small"
 									onClick={() => handleLanguageRemove(index)}
 								>
-									<RemoveCircleOutlineIcon sx={{ color: 'red' }} />
+									<RemoveCircleOutlineIcon sx={{ color: 'gray' }} />
 								</IconButton>
 							</InputAdornment>
 						),

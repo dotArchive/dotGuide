@@ -24,7 +24,7 @@ export default function Title(props) {
 			onChange={handleTitleChange}
 			id="title"
 			variant="standard"
-			placeholder="Title"
+			placeholder="Title*"
 			size="medium"
 			required
 		/>
