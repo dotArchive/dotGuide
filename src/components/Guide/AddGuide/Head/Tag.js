@@ -52,7 +52,7 @@ function Tag(props) {
 					size="small"
 					onClick={handleTagAdd}
 				>
-					<AddCircleOutlineIcon sx={{ color: '#66bb6a' }} />
+					<AddCircleOutlineIcon sx={{ color: '#468ef3' }} />
 				</IconButton>
 				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
 					Tags
@@ -104,7 +104,6 @@ function Tag(props) {
 			</div>
 		</div>
 	);
-
 }
 
-export default Tag
+export default Tag;
