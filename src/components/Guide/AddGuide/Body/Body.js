@@ -26,14 +26,14 @@ export default function Body(props) {
 
   useEffect(() => {
     if (props.save === true) {
-      console.log('updating body, save')
+      // console.log('updating body, save')
       updateBody()
     }
   })
 
   useEffect(() => {
     if (props.submit === true) {
-      console.log('updating body, publish')
+      // console.log('updating body, publish')
       updateBody()
     }
   })
@@ -63,7 +63,6 @@ export default function Body(props) {
 
   return (
     <div>
-      {console.log(language)}
       <button type="button" onClick={() => setAdd(true)}>
         Add New File
       </button>

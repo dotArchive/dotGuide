@@ -24,8 +24,6 @@ const UserGuidePreview = (guides) => {
       {arr.length
         ? arr.map((guide, idx) => {
             const { title, username, favorites, tags } = guide
-            console.log(guide)
-
             return (
               <Card
                 sx={{
@@ -42,7 +40,6 @@ const UserGuidePreview = (guides) => {
                 }}
                 onClick={() => {
                   handleGuideClick(guideIds[idx])
-                  // console.log(guideIds[idx])
                 }}
                 key={idx}>
                 <CardContent

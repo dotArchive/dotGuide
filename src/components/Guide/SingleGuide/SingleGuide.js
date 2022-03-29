@@ -283,14 +283,7 @@ export default function SingleGuide() {
         alignContent: 'center',
         justifyContent: 'center',
       }}>
-      {/* {console.log(guide)} */}
-      {/* {console.log(guide.body)} */}
-      {/* {console.log(profile)} */}
-      {/* {console.log(isFavorite)} */}
-      {/* {console.log(isOwner)} */}
-      {/*
-         Title
-      */}
+      {/* Title */}
       <Typography variant="h3" sx={{ color: 'white', ml: 1 }}>
         {title.toUpperCase()}
       </Typography>
