@@ -1,128 +1,249 @@
-import React, { useEffect, useState } from 'react'
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from '../../../../firebase'
-import BackEnd from './TechStack/BackEnd'
-import FrontEnd from './TechStack/FrontEnd'
-import Api from './TechStack/API'
-import Title from './Title'
-import Tag from './Tag'
-// import Language from '../Body/Code/Language'
-import GuideDescription from './GuideDescription'
-import CodeURL from './CodeURL'
-import ReactMarkdown from 'react-markdown'
+import React, { useEffect, useState } from 'react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../../../firebase';
+import BackEnd from './TechStack/BackEnd';
+import FrontEnd from './TechStack/FrontEnd';
+import Api from './TechStack/API';
+import Language from './TechStack/Language';
+import Title from './Title';
+import Tag from './Tag';
+import GuideDescription from './GuideDescription';
+import CodeURL from './CodeURL';
+import ReactMarkdown from 'react-markdown';
+//MUI
+import {
+	Typography,
+	Box,
+	IconButton,
+	Button,
+	Card,
+	Container,
+} from '@mui/material';
+import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
+import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
+import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp';
 
 export default function Head(props) {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [tags, setTags] = useState([])
-  const [urls, setUrl] = useState([])
-  const [apis, setApi] = useState([])
-  const [frontEnds, setFrontEnd] = useState([])
-  const [backEnds, setBackEnd] = useState([])
-  // const [languages, setLanguages] = useState([])
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
+	const [tags, setTags] = useState([]);
+	const [urls, setUrl] = useState([]);
+	const [apis, setApi] = useState([]);
+	const [frontEnds, setFrontEnd] = useState([]);
+	const [backEnds, setBackEnd] = useState([]);
+	const [languages, setLanguages] = useState([]);
+	const [isFavorite, setIsFavorite] = useState(false);
 
-  useEffect(() => {
-    if (props.save === true) updateHead()
-  })
+	useEffect(() => {
+		if (props.save === true) updateHead();
+	});
 
-  useEffect(() => {
-    if (props.submit === true) updateHead()
-  })
+	useEffect(() => {
+		if (props.submit === true) updateHead();
+	});
 
-  let username = props.username
-  const guideId = props.guideId
+	let username = props.username;
+	const guideId = props.guideId;
 
-  // const language = languages.map((language) => {
-  //   return language
-  // })
-  const tag = tags.map((tag) => {
-    return tag
-  })
-  const url = urls.map((url) => {
-    return url
-  })
-  const API = apis.map((API) => {
-    return API
-  })
-  const frontEnd = frontEnds.map((frontEnd) => {
-    return frontEnd
-  })
-  const backEnd = backEnds.map((backEnd) => {
-    return backEnd
-  })
+	const language = languages.map((language) => {
+		return language;
+	});
+	const tag = tags.map((tag) => {
+		return tag;
+	});
+	const url = urls.map((url) => {
+		return url;
+	});
+	const API = apis.map((API) => {
+		return API;
+	});
+	const frontEnd = frontEnds.map((frontEnd) => {
+		return frontEnd;
+	});
+	const backEnd = backEnds.map((backEnd) => {
+		return backEnd;
+	});
 
-  const updateHead = async () => {
-    let tagArr = []
-    let len = API.length + frontEnd.length + backEnd.length + tag.length
-    for (let i = 0; i < len; i++) {
-      if (API[i]) tagArr.push(API[i])
-      if (frontEnd[i]) tagArr.push(frontEnd[i])
-      if (backEnd[i]) tagArr.push(backEnd[i])
-      if (tag[i]) tagArr.push(tag[i])
-    }
-    const guideRef = doc(db, 'guides', guideId)
-    await updateDoc(guideRef, {
-      title,
-      description,
-      API,
-      frontEnd,
-      backEnd,
-      url,
-      tags: tagArr,
-      username,
-    })
-  }
+	const updateHead = async () => {
+		const guideRef = doc(db, 'guides', guideId);
+		await updateDoc(guideRef, {
+			title,
+			description,
+			API,
+			frontEnd,
+			backEnd,
+			language,
+			url,
+			tag,
+			username,
+		});
+	};
 
-  return (
-    <div>
-      <Title titleChild={(data) => setTitle(data)} />
-      <GuideDescription descriptionChild={(data) => setDescription(data)} />
-      <div className="flexbox">
-        {/* <Language languageChild={(data) => setLanguages(data)} /> */}
-        <FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
-        <BackEnd backEndChild={(data) => setBackEnd(data)} />
-        <Api apiChild={(data) => setApi(data)} />
-      </div>
-      <Tag tagChild={(data) => setTags(data)} />
+	return (
+		<Container
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				alignContent: 'center',
+				justifyContent: 'center',
+				color: 'white',
+			}}
+		>
+			<Title titleChild={(data) => setTitle(data)} />
+			<Card
+				sx={{
+					background: '#2f2f2f',
+					p: 1,
+					pl: 2,
+					pr: 2,
+					border: 1.25,
+					borderColor: '#353540',
+					mb: '0.5rem',
+				}}
+			>
+				<div className="flexbox" style={{ justifyContent: 'space-between' }}>
+					<Typography sx={{ color: 'white', fontSize: '0.75em' }}>
+						{`${username} — Tue Mar 22 2022 18:00`}
+					</Typography>
+					<div>
+						<IconButton>
+							<ModeEditSharpIcon sx={{ color: 'white' }} />
+						</IconButton>
+						<IconButton>
+							{isFavorite ? (
+								<BookmarkRoundedIcon
+									sx={{ color: '#d32f2f' }}
+									onClick={() => setIsFavorite(!isFavorite)}
+								/>
+							) : (
+								<BookmarkBorderRoundedIcon
+									sx={{ color: 'white' }}
+									onClick={() => setIsFavorite(!isFavorite)}
+								/>
+							)}
+						</IconButton>
+					</div>
+				</div>
 
-      <CodeURL urlChild={(data) => setUrl(data)} />
-      <details>
-        <summary>Header Preview</summary>
-        <h1>{title}</h1>
-        <ReactMarkdown>{description}</ReactMarkdown>
-        <div className="flexbox">
-          {/* <div>
-            {language.map((singleLanguage, index) => {
-              return <div key={index}>{singleLanguage.language}</div>
-            })}
-          </div> */}
-          <div>
-            {frontEnd.map((singlefrontEnd, index) => {
-              return <div key={index}>{singlefrontEnd.frontEnd}</div>
-            })}
-          </div>
-          <div>
-            {backEnd.map((singlebackEnd, index) => {
-              return <div key={index}>{singlebackEnd.backEnd}</div>
-            })}
-          </div>
-          <div>
-            {API.map((singleAPI, index) => {
-              return <div key={index}>{singleAPI.API}</div>
-            })}
-          </div>
-        </div>
-        <div className="flexbox">
-          {tag.map((singletag, index) => {
-            return <div key={index}>{singletag.tag}</div>
-          })}
-        </div>
-        <div className="flexbox">
-          {url.map((singleurl, index) => {
-            return <div key={index}>{singleurl.URL}</div>
-          })}
-        </div>
-      </details>
-    </div>
-  )
+				<GuideDescription descriptionChild={(data) => setDescription(data)} />
+			</Card>
+			<Typography sx={{ color: 'white', ml: 1 }}></Typography>
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					gap: '10px',
+				}}
+			>
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						p: 1,
+						pl: 2,
+						pr: 2,
+						// mr: 1,
+						width: '25%',
+						minHeight: '10vh',
+						textOverflow: 'ellipsis',
+						border: 1.25,
+						borderColor: '#353540',
+						flexGrow: 1,
+					}}
+				>
+					<Language languageChild={(data) => setLanguages(data)} />
+				</Card>
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						p: 1,
+						pl: 2,
+						pr: 2,
+						// mr: 1,
+						width: '25%',
+						minHeight: '10vh',
+						textOverflow: 'ellipsis',
+						border: 1.25,
+						borderColor: '#353540',
+						flexGrow: 1,
+					}}
+				>
+					<FrontEnd frontEndChild={(data) => setFrontEnd(data)} />
+				</Card>
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						p: 1,
+						pl: 2,
+						pr: 2,
+						// mr: 1,
+						width: '25%',
+						minHeight: '10vh',
+						textOverflow: 'ellipsis',
+						border: 1.25,
+						borderColor: '#353540',
+						flexGrow: 1,
+					}}
+				>
+					<BackEnd backEndChild={(data) => setBackEnd(data)} />
+				</Card>
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						p: 1,
+						pl: 2,
+						pr: 2,
+						// mr: 1,
+						width: '25%',
+						minHeight: '10vh',
+						textOverflow: 'ellipsis',
+						border: 1.25,
+						borderColor: '#353540',
+						flexGrow: 1,
+					}}
+				>
+					<Api apiChild={(data) => setApi(data)} />
+				</Card>
+			</Box>
+			<Typography sx={{ color: 'white', mt: 1, ml: 1 }}></Typography>
+
+			<Box
+				sx={{
+					display: 'flex',
+					mb: 1,
+					justifyContent: 'space-between',
+					gap: '10px',
+				}}
+			>
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						border: 1.25,
+						borderColor: '#353540',
+						flexGrow: 1,
+						p: 1,
+						pl: 2,
+						pr: 2,
+						width: '50%',
+					}}
+				>
+					<Tag tagChild={(data) => setTags(data)} />
+				</Card>
+				<Card
+					sx={{
+						background: '#2f2f2f',
+						border: 1.25,
+						borderColor: '#353540',
+						flexGrow: 1,
+						p: 1,
+						pl: 2,
+						pr: 2,
+						width: '50%',
+					}}
+				>
+					<CodeURL urlChild={(data) => setUrl(data)} />
+				</Card>
+			</Box>
+		</Container>
+	);
+
 }
