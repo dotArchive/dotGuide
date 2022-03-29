@@ -51,6 +51,7 @@ export default function SingleGuide() {
   const { guideId } = useParams()
   const { frontEnd, backEnd, tags, API, languages, username, title, createdAt, description } = guide
   // const { codeBlock, content, filepath, language } = guide.body
+
   // getters, checkers, and setters start here
   const getGuide = async () => {
     const docRef = doc(db, 'guides', guideId)
