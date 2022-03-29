@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   collection,
   doc,
@@ -21,7 +21,6 @@ import {
   Button,
   Card,
   Container,
-  TextField,
   Select,
   MenuItem,
   FormControl,
@@ -37,6 +36,7 @@ import remarkGfm from 'remark-gfm'
 import CodeMirror from './CodeMirror'
 
 export default function SingleGuide() {
+  const navigate = useNavigate()
   //useStates
   const [guide, setGuide] = useState({})
   const [profile, setProfile] = useState({})
@@ -123,8 +123,10 @@ export default function SingleGuide() {
       console.log('try profile again')
     }
   }
-  const editGuide = () => {
+  const editGuide = (e) => {
     //editGuide is event handler for sending you to the edit guide page for this guide
+    e.preventDefault()
+    navigate(`/guide/edit/${guideId}`)
   }
   const publishChecker = () => {
     if (Object.keys(guide).length) {
@@ -147,6 +149,7 @@ export default function SingleGuide() {
     if (Object.keys(guide).length) {
       getProfile()
       setFavorites(guide.favorites)
+      setIsPublished(guide.isPublished)
     }
   }, [guide])
 
@@ -306,7 +309,7 @@ export default function SingleGuide() {
 
               <Box>
                 {/* IsOwner */}
-                <IconButton onClick={() => editGuide()}>
+                <IconButton onClick={(e) => editGuide(e)}>
                   {isOwner ? <ModeEditSharpIcon sx={{ color: 'white' }} /> : null}
                 </IconButton>
                 {/* isFavorite */}
