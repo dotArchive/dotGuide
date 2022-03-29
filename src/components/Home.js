@@ -1,6 +1,10 @@
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import React from 'react'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import React, { useEffect, useState } from 'react'
+import { db } from '../firebase'
+import { collection, doc, getDocs, query, orderBy, where, limit } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import GuidePreview from './GuidePreview'
 
@@ -42,10 +46,40 @@ const guidePreviews = [
   },
 ]
 
-const popularTags = ['JavaScript', 'React', 'Express', 'Vue.js', 'Firebase']
-
 export const Home = () => {
   const navigate = useNavigate()
+
+  const [popularTags, setPopularTags] = useState([
+    'JavaScript',
+    'React',
+    'Express',
+    'Vue.js',
+    'Firebase',
+  ])
+  const [latestGuides, setLatestGuides] = useState([])
+
+  useEffect(() => {
+    getLatestFiveGuides()
+  }, [])
+
+  const getLatestFiveGuides = () => {
+    const getGuides = async () => {
+      const guidesArr = []
+      const q = query(
+        collection(db, 'guides'),
+        where('isPublished', '==', true),
+        orderBy('createdAt'),
+        limit(5)
+      )
+
+      const qS = await getDocs(q)
+      qS.forEach((doc) => {
+        guidesArr.push(doc.data())
+      })
+      setLatestGuides(guidesArr)
+    }
+    getGuides()
+  }
 
   const handleNewGuideClick = () => {
     navigate(`/guide/add`)
@@ -56,30 +90,44 @@ export const Home = () => {
 
   return (
     <div id="home" style={{ mt: 3, display: 'flex', flexDirection: 'column' }}>
+      {console.log(latestGuides)}
       <Typography variant="h3" sx={{ textAlign: 'center', color: '#cccccc', mb: 3 }}>
         {`<dotGuide />`}
       </Typography>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Typography sx={{ width: '80%', color: '#cccccc' }}>
-          Tool for software developers to standardized guides. Developers are given a template for
-          all the information you might want in a guide. A finished guide displays a side-by-side
-          view of code and reference’s that explain specific portions of the code block.
-        </Typography>
+        <Card
+          sx={{
+            borderRadius: 5,
+            bgcolor: '#2f2f2f',
+            width: '80%',
+          }}>
+          <CardContent
+            sx={{
+              display: 'flex',
+              alignContent: 'center',
+              justifyContent: 'center',
+            }}>
+            <Typography sx={{ width: '80%', color: '#cccccc', textAlign: 'center' }}>
+              Tool for software developers to standardized guides. Developers are given a template
+              for all the information you might want in a guide. A finished guide displays a
+              side-by-side view of code and reference’s that explain specific portions of the code
+              block.
+            </Typography>
+          </CardContent>
+        </Card>
       </Box>
-      <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
         {popularTags
           ? popularTags.map((tag, idx) => {
               return (
                 <Box
                   sx={{
                     typography: 'paragraph',
-
                     padding: 1,
-                    mr: 1,
-                    ml: 1,
+                    mx: 1.5,
                     borderRadius: 2.5,
-                    background: '#001247',
-                    color: '#eeeeee',
+                    background: '#2f2f2f',
+                    color: '#cccccc',
                     textAlign: 'center',
                     fontSize: '1.25em',
                     '&:hover': { cursor: 'pointer' },
@@ -92,18 +140,16 @@ export const Home = () => {
             })
           : null}
       </Box>
-      <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ mt: 1, display: 'flex', justifyContent: 'center' }}>
         <Box
           sx={{
             textAlign: 'center',
             borderRadius: 5,
-            mt: 2,
-            mb: 1,
-            width: '80%',
-            pt: 2.5,
-            pb: 2.5,
+            my: 1.5,
+            width: '50%',
+            py: 2.5,
             typography: 'h4',
-            background: '#12D152',
+            background: '#468ef3',
             color: '#eeeeee',
             '&:hover': { cursor: 'pointer' },
           }}
@@ -111,10 +157,10 @@ export const Home = () => {
           New Guide
         </Box>
       </Box>
-      <Typography variant="h3" sx={{ textAlign: 'center', color: '#eeeeee' }}>
+      <Typography variant="h3" sx={{ textAlign: 'center', color: '#cccccc', my: 1.5 }}>
         Latest Guides
       </Typography>
-      <GuidePreview props={guidePreviews} />
+      {latestGuides.length ? <GuidePreview props={latestGuides} /> : null}
     </div>
   )
 }

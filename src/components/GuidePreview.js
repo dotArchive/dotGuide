@@ -4,6 +4,7 @@ import Card from '@mui/material/Card'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
+import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded'
 
 const GuidePreview = (guides) => {
   const [arr, setArr] = useState([])
@@ -19,56 +20,78 @@ const GuidePreview = (guides) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {arr
+      {arr.length
         ? arr.map((guide, idx) => {
             const { title, username, favorites, tags, guideId } = guide
 
             return (
               <Card
                 sx={{
-                  background: '#001247',
+                  background: '#2f2f2f',
                   color: 'white',
                   borderRadius: 10,
-                  margin: 1,
+                  mx: 1,
+                  my: 1,
                   '&:hover': { cursor: 'pointer' },
-                  width: '80%',
+                  width: '50%',
                   display: 'flex',
                   justifyContent: 'flex-start',
                 }}
                 onClick={() => handleGuideClick(guideId)}
                 key={idx}>
-                <CardContent>
+                <CardContent
+                  sx={{
+                    py: 1,
+                  }}>
                   <Typography
                     variant="h5"
-                    sx={{ fontSize: '1.85em', fontWeight: 'bold', textOverflow: 'ellipsis' }}>
+                    sx={{ fontSize: '1.5em', fontWeight: 'bold', textOverflow: 'ellipsis', ml: 1 }}>
                     {title ? title : null}
                   </Typography>
-                  <Typography sx={{ fontSize: '1.25em' }}>
-                    {`— ${username ? username : null}
-          (favIcon) `}
-                    <span style={{ color: '#12D152' }}>{`${favorites ? favorites : null}`}</span>
+                  <Typography sx={{ color: '#cccccc', fontSize: '1em', ml: 1 }}>
+                    {`— ${username ? username : null}`}
+                    <BookmarkRoundedIcon
+                      sx={{
+                        ml: 2,
+                        mr: 0.25,
+                        fontSize: 15,
+                        color: 'white',
+                      }}
+                    />
+                    <span style={{ color: '#468ef3', fontSize: 18 }}>{`${
+                      favorites ? favorites : null
+                    }`}</span>
                   </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      flexWrap: 'wrap',
+                    }}>
                     {tags
                       ? tags.map((tag, idx) => {
-                          return (
-                            <Box
-                              key={idx}
-                              sx={{
-                                pr: 1.5,
-                                pl: 1.5,
-                                mt: 0.5,
-                                // pb: 0.5,
-                                borderRadius: 2.5,
-                                typography: 'body2',
-                                fontSize: '1em',
-                                background: '#12D152',
-                                color: 'white',
-                                maxWidth: '100%',
-                              }}>
-                              {tag}
-                            </Box>
-                          )
+                          if (idx <= 4) {
+                            return (
+                              <Box
+                                key={idx}
+                                sx={{
+                                  px: 1,
+                                  my: 0.5,
+                                  mx: 0.5,
+                                  borderRadius: 2.5,
+                                  typography: 'body2',
+                                  fontSize: '0.75em',
+                                  background: '#468ef3',
+                                  color: 'white',
+                                  maxWidth: '100%',
+                                }}>
+                                {tag}
+                              </Box>
+                            )
+                          } else {
+                            return null
+                          }
                         })
                       : null}
                   </Box>
