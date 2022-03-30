@@ -19,6 +19,7 @@ export const Home = () => {
     'Firebase',
   ])
   const [latestGuides, setLatestGuides] = useState([])
+  const [latestGuideIds, setLatestGuideIds] = useState([])
 
   useEffect(() => {
     getLatestFiveGuides()
@@ -27,18 +28,21 @@ export const Home = () => {
   const getLatestFiveGuides = () => {
     const getGuides = async () => {
       const guidesArr = []
+      const guideIds = []
       const q = query(
         collection(db, 'guides'),
         where('isPublished', '==', true),
-        orderBy('createdAt'),
+        orderBy('createdAt', 'desc'),
         limit(5)
       )
 
       const qS = await getDocs(q)
       qS.forEach((doc) => {
         guidesArr.push(doc.data())
+        guideIds.push(doc.id)
       })
       setLatestGuides(guidesArr)
+      setLatestGuideIds(guideIds)
     }
     getGuides()
   }
@@ -49,6 +53,8 @@ export const Home = () => {
   const handlePopTagClick = (e) => {
     navigate(`/search/${e.target.value}`)
   }
+
+  const guideProps = { latestGuides, latestGuideIds }
 
   /*** styles  start ***/
   const outerDiv = {
@@ -118,8 +124,12 @@ export const Home = () => {
     color: '#eeeeee',
     '&:hover': { cursor: 'pointer', borderColor: '#468ef3' },
   }
+  const outerBoxLatestGuides = {
+    display: 'flex',
+    justifyContent: 'center',
+  }
   const latestGuidesTypography = {
-    textAlign: 'center',
+    width: '50%',
     color: '#cccccc',
     my: 1.5,
   }
@@ -157,10 +167,12 @@ export const Home = () => {
           New Guide
         </Box>
       </Box>
-      <Typography variant="h6" sx={latestGuidesTypography}>
-        Latest Guides
-      </Typography>
-      {latestGuides.length ? <GuidePreview props={latestGuides} /> : null}
+      <Box sx={outerBoxLatestGuides}>
+        <Typography variant="h6" sx={latestGuidesTypography}>
+          Latest Guides
+        </Typography>
+      </Box>
+      {latestGuides.length ? <GuidePreview props={guideProps} /> : null}
     </Box>
   )
 }
