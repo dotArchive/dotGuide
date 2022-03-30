@@ -76,7 +76,6 @@ function Tag(props) {
 									},
 								},
 							}}
-							color="warning"
 							name="language"
 							id="language"
 							onChange={(e) => handleTagChange(e, index)}

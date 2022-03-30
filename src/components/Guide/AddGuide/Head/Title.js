@@ -19,7 +19,6 @@ export default function Title(props) {
 			sx={{
 				multilineColor: 'white',
 			}}
-			color="warning"
 			name="title"
 			onChange={handleTitleChange}
 			id="title"

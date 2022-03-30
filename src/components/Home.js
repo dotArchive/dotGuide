@@ -90,7 +90,6 @@ export const Home = () => {
 
   return (
     <div id="home" style={{ mt: 3, display: 'flex', flexDirection: 'column' }}>
-      {console.log(latestGuides)}
       <Typography variant="h3" sx={{ textAlign: 'center', color: '#cccccc', mb: 3 }}>
         {`<dotGuide />`}
       </Typography>
@@ -100,6 +99,8 @@ export const Home = () => {
             borderRadius: 1,
             bgcolor: '#2f2f2f',
             width: '80%',
+            border: 1.25,
+            borderColor: '#353540',
           }}>
           <CardContent
             sx={{
@@ -110,7 +111,7 @@ export const Home = () => {
             <Typography sx={{ width: '80%', color: '#cccccc', textAlign: 'center' }}>
               Tool for software developers to standardized guides. Developers are given a template
               for all the information you might want in a guide. A finished guide displays a
-              side-by-side view of code and reference’s that explain specific portions of the code
+              side-by-side view of code and references that explain specific portions of the code
               block.
             </Typography>
           </CardContent>
@@ -130,7 +131,9 @@ export const Home = () => {
                     color: '#cccccc',
                     textAlign: 'center',
                     fontSize: '1.25em',
-                    '&:hover': { cursor: 'pointer' },
+                    '&:hover': { cursor: 'pointer', borderColor: '#468ef3' },
+                    border: 1.25,
+                    borderColor: '#353540',
                   }}
                   onClick={(e) => handlePopTagClick(e)}
                   key={idx}>
@@ -145,15 +148,16 @@ export const Home = () => {
           sx={{
             textAlign: 'center',
             borderRadius: 25,
+
+            my: 1.5,
+            width: '40%',
+            py: 2.5,
+            typography: 'h4',
             border: 2,
             borderColor: '#2f2f2f',
             background: 'transparent',
-            my: 1.5,
-            width: '27%',
-            py: 2.5,
-            typography: 'h4',
             color: '#eeeeee',
-            '&:hover': { cursor: 'pointer', borderColor: '#468ef3' }
+            '&:hover': { cursor: 'pointer', borderColor: '#468ef3' },
           }}
           onClick={() => handleNewGuideClick()}>
           New Guide

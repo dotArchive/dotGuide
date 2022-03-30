@@ -1,20 +1,24 @@
 import React from 'react'
-import { Card, Container } from '@mui/material/'
+import { Card, Container, Typography, Link } from '@mui/material/'
 
 const Footer = () => {
   return (
-    <div style={{textAlign: 'center'}}>
-        <p style={{ color: 'white' }}>
-          Web Design & Development by{' '}
-          <a
-            style={{ color: '#468ef3' }}
+    <Container sx={{ display: 'flex', justifyContent: 'center', mt: 1, background: 'transparent' }}>
+      <Card
+        elevation={0}
+        sx={{ width: '100%', textAlign: 'center', backgroundColor: 'transparent', color: 'white' }}
+        id="footer">
+        <Typography sx={{ color: 'white' }}>
+          Web Design & Development by
+          <Link
             href="https://github.com/dotArchive/dotGuide"
-            target="_blank"
-            rel="noopener noreferrer">
-            {`<dotGuide />`}
-          </a>
-        </p>
-    </div>
+            underline="none"
+            sx={{ color: '#468ef0', '&:hover': { color: 'white' } }}>
+            {` <dotGuide />`}
+          </Link>
+        </Typography>
+      </Card>
+    </Container>
   )
 }
 
