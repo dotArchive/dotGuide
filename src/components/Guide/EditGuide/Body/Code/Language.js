@@ -28,7 +28,7 @@ export default function Language(props) {
 	const handleLanguageChange = (e, index) => {
 		const { name, value } = e.target;
 		const list = [...language];
-		list[index][name] = value;
+		list[index]['language'] = value;
 		setLanguage(list);
 	};
 
