@@ -190,7 +190,7 @@ const Profile = () => {
           />
         </Box>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button>
+        <Button onClick={() => navigate("/edit-profile")}>
           <EditIcon sx={{ color: "#468ef3" }}/>
         </Button>
         </Box>
