@@ -48,6 +48,12 @@ export default function Body(props) {
       updateBody()
     }
   })
+  useEffect(() => {
+    if (props.submit === true) {
+      console.log('updating body, publish')
+      updateBody()
+    }
+  })
 
   let body = []
   const guideId = props.guideId

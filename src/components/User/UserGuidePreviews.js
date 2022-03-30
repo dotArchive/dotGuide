@@ -72,7 +72,7 @@ const UserGuidePreview = (guides) => {
     <>
       {arr.length
         ? arr.map((guide, idx) => {
-            const { title, username, favorites, tags } = guide
+            const { username, favorites, tags } = guide
             return (
               <Card
                 sx={mapCard}
@@ -82,7 +82,7 @@ const UserGuidePreview = (guides) => {
                 key={idx}>
                 <CardContent sx={{ py: 1 }}>
                   <Typography variant="h5" sx={titleTypography}>
-                    {title ? title : null}
+                    {guide.head.title ? guide.head.title : null}
                   </Typography>
                   <Typography sx={usernameTypography}>
                     {`— ${username ? username : null}`}

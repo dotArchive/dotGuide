@@ -94,7 +94,7 @@ const Profile = () => {
   const favProps = { guides: favorites, list: profile.favorites }
   return (
     <Container>
-      {/* {console.log(guideProps, favProps)} */}
+      {console.log(guideProps, favProps)}
       <Card sx={{ borderRadius: 1, border: 1.25, borderColor: '#353540' }}>
         <CardContent sx={{ color: 'white', bgcolor: '#2f2f2f' }}>
           <Typography sx={{ mb: 0.5 }}>Username: {user.username}</Typography>

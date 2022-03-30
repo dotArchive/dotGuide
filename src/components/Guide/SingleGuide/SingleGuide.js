@@ -12,6 +12,7 @@ import {
   arrayUnion,
   arrayRemove,
   increment,
+  serverTimestamp,
 } from 'firebase/firestore'
 import { db, auth } from '../../../firebase'
 import {
@@ -36,6 +37,22 @@ import remarkGfm from 'remark-gfm'
 import CodeMirror from './CodeMirror'
 
 export default function SingleGuide() {
+  const guidePrototype = {
+    createdAt: serverTimestamp(),
+    body: [],
+    head: {
+      API: [],
+      backend: [],
+      description: '',
+      frontEnd: [],
+      language: [],
+      tag: [],
+      title: '',
+      url: [],
+    },
+    languages: [],
+    search: [],
+  }
   const navigate = useNavigate()
   //useStates
   const [guide, setGuide] = useState({})
@@ -49,7 +66,7 @@ export default function SingleGuide() {
 
   //other constants
   const { guideId } = useParams()
-  const { frontEnd, backEnd, tags, API, languages, username, title, createdAt, description } = guide
+  const { head, body, createdAt, username } = guide
   // const { codeBlock, content, filepath, language } = guide.body
 
   // getters, checkers, and setters start here
@@ -331,9 +348,10 @@ export default function SingleGuide() {
         alignContent: 'center',
         justifyContent: 'center',
       }}>
+      {console.log(guide)}
       {/* Title */}
       <Typography variant="h3" sx={{ color: 'white', ml: 1 }}>
-        {title.toUpperCase()}
+        {guide.head.title.toUpperCase()}
       </Typography>
       {/* Title */}
       {!showBody ? (
@@ -379,7 +397,7 @@ export default function SingleGuide() {
               </Box>
             </Box>
             {/* description */}
-            <Typography sx={{ color: 'white', mr: 2 }}>{description}</Typography>
+            <Typography sx={{ color: 'white', mr: 2 }}>{guide.head.description}</Typography>
           </Card>
 
           {/* technologies used begin here */}
@@ -396,8 +414,8 @@ export default function SingleGuide() {
               <Typography sx={{ color: 'white' }} gutterBottom>
                 Languages
               </Typography>
-              {languages.length ? (
-                languages.map((item, idx) => {
+              {guide.head.language.length ? (
+                guide.head.language.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
                       {`${item}`}
@@ -413,11 +431,11 @@ export default function SingleGuide() {
               <Typography sx={{ color: 'white' }} gutterBottom>
                 Front End
               </Typography>
-              {frontEnd.length ? (
-                frontEnd.map((item, idx) => {
+              {guide.head.frontEnd.length ? (
+                guide.head.frontEnd.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
-                      {`${item}`}
+                      {`${item.frontEnd}`}
                     </Typography>
                   )
                 })
@@ -430,11 +448,11 @@ export default function SingleGuide() {
               <Typography sx={{ color: 'white' }} gutterBottom>
                 Back End
               </Typography>
-              {backEnd.length ? (
-                backEnd.map((item, idx) => {
+              {guide.head.backEnd.length ? (
+                guide.head.backEnd.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
-                      {`${item}`}
+                      {`${item.backEnd}`}
                     </Typography>
                   )
                 })
@@ -447,11 +465,11 @@ export default function SingleGuide() {
               <Typography sx={{ color: 'white' }} gutterBottom>
                 APIs
               </Typography>
-              {API ? (
-                API.map((item, idx) => {
+              {guide.head.API ? (
+                guide.head.API.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideApiCardTypography}>
-                      {`${item}`}
+                      {`${item.API}`}
                     </Typography>
                   )
                 })
@@ -474,11 +492,11 @@ export default function SingleGuide() {
               Tags
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
-              {tags.length
-                ? tags.map((item, idx) => {
+              {guide.head.tag.length
+                ? guide.head.tag.map((item, idx) => {
                     return item ? (
                       <Typography key={idx} sx={singleGuideTagTypography}>
-                        {`${item}`}
+                        {`${item.tag}`}
                       </Typography>
                     ) : (
                       <Typography key={idx} sx={singleGuideTagTypography}>
