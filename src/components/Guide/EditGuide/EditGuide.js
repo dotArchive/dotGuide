@@ -14,10 +14,10 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../../../firebase';
 import Body from './Body/Body';
 import Head from './Head/Head';
-import { Box, Button } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SaveIcon from "@mui/icons-material/Save";
-import SendIcon from "@mui/icons-material/Send";
+import { Box, Button } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SaveIcon from '@mui/icons-material/Save';
+import SendIcon from '@mui/icons-material/Send';
 
 export default function AddGuide(props) {
 	/*** Hooks ***/
@@ -55,7 +55,6 @@ export default function AddGuide(props) {
 			const uid = user.uid;
 			setCurrentUid(uid);
 		});
-		// myQuery();
 	}, [currentUid]);
 
 	const getGuide = async () => {
@@ -67,37 +66,10 @@ export default function AddGuide(props) {
 		}
 	};
 
-	// /*** Get current User from FireStore ***/
-	// const docRef = collection(db, 'users');
-	// const q = query(docRef, where('uid', '==', currentUid));
-
-	// const myQuery = async () => {
-	// 	const querySnapshot = await getDocs(q);
-
-	// 	querySnapshot.forEach((doc) => {
-	// 		setUser(doc.data());
-	// 	});
-	// };
-
-	/*** Create new Guide Doc in FireStore ***/
-	// useEffect(() => {
-	// 	const myDoc = async () => {
-	// 		const mydocRef = await addDoc(collection(db, 'guides'), {
-	// 			isPublished: false,
-	// 		});
-	// 		setGuideId(mydocRef.id);
-	// 		return mydocRef;
-	// 	};
-	// 	if (!props.editGuide) {
-	// 		myDoc();
-	// 	}
-	// }, []);
-
-	/*** Sets Owner to new Guide Doc in Firestore ***/
-
 	/*** Updates FireStore & Publish to True ***/
 	const isPublished = async () => {
 		const guideRef = doc(db, 'guides', guideId);
+		console.log(guideRef)
 		await updateDoc(guideRef, {
 			isPublished: true,
 		});
@@ -106,7 +78,6 @@ export default function AddGuide(props) {
 	const handleCancel = () => {
 		navigate('/');
 	};
-	console.log(guide);
 
 	return (
 		<form>
@@ -123,17 +94,23 @@ export default function AddGuide(props) {
 				<Body guide={guide} guideId={guideId} save={save} submit={submit} />
 			</div>
 
-			<Box sx={{display: 'flex', justifyContent: 'center', pt: 5, pb: 5}}>
-        <Button onClick={handleCancel}>
-          <ArrowBackIcon sx={{ color: "gray", fontSize: 36, }} onClick={() => navigate("/")} />
-        </Button>
-        <Button onClick={() => setSave(true)}>
-          <SaveIcon sx={{ color: "#468ef3", fontSize: 36, pl: 5, pr: 5 }} />
-        </Button>
-        <Button>
-          <SendIcon sx={{ color: "#468ef3", fontSize: 36 }} onClick={() => setSubmit(true)} />
-        </Button>
-      </Box>
+			<Box sx={{ display: 'flex', justifyContent: 'center', pt: 5, pb: 5 }}>
+				<Button onClick={handleCancel}>
+					<ArrowBackIcon
+						sx={{ color: 'gray', fontSize: 36 }}
+						onClick={() => navigate('/')}
+					/>
+				</Button>
+				<Button onClick={() => setSave(true)}>
+					<SaveIcon sx={{ color: '#468ef3', fontSize: 36, pl: 5, pr: 5 }} />
+				</Button>
+				<Button>
+					<SendIcon
+						sx={{ color: '#468ef3', fontSize: 36 }}
+						onClick={() => setSubmit(true)}
+					/>
+				</Button>
+			</Box>
 		</form>
 	);
 }
