@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../../firebase'
+
+// Components
 import BackEnd from './TechStack/BackEnd'
 import FrontEnd from './TechStack/FrontEnd'
 import Api from './TechStack/API'

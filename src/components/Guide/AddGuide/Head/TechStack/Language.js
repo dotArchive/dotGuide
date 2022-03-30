@@ -3,12 +3,6 @@ import { Typography, IconButton, TextField, InputAdornment } from '@mui/material
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 
-// const useStyles = makeStyles((theme) => ({
-// 	textField: {
-// 		border: '1px solid white !important',
-// 	},
-// }));
-
 export default function Language(props) {
   const [language, setLanguage] = useState([''])
 
@@ -33,6 +27,20 @@ export default function Language(props) {
     setLanguage([...language, ''])
   }
 
+  const languageTextField = {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+        borderRadius: 3,
+        mt: 0.5,
+        mb: 0.5,
+      },
+      '& adornedEnd': {
+        pr: 0,
+      },
+    },
+  }
+
   return (
     <div>
       <div className="flexbox" style={{ paddingRight: '2rem' }}>
@@ -48,19 +56,7 @@ export default function Language(props) {
       {language.map((singleLanguage, index) => (
         <TextField
           key={index}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: 'white',
-                borderRadius: 3,
-                mt: 0.5,
-                mb: 0.5,
-              },
-              '& adornedEnd': {
-                pr: 0,
-              },
-            },
-          }}
+          sx={languageTextField}
           name="language"
           id="language"
           onChange={(e) => handleLanguageChange(e, index)}

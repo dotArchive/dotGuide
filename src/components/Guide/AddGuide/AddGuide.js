@@ -78,8 +78,6 @@ export default function AddGuide(props) {
     }
   }, [])
 
-  console.log(guideId)
-
   /*** Sets Owner to new Guide Doc in Firestore ***/
   const setOwner = async () => {
     const guideRef = doc(db, 'guides', guideId)

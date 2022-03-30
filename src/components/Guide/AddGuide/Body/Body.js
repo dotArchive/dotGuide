@@ -2,11 +2,15 @@ import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../../firebase'
+
+// Components
 import Language from './Code/Language'
 import CodeEditor from './Code/CodeEditor'
 import CodeMirror from './Code/CodeMirror'
 import Content from './Reference/Content'
 import File from './File'
+
+// MUI
 import {
   Typography,
   Box,
@@ -41,13 +45,6 @@ export default function Body(props) {
   useEffect(() => {
     if (props.save === true) {
       console.log('updating body, save')
-      updateBody()
-    }
-  })
-
-  useEffect(() => {
-    if (props.submit === true) {
-      console.log('updating body, publish')
       updateBody()
     }
   })

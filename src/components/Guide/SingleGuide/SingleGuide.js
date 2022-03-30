@@ -162,19 +162,6 @@ export default function SingleGuide() {
     }
   }, [profile])
 
-  // useEffect(() => {}, [file])
-
-  // useEffect(() => {
-  //   if (Object.keys(profile).length) {
-  //     if (profile.favorites.includes(guideId)) {
-  //     }
-  //     if (!profile.favorites.includes(guideId)) {
-  //     }
-  //   }
-  // }, [isFavorite])
-
-  //use effects end here
-
   /*** styles  start ***/
   const singleGuideTopCard = {
     background: '#2f2f2f',

@@ -27,6 +27,20 @@ function FrontEnd(props) {
     setFrontEndList([...frontEndList, { frontEnd: '' }])
   }
 
+  const frontEndTextField = {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+        borderRadius: 3,
+        mt: 0.5,
+        mb: 0.5,
+      },
+      '& adornedEnd': {
+        pr: 0,
+      },
+    },
+  }
+
   return (
     <div className="form-field">
       <div className="flexbox" style={{ paddingRight: '2rem' }}>
@@ -42,19 +56,7 @@ function FrontEnd(props) {
       {frontEndList.map((singleFrontEnd, index) => (
         <TextField
           key={index}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: 'white',
-                borderRadius: 3,
-                mt: 0.5,
-                mb: 0.5,
-              },
-              '& adornedEnd': {
-                pr: 0,
-              },
-            },
-          }}
+          sx={frontEndTextField}
           name="frontEnd"
           id="frontEnd"
           onChange={(e) => handleFrontEndChange(e, index)}

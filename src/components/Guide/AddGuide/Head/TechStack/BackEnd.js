@@ -27,6 +27,20 @@ function BackEnd(props) {
     setBackEndList([...backEndList, { backEnd: '' }])
   }
 
+  const backEndTextField = {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+        borderRadius: 3,
+        mt: 0.5,
+        mb: 0.5,
+      },
+      '& adornedEnd': {
+        pr: 0,
+      },
+    },
+  }
+
   return (
     <div className="form-field">
       <div className="flexbox" style={{ paddingRight: '2rem' }}>
@@ -41,19 +55,7 @@ function BackEnd(props) {
       {backEndList.map((singlebackEnd, index) => (
         <TextField
           key={index}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: 'white',
-                borderRadius: 3,
-                mt: 0.5,
-                mb: 0.5,
-              },
-              '& adornedEnd': {
-                pr: 0,
-              },
-            },
-          }}
+          sx={backEndTextField}
           name="backEnd"
           id="backEnd"
           onChange={(e) => handleBackEndChange(e, index)}
