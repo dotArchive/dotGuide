@@ -49,15 +49,7 @@ export default function Body(props) {
 		}
 	});
 
-	useEffect(() => {
-		if (props.submit === true) {
-			console.log('updating body, publish');
-			updateBody();
-		}
-	});
-
 	let body = [];
-	let languagesArr = [];
 	const guideId = props.guideId;
 
 	for (let i = 0; i < filepath.length; i++) {
@@ -67,7 +59,6 @@ export default function Body(props) {
 			...codeBlock[i],
 			...content[i],
 		};
-		languagesArr.push(language[i].language);
 		body.push(mergeData);
 	}
 
@@ -83,27 +74,112 @@ export default function Body(props) {
 			body,
 		});
 	};
+	/*** styles  start ***/
+	const topLevelContainer = {
+		display: 'flex',
+		flexDirection: 'column',
+		alignContent: 'center',
+		justifyContent: 'center',
+		color: 'white',
+	};
+	const bodyCards = {
+		background: '#2f2f2f',
+		p: 1,
+		pl: 2,
+		pr: 2,
+		width: '25%',
+		minHeight: '10vh',
+		textOverflow: 'ellipsis',
+		border: 1.25,
+		borderColor: '#353540',
+		flexGrow: 1,
+	};
+	const codeCards = {
+		background: '#2f2f2f',
+		p: 1,
+		pl: 2,
+		mt: 1,
+		overflow: 'auto',
+		height: '450px',
+		border: 1.25,
+		borderColor: '#353540',
+		color: 'white',
+	};
+	const addRemoveCard = {
+		background: '#2f2f2f',
+		ml: 2,
+		mb: 1,
+		border: 1.25,
+		borderColor: '#353540',
+	};
+	const filePreviewCard = {
+		background: '#2f2f2f',
+		mt: 1,
+		pb: 1,
+		pt: 1,
+		pl: 1,
+		pr: 1,
+		border: 1.25,
+		borderColor: '#353540',
+	};
+	const formControlSX = {
+		py: 0.5,
+		mt: 0.5,
+		color: 'white',
+		'& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+			borderRadius: 3,
+		},
+		'& label.Mui-focused': {},
+		'& label': {
+			color: 'white',
+		},
+		'&:hover label': {
+			color: '#f57c00',
+		},
+		'& .MuiInputBase-input': {
+			color: 'white',
+			py: 0.5,
+		},
+		'& .MuiOutlinedInput-root': {
+			'&:hover fieldset': {
+				borderRadius: 3,
+			},
+			'&:focus fieldset': {
+				borderRadius: 3,
+			},
+			'& fieldset': {
+				borderColor: 'white',
+				borderRadius: 3,
+			},
+			'&:focus .MuiInputLabel-root': {
+				borderColor: '#f57c00',
+				borderRadius: 3,
+			},
+		},
+	};
+	const menuItemSX = {
+		py: 0,
+		pl: 1,
+		backgroundColor: '#cccccc55',
+		fontSize: '1em',
+		color: 'white',
+	};
+	const codeOuterBox = {
+		display: 'flex',
+		flexDirection: 'column',
+		width: '49%',
+		mx: 0.5,
+	};
+	const codeInnerBox = {
+		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'space-between',
+	};
 
 	return (
-		<Container
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignContent: 'center',
-				justifyContent: 'center',
-				color: 'white',
-			}}
-		>
+		<Container sx={topLevelContainer}>
 			<div className="flexbox">
-				<Card
-					sx={{
-						background: '#2f2f2f',
-						ml: 2,
-						mb: 1,
-						border: 1.25,
-						borderColor: '#353540',
-					}}
-				>
+				<Card sx={addRemoveCard}>
 					<IconButton
 						sx={{ marginRight: '-8px' }}
 						size="small"
@@ -124,37 +200,11 @@ export default function Body(props) {
 					gap: '10px',
 				}}
 			>
-				<Card
-					sx={{
-						background: '#2f2f2f',
-						p: 1,
-						pl: 2,
-						pr: 2,
-						width: '25%',
-						minHeight: '10vh',
-						textOverflow: 'ellipsis',
-						border: 1.25,
-						borderColor: '#353540',
-						flexGrow: 1,
-					}}
-				>
+				<Card sx={bodyCards}>
 					<File fileChild={(data) => setFile(data)} add={add} remove={remove} />
 				</Card>
 
-				<Card
-					sx={{
-						background: '#2f2f2f',
-						p: 1,
-						pl: 2,
-						pr: 2,
-						width: '25%',
-						minHeight: '10vh',
-						textOverflow: 'ellipsis',
-						border: 1.25,
-						borderColor: '#353540',
-						flexGrow: 1,
-					}}
-				>
+				<Card sx={bodyCards}>
 					<Language
 						languageChild={(data) => setLanguage(data)}
 						add={add}
@@ -162,40 +212,14 @@ export default function Body(props) {
 					/>
 				</Card>
 
-				<Card
-					sx={{
-						background: '#2f2f2f',
-						p: 1,
-						pl: 2,
-						pr: 2,
-						width: '25%',
-						minHeight: '10vh',
-						textOverflow: 'ellipsis',
-						border: 1.25,
-						borderColor: '#353540',
-						flexGrow: 1,
-					}}
-				>
+				<Card sx={bodyCards}>
 					<CodeEditor
 						codeChild={(data) => setCode(data)}
 						add={add}
 						remove={remove}
 					/>
 				</Card>
-				<Card
-					sx={{
-						background: '#2f2f2f',
-						p: 1,
-						pl: 2,
-						pr: 2,
-						width: '25%',
-						minHeight: '10vh',
-						textOverflow: 'ellipsis',
-						border: 1.25,
-						borderColor: '#353540',
-						flexGrow: 1,
-					}}
-				>
+				<Card sx={bodyCards}>
 					<Content
 						contentChild={(data) => setContent(data)}
 						add={add}
@@ -205,57 +229,12 @@ export default function Body(props) {
 			</Box>
 
 			<div className="file Preview">
-				<Card
-					sx={{
-						background: '#2f2f2f',
-						mt: 1,
-						pb: 1,
-						pt: 1,
-						pl: 1,
-						pr: 1,
-						border: 1.25,
-						borderColor: '#353540',
-					}}
-				>
+				<Card sx={filePreviewCard}>
 					<FormControl
 						fullWidth
 						label="Language"
 						size="small"
-						sx={{
-							py: 0.5,
-							mt: 0.5,
-							color: 'white',
-							'& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-								borderRadius: 3,
-							},
-							'& label.Mui-focused': {},
-							'& label': {
-								color: 'white',
-							},
-							'&:hover label': {
-								color: '#f57c00',
-							},
-							'& .MuiInputBase-input': {
-								color: 'white',
-								py: 0.5,
-							},
-							'& .MuiOutlinedInput-root': {
-								'&:hover fieldset': {
-									borderRadius: 3,
-								},
-								'&:focus fieldset': {
-									borderRadius: 3,
-								},
-								'& fieldset': {
-									borderColor: 'white',
-									borderRadius: 3,
-								},
-								'&:focus .MuiInputLabel-root': {
-									borderColor: '#f57c00',
-									borderRadius: 3,
-								},
-							},
-						}}
+						sx={formControlSX}
 					>
 						<InputLabel>File Path</InputLabel>
 						<Select
@@ -278,13 +257,7 @@ export default function Body(props) {
 									key={idx}
 									disableGutters={true}
 									dense={true}
-									sx={{
-										py: 0,
-										pl: 1,
-										backgroundColor: '#cccccc55',
-										fontSize: '1em',
-										color: 'white',
-									}}
+									sx={menuItemSX}
 									value={idx}
 								>
 									{file.filepath}
@@ -294,34 +267,9 @@ export default function Body(props) {
 					</FormControl>
 				</Card>
 				<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
-							width: '49%',
-							mx: 0.5,
-						}}
-					>
-						<Card
-							sx={{
-								background: '#2f2f2f',
-								p: 1,
-								pl: 2,
-								mt: 1,
-								overflow: 'auto',
-								height: '450px',
-								border: 1.25,
-								borderColor: '#353540',
-								color: 'white',
-							}}
-						>
-							<Box
-								sx={{
-									display: 'flex',
-									flexWrap: 'wrap',
-									justifyContent: 'space-between',
-								}}
-							>
+					<Box sx={codeOuterBox}>
+						<Card sx={codeCards}>
+							<Box sx={codeInnerBox}>
 								<Typography sx={{ color: 'white', fontSize: '0.75em' }}>
 									{body[fileView] ? body[fileView].filepath : ''}
 								</Typography>
@@ -341,19 +289,7 @@ export default function Body(props) {
 						</Card>
 					</Box>
 					<Box sx={{ width: '51%', mx: 0.5 }}>
-						<Card
-							sx={{
-								background: '#2f2f2f',
-								p: 1,
-								pl: 2,
-								mt: 1,
-								overflow: 'auto',
-								height: '450px',
-								border: 1.25,
-								borderColor: '#353540',
-								color: 'white',
-							}}
-						>
+						<Card sx={codeCards}>
 							<ReactMarkdown>
 								{body[fileView] ? body[fileView].content : ''}
 							</ReactMarkdown>

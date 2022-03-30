@@ -32,6 +32,20 @@ function Tag(props) {
 		setTagList([...tagList, { tag: '' }]);
 	};
 
+	const tagListTextField = {
+		'& .MuiOutlinedInput-root': {
+			'& fieldset': {
+				borderColor: 'white',
+				borderRadius: 3,
+				mt: 0.5,
+				mb: 0.5,
+			},
+			'& adornedEnd': {
+				pr: 0,
+			},
+		},
+	};
+
 	return (
 		<div className="form-field">
 			<div
@@ -51,22 +65,10 @@ function Tag(props) {
 			</div>
 			<div className="flexbox" style={{ flexWrap: 'wrap' }}>
 				{tagList.map((singletag, index) => (
-					<div key={index}>
+					<div key={index} className="tag">
 						<TextField
 							key={index}
-							sx={{
-								'& .MuiOutlinedInput-root': {
-									'& fieldset': {
-										borderColor: 'white',
-										borderRadius: 3,
-										mt: 0.5,
-										mb: 0.5,
-									},
-									'& adornedEnd': {
-										pr: 0,
-									},
-								},
-							}}
+							sx={tagListTextField}
 							name="tag"
 							id="tag"
 							onChange={(e) => handleTagChange(e, index)}

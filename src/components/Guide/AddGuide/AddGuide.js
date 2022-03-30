@@ -15,6 +15,10 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../../../firebase';
 import Body from './Body/Body';
 import Head from './Head/Head';
+import { Box, Button } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SaveIcon from '@mui/icons-material/Save';
+import SendIcon from '@mui/icons-material/Send';
 
 export default function AddGuide(props) {
 	/*** Hooks ***/
@@ -33,7 +37,6 @@ export default function AddGuide(props) {
 		setSubmit(false);
 		if (submit === true) {
 			isPublished();
-
 			navigate('/');
 		}
 	}, [submit]);
@@ -57,12 +60,10 @@ export default function AddGuide(props) {
 
 	const myQuery = async () => {
 		const querySnapshot = await getDocs(q);
-
 		querySnapshot.forEach((doc) => {
 			setUser(doc.data());
 		});
 	};
-
 	/*** Create new Guide Doc in FireStore ***/
 	useEffect(() => {
 		const myDoc = async () => {
@@ -75,6 +76,22 @@ export default function AddGuide(props) {
 			return mydocRef;
 		};
 		myDoc();
+	}, []);
+
+	/*** Create new Guide Doc in FireStore ***/
+	useEffect(() => {
+		const myDoc = async () => {
+			const mydocRef = await addDoc(collection(db, 'guides'), {
+				isPublished: false,
+				createdAt: serverTimestamp(),
+				favorites: 0,
+			});
+			setGuideId(mydocRef.id);
+			return mydocRef;
+		};
+		if (!props.editGuide) {
+			myDoc();
+		}
 	}, []);
 
 	/*** Sets Owner to new Guide Doc in Firestore ***/
@@ -124,7 +141,6 @@ export default function AddGuide(props) {
 		<form>
 			<div className="post">
 				<Head
-					props={props}
 					username={username}
 					guideId={guideId}
 					save={save}
