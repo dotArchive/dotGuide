@@ -70,10 +70,11 @@ const GuidePreview = (guides) => {
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {arr.length
         ? arr.map((guide, idx) => {
-            const { title, username, favorites, tags, guideId } = guide
+            const { title, username, tags, guideId } = guide
 
             return (
               <Card sx={outerCard} onClick={() => handleGuideClick(guideId)} key={idx}>
+                {console.log(guide)}
                 <CardContent
                   sx={{
                     py: 1,
@@ -85,7 +86,7 @@ const GuidePreview = (guides) => {
                     {`— ${username ? username : null}`}
                     <BookmarkRoundedIcon sx={bookmarkSX} />
                     <span style={{ color: '#468ef3', fontSize: 18 }}>{`${
-                      favorites ? favorites : null
+                      guide.favorites !== null ? guide.favorites : null
                     }`}</span>
                   </Typography>
                   <Box sx={tagBox}>
