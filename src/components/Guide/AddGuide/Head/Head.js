@@ -37,40 +37,53 @@ export default function Head(props) {
 		if (props.submit === true) updateHead();
 	});
 
-	let username = props.username;
+	let search = [];
+	const username = props.username;
 	const guideId = props.guideId;
 
 	const language = languages.map((language) => {
+		search.push(language);
 		return language;
 	});
 	const tag = tags.map((tag) => {
+		search.push(tag.tag);
 		return tag;
 	});
 	const url = urls.map((url) => {
+		search.push(url);
 		return url;
 	});
+
 	const API = apis.map((API) => {
+		search.push(API.API);
 		return API;
 	});
+
 	const frontEnd = frontEnds.map((frontEnd) => {
+		search.push(frontEnd.frontEnd);
 		return frontEnd;
 	});
 	const backEnd = backEnds.map((backEnd) => {
+		search.push(backEnd.backEnd);
 		return backEnd;
 	});
 
 	const updateHead = async () => {
+		search.push(title);
+		search.push(username);
 		const guideRef = doc(db, 'guides', guideId);
 		await updateDoc(guideRef, {
-			title,
-			description,
-			API,
-			frontEnd,
-			backEnd,
-			language,
-			url,
-			tag,
-			username,
+			head: {
+				title,
+				description,
+				API,
+				frontEnd,
+				backEnd,
+				language,
+				url,
+				tag,
+			},
+			search,
 		});
 	};
 

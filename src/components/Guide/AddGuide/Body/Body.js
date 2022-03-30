@@ -81,7 +81,6 @@ export default function Body(props) {
 				language,
 			},
 			body,
-			languages: languagesArr,
 		});
 	};
 

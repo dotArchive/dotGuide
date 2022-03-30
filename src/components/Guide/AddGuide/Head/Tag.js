@@ -67,8 +67,8 @@ function Tag(props) {
 									},
 								},
 							}}
-							name="language"
-							id="language"
+							name="tag"
+							id="tag"
 							onChange={(e) => handleTagChange(e, index)}
 							variant="outlined"
 							value={singletag.tagList}

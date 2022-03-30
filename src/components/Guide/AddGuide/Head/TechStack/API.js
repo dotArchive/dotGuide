@@ -64,8 +64,8 @@ function API(props) {
 							},
 						},
 					}}
-					name="language"
-					id="language"
+					name="API"
+					id="API"
 					onChange={(e) => handleAPIChange(e, index)}
 					variant="outlined"
 					value={singleAPI.APIList}

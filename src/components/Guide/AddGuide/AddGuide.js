@@ -33,6 +33,7 @@ export default function AddGuide(props) {
 		setSubmit(false);
 		if (submit === true) {
 			isPublished();
+
 			navigate('/');
 		}
 	}, [submit]);
@@ -73,9 +74,7 @@ export default function AddGuide(props) {
 			setGuideId(mydocRef.id);
 			return mydocRef;
 		};
-		if (!props.editGuide) {
-			myDoc();
-		}
+		myDoc();
 	}, []);
 
 	/*** Sets Owner to new Guide Doc in Firestore ***/
@@ -125,6 +124,7 @@ export default function AddGuide(props) {
 		<form>
 			<div className="post">
 				<Head
+					props={props}
 					username={username}
 					guideId={guideId}
 					save={save}

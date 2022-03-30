@@ -65,8 +65,8 @@ function FrontEnd(props) {
 							},
 						},
 					}}
-					name="language"
-					id="language"
+					name="frontEnd"
+					id="frontEnd"
 					onChange={(e) => handleFrontEndChange(e, index)}
 					variant="outlined"
 					value={singleFrontEnd.frontEndList}

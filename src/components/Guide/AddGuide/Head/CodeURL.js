@@ -64,8 +64,8 @@ function CodeURL(props) {
 									},
 								},
 							}}
-							name="language"
-							id="language"
+							name="url"
+							id="url"
 							onChange={(e) => handleURLChange(e, index)}
 							variant="outlined"
 							value={singleURL.codeURL}
