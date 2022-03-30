@@ -73,11 +73,12 @@ function CodeURL(props) {
 									},
 								},
 							}}
-							name="language"
-							id="language"
+							name="URL"
+							type="text"
+							id="URL"
 							onChange={(e) => handleURLChange(e, index)}
 							variant="outlined"
-							value={singleURL.codeURL}
+							value={singleURL.URL}
 							size="small"
 							InputProps={{
 								startAdornment: (

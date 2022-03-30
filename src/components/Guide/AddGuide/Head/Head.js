@@ -38,7 +38,7 @@ export default function Head(props) {
 	const guideId = props.guideId;
 
 	const language = languages.map((language) => {
-		search.push(language);
+		search.push(language.language);
 		return language;
 	});
 	const tag = tags.map((tag) => {
@@ -46,7 +46,6 @@ export default function Head(props) {
 		return tag;
 	});
 	const url = urls.map((url) => {
-		search.push(url);
 		return url;
 	});
 
@@ -66,7 +65,6 @@ export default function Head(props) {
 
 	const updateHead = async () => {
 		search.push(title);
-		search.push(username);
 		const guideRef = doc(db, 'guides', guideId);
 		await updateDoc(guideRef, {
 			head: {

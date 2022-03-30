@@ -78,28 +78,13 @@ export default function AddGuide(props) {
 		myDoc();
 	}, []);
 
-	/*** Create new Guide Doc in FireStore ***/
-	useEffect(() => {
-		const myDoc = async () => {
-			const mydocRef = await addDoc(collection(db, 'guides'), {
-				isPublished: false,
-				createdAt: serverTimestamp(),
-				favorites: 0,
-			});
-			setGuideId(mydocRef.id);
-			return mydocRef;
-		};
-		if (!props.editGuide) {
-			myDoc();
-		}
-	}, []);
-
 	/*** Sets Owner to new Guide Doc in Firestore ***/
 	const setOwner = async () => {
 		const guideRef = doc(db, 'guides', guideId);
 		await updateDoc(guideRef, {
 			userId,
 			username,
+			createdAt: serverTimestamp(),
 		});
 		const q = query(
 			collection(db, 'profiles'),
@@ -119,6 +104,7 @@ export default function AddGuide(props) {
 		await updateDoc(guideRef, {
 			userId,
 			username,
+			createdAt: serverTimestamp(),
 			isPublished: true,
 		});
 		const q = query(

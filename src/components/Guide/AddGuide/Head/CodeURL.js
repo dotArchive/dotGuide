@@ -9,16 +9,16 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 function CodeURL(props) {
-	const [codeURL, setcodeURL] = useState(['']);
+	const [codeURL, setcodeURL] = useState([{ URL: '' }]);
 
 	useEffect(() => {
 		props.urlChild(codeURL);
 	}, [codeURL]);
 
 	const handleURLChange = (e, index) => {
-		const { value } = e.target;
+		const { value, name } = e.target;
 		const list = [...codeURL];
-		list[index] = value;
+		list[index][name] = value;
 		setcodeURL(list);
 	};
 
@@ -29,7 +29,7 @@ function CodeURL(props) {
 	};
 
 	const handleURLAdd = () => {
-		setcodeURL([...codeURL, '']);
+		setcodeURL([...codeURL, { URL: '' }]);
 	};
 
 	return (
@@ -64,8 +64,9 @@ function CodeURL(props) {
 									},
 								},
 							}}
-							name="url"
-							id="url"
+							name="URL"
+							type="text"
+							id="URL"
 							onChange={(e) => handleURLChange(e, index)}
 							variant="outlined"
 							value={singleURL.codeURL}
