@@ -88,7 +88,7 @@ const UserGuidePreview = (guides) => {
                     {`— ${username ? username : null}`}
                     <BookmarkRoundedIcon sx={bookmarkSX} />
                     <span style={{ color: '#468ef3', fontSize: 18 }}>{`${
-                      favorites ? favorites : null
+                      favorites !== null ? favorites : null
                     }`}</span>
                   </Typography>
                   <Box sx={tagBox}>
