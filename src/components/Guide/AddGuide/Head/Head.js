@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase';
+
+// Components
 import BackEnd from './TechStack/BackEnd';
 import FrontEnd from './TechStack/FrontEnd';
 import Api from './TechStack/API';
@@ -134,7 +136,6 @@ export default function Head(props) {
 						p: 1,
 						pl: 2,
 						pr: 2,
-						// mr: 1,
 						width: '25%',
 						minHeight: '10vh',
 						textOverflow: 'ellipsis',

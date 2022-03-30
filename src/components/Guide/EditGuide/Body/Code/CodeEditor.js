@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
+import { Typography } from '@mui/material';
 
 export default function CodeEditor(props) {
 	const [codeBlock, setCodeBlock] = useState([{ codeBlock: '' }]);
@@ -35,19 +37,37 @@ export default function CodeEditor(props) {
 
 	return (
 		<div>
+			<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+				Code Block
+			</Typography>
 			{codeBlock.map((singleCode, index) => (
 				<div key={index}>
-					<textarea
-						className="textArea"
-						placeholder="Code Block"
-						name="codeBlock"
-						type="text"
-						id="codeBlock"
-						rows="1"
-						value={singleCode.codeBlock}
-						onChange={(e) => handleCodeChange(e, index)}
-						required
-					/>
+					<Typography
+						sx={{
+							color: 'white',
+							fontSize: '0.7em',
+							minHeight: 18,
+							p: 0.5,
+							mt: 0.5,
+							mb: 0.5,
+							border: 1,
+							borderColor: 'transparent',
+							borderRadius: 3,
+							textAlign: 'center',
+							textOverflow: 'ellipsis',
+							display: 'flex',
+							flexWrap: 'wrap',
+						}}
+					>
+						<TextareaAutosize
+							className="textArea"
+							name="codeBlock"
+							id="codeBlock"
+							placeholder="Code Block"
+							value={singleCode.codeBlock}
+							onChange={(e) => handleCodeChange(e, index)}
+						/>
+					</Typography>
 				</div>
 			))}
 		</div>

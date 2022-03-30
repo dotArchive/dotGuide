@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
 	Typography,
-	Box,
 	IconButton,
-	Button,
-	Card,
-	Container,
 	TextField,
 	InputAdornment,
 } from '@mui/material';
-import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
-import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
-import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp';
-import Visibility from '@mui/icons-material/Visibility';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { ClassNames } from '@emotion/react';
 
 function Tag(props) {
 	const [tagList, setTagList] = useState([{ tag: '' }]);
@@ -60,7 +51,7 @@ function Tag(props) {
 			</div>
 			<div className="flexbox" style={{ flexWrap: 'wrap' }}>
 				{tagList.map((singletag, index) => (
-					<div key={index} className="URL">
+					<div key={index}>
 						<TextField
 							key={index}
 							sx={{

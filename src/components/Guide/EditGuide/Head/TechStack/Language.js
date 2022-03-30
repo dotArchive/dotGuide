@@ -1,4 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import {
+	Typography,
+	IconButton,
+	TextField,
+	InputAdornment,
+} from '@mui/material';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 export default function Language(props) {
 	const [language, setLanguage] = useState([{ language: '' }]);
@@ -35,30 +43,55 @@ export default function Language(props) {
 
 	return (
 		<div>
-			<button type="button" onClick={handleLanguageAdd} className="add-btn">
-				Add
-			</button>
-			{language.map((singleLanguage, index) => (
-				<div key={index}>
-					<input
-						placeholder="Programming Language"
-						name="language"
-						id="language"
-						type="text"
-						value={singleLanguage.language}
-						onChange={(e) => handleLanguageChange(e, index)}
-					/>
+			<div className="flexbox" style={{ paddingRight: '2rem' }}>
+				<IconButton
+					sx={{ paddingLeft: '2.5px' }}
+					size="small"
+					onClick={handleLanguageAdd}
+				>
+					<AddCircleOutlineIcon sx={{ color: '#468ef3' }} />
+				</IconButton>
 
-					{language.length !== 1 && (
-						<button
-							type="button"
-							onClick={() => handleLanguageRemove(index)}
-							className="remove-btn"
-						>
-							<span>Remove</span>
-						</button>
-					)}
-				</div>
+				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+					Languages
+				</Typography>
+			</div>
+
+			{language.map((singleLanguage, index) => (
+				<TextField
+					key={index}
+					sx={{
+						'& .MuiOutlinedInput-root': {
+							'& fieldset': {
+								borderColor: 'white',
+								borderRadius: 3,
+								mt: 0.5,
+								mb: 0.5,
+							},
+							'& adornedEnd': {
+								pr: 0,
+							},
+						},
+					}}
+					name="language"
+					id="language"
+					onChange={(e) => handleLanguageChange(e, index)}
+					variant="outlined"
+					value={singleLanguage.language}
+					size="small"
+					InputProps={{
+						startAdornment: (
+							<InputAdornment style={{ marginLeft: '-15px' }} position="start">
+								<IconButton
+									size="small"
+									onClick={() => handleLanguageRemove(index)}
+								>
+									<RemoveCircleOutlineIcon sx={{ color: 'gray' }} />
+								</IconButton>
+							</InputAdornment>
+						),
+					}}
+				/>
 			))}
 		</div>
 	);

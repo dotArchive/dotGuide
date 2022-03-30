@@ -2,11 +2,15 @@ import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase';
+
+// Components
 import Language from './Code/Language';
 import CodeEditor from './Code/CodeEditor';
 import CodeMirror from './Code/CodeMirror';
 import Content from './Reference/Content';
 import File from './File';
+
+// MUI
 import {
 	Typography,
 	Box,
@@ -37,7 +41,6 @@ export default function Body(props) {
 	useEffect(() => {
 		setRemove(false);
 	}, [remove]);
-
 
 	useEffect(() => {
 		if (props.save === true) {
@@ -71,11 +74,16 @@ export default function Body(props) {
 	const updateBody = async () => {
 		const guideRef = doc(db, 'guides', guideId);
 		await updateDoc(guideRef, {
+			bodyRef: {
+				codeBlock,
+				filepath,
+				content,
+				language,
+			},
 			body,
 			languages: languagesArr,
 		});
 	};
-
 
 	return (
 		<Container
