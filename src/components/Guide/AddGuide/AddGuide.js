@@ -125,6 +125,7 @@ export default function AddGuide(props) {
 
 	return (
 		<form>
+			{console.log(guideId)}
 			<div className="post">
 				<Head
 					username={username}
@@ -137,49 +138,23 @@ export default function AddGuide(props) {
 				<Body guideId={guideId} save={save} submit={submit} />
 			</div>
 
-
-  /*** Updates FireStore & Publish to True ***/
-  const isPublished = async () => {
-    const guideRef = doc(db, 'guides', guideId)
-    await updateDoc(guideRef, {
-      userId,
-      username,
-      isPublished: true,
-    })
-    const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
-    const qS = await getDocs(q)
-    const profileId = qS.docs[0].id
-    await updateDoc(doc(db, 'profiles', profileId), {
-      guides: arrayUnion(guideId),
-    })
-    // console.log('setting published')
-  }
-
-  const handleCancel = () => {
-    navigate('/')
-  }
-
-  return (
-    <form>
-      {console.log(guideId)}
-      <div className="post">
-        <Head username={username} guideId={guideId} save={save} submit={submit} />
-      </div>
-      <div className="post">
-        <Body guideId={guideId} save={save} submit={submit} />
-      </div>
-
-      <Box sx={{display: 'flex', justifyContent: 'center', pt: 5, pb: 5}}>
-        <Button onClick={handleCancel}>
-          <ArrowBackIcon sx={{ color: "gray", fontSize: 36, }} onClick={() => navigate("/")} />
-        </Button>
-        <Button onClick={() => setSave(true)}>
-          <SaveIcon sx={{ color: "#468ef3", fontSize: 36, pl: 5, pr: 5 }} />
-        </Button>
-        <Button>
-          <SendIcon sx={{ color: "#468ef3", fontSize: 36 }} onClick={() => setSubmit(true)} />
-        </Button>
-      </Box>
-    </form>
-  )
+			<Box sx={{ display: 'flex', justifyContent: 'center', pt: 5, pb: 5 }}>
+				<Button onClick={handleCancel}>
+					<ArrowBackIcon
+						sx={{ color: 'gray', fontSize: 36 }}
+						onClick={() => navigate('/')}
+					/>
+				</Button>
+				<Button onClick={() => setSave(true)}>
+					<SaveIcon sx={{ color: '#468ef3', fontSize: 36, pl: 5, pr: 5 }} />
+				</Button>
+				<Button>
+					<SendIcon
+						sx={{ color: '#468ef3', fontSize: 36 }}
+						onClick={() => setSubmit(true)}
+					/>
+				</Button>
+			</Box>
+		</form>
+	);
 }
