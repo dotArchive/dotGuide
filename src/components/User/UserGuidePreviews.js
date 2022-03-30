@@ -6,12 +6,13 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded'
 
-const GuidePreview = (guides) => {
+const UserGuidePreview = (guides) => {
   const [arr, setArr] = useState([])
+  const [guideIds, setGuideIds] = useState([])
   const navigate = useNavigate()
-
   useEffect(() => {
-    setArr(guides.props)
+    setArr(guides.props.guides)
+    setGuideIds(guides.props.list)
   }, [guides.props])
 
   const handleGuideClick = (guideId) => {
@@ -19,27 +20,27 @@ const GuidePreview = (guides) => {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <>
       {arr.length
         ? arr.map((guide, idx) => {
-            const { title, username, favorites, tags, guideId } = guide
-
+            const { title, username, favorites, tags } = guide
             return (
               <Card
                 sx={{
                   background: '#2f2f2f',
                   color: 'white',
                   borderRadius: 1,
-                  mx: 1,
                   my: 0.5,
-                  '&:hover': { cursor: 'pointer', border: 1, borderColor: '#468ef3' },
-                  width: '50%',
+                  '&:hover': { cursor: 'pointer' },
                   display: 'flex',
                   justifyContent: 'flex-start',
+                  width: '100%',
                   border: 1.25,
                   borderColor: '#353540',
                 }}
-                onClick={() => handleGuideClick(guideId)}
+                onClick={() => {
+                  handleGuideClick(guideIds[idx])
+                }}
                 key={idx}>
                 <CardContent
                   sx={{
@@ -75,7 +76,7 @@ const GuidePreview = (guides) => {
                       ? tags.map((tag, idx) => {
                           if (idx <= 4) {
                             return (
-                              <Typography
+                              <Box
                                 key={idx}
                                 sx={{
                                   px: 1,
@@ -84,13 +85,13 @@ const GuidePreview = (guides) => {
                                   borderRadius: 2.5,
                                   typography: 'body2',
                                   fontSize: '0.75em',
+                                  background: 'transparent',
                                   color: 'white',
                                   border: 1,
-                                  backgroundColor: 'transparent',
-                                  maxWidth: '100%',
+                                  maxWidth: '20ch',
                                 }}>
                                 {tag}
-                              </Typography>
+                              </Box>
                             )
                           } else {
                             return null
@@ -103,8 +104,8 @@ const GuidePreview = (guides) => {
             )
           })
         : null}
-    </div>
+    </>
   )
 }
 
-export default GuidePreview
+export default UserGuidePreview

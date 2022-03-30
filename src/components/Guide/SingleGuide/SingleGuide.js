@@ -283,14 +283,7 @@ export default function SingleGuide() {
         alignContent: 'center',
         justifyContent: 'center',
       }}>
-      {/* {console.log(guide)} */}
-      {/* {console.log(guide.body)} */}
-      {/* {console.log(profile)} */}
-      {/* {console.log(isFavorite)} */}
-      {/* {console.log(isOwner)} */}
-      {/*
-         Title
-      */}
+      {/* Title */}
       <Typography variant="h3" sx={{ color: 'white', ml: 1 }}>
         {title.toUpperCase()}
       </Typography>
@@ -433,17 +426,19 @@ export default function SingleGuide() {
               Tags
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
-              {tags.length ? (
-                tags.map((item, idx) => {
-                  return (
-                    <Typography key={idx} sx={singleGuideTagTypography}>
-                      {`${item}`}
-                    </Typography>
-                  )
-                })
-              ) : (
-                <Typography sx={singleGuideAltCardTypography}>no tags yet!</Typography>
-              )}
+              {tags.length
+                ? tags.map((item, idx) => {
+                    return item ? (
+                      <Typography key={idx} sx={singleGuideTagTypography}>
+                        {`${item}`}
+                      </Typography>
+                    ) : (
+                      <Typography key={idx} sx={singleGuideTagTypography}>
+                        no tags yet!
+                      </Typography>
+                    )
+                  })
+                : null}
             </Box>
           </Card>
           {/* end head component */}

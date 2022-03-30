@@ -38,6 +38,7 @@ export default function Body(props) {
 		setRemove(false);
 	}, [remove]);
 
+
 	useEffect(() => {
 		if (props.save === true) {
 			console.log('updating body, save');
@@ -74,6 +75,7 @@ export default function Body(props) {
 			languages: languagesArr,
 		});
 	};
+
 
 	return (
 		<Container
