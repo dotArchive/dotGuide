@@ -1,4 +1,12 @@
 import { useEffect, useState } from 'react';
+import {
+	Typography,
+	IconButton,
+	TextField,
+	InputAdornment,
+} from '@mui/material';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 function API(props) {
 	const [APIList, setAPIList] = useState([{ API: '' }]);
@@ -35,32 +43,52 @@ function API(props) {
 
 	return (
 		<div className="form-field">
-			<button type="button" onClick={handleAPIAdd} className="add-btn">
-				Add
-			</button>
+			<div className="flexbox" style={{ paddingRight: '2rem' }}>
+				<IconButton
+					sx={{ paddingLeft: '2.5px' }}
+					size="small"
+					onClick={handleAPIAdd}
+				>
+					<AddCircleOutlineIcon sx={{ color: '#468ef3' }} />
+				</IconButton>
+
+				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+					API
+				</Typography>
+			</div>
 
 			{APIList.map((singleAPI, index) => (
-				<div key={index} className="API">
-					<div className="addAPI">
-						<input
-							placeholder="API Technology"
-							name="API"
-							type="text"
-							id="API"
-							value={singleAPI.API}
-							onChange={(e) => handleAPIChange(e, index)}
-						/>
-						{APIList.length !== 1 && (
-							<button
-								type="button"
-								onClick={() => handleAPIRemove(index)}
-								className="remove-btn"
-							>
-								<span>Remove</span>
-							</button>
-						)}
-					</div>
-				</div>
+				<TextField
+					key={index}
+					sx={{
+						'& .MuiOutlinedInput-root': {
+							'& fieldset': {
+								borderColor: 'white',
+								borderRadius: 3,
+								mt: 0.5,
+								mb: 0.5,
+							},
+							'& adornedEnd': {
+								pr: 0,
+							},
+						},
+					}}
+					name="language"
+					id="language"
+					onChange={(e) => handleAPIChange(e, index)}
+					variant="outlined"
+					value={singleAPI.APIList}
+					size="small"
+					InputProps={{
+						startAdornment: (
+							<InputAdornment style={{ marginLeft: '-15px' }} position="start">
+								<IconButton size="small" onClick={() => handleAPIRemove(index)}>
+									<RemoveCircleOutlineIcon sx={{ color: 'gray' }} />
+								</IconButton>
+							</InputAdornment>
+						),
+					}}
+				/>
 			))}
 		</div>
 	);

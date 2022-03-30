@@ -8,44 +8,6 @@ import { collection, doc, getDocs, query, orderBy, where, limit } from 'firebase
 import { useNavigate } from 'react-router-dom'
 import GuidePreview from './GuidePreview'
 
-const guidePreviews = [
-  {
-    title: 'guide1 - how to a',
-    username: 'leeroyJenkins',
-    favorites: 23,
-    tags: ['tagA', 'tagB', 'tagC', 'tagD', 'tageE'],
-    guideId: 23,
-  },
-  {
-    title: 'guide2 - how to b',
-    username: 'Howitzer',
-    favorites: 567,
-    tags: ['tagE', 'tagA', 'tagD', 'tagF', 'tagG'],
-    guideId: 24,
-  },
-  {
-    title: 'guide3 - how to c',
-    username: 'YouWishYouWereMe',
-    favorites: 9999,
-    tags: ['tagA', 'tagF', 'tagD', 'tagC', 'PikaPii'],
-    guideId: 25,
-  },
-  {
-    title: 'guide4 - how to d',
-    username: 'AttackOnFullstack',
-    favorites: 2,
-    tags: ['tagF', 'tagC', 'tagB', 'tagA', 'TagJ'],
-    guideId: 26,
-  },
-  {
-    title: 'guide5 - how to e',
-    username: '0m4R',
-    favorites: 48,
-    tags: ['tagG', 'tagX', 'tagZ', 'tagF', 'tagNine'],
-    guideId: 27,
-  },
-]
-
 export const Home = () => {
   const navigate = useNavigate()
 
@@ -88,27 +50,89 @@ export const Home = () => {
     navigate(`/search/${e.target.value}`)
   }
 
+  /*** styles  start ***/
+  const outerDiv = {
+    mt: 3,
+    display: 'flex',
+    flexDirection: 'column',
+  }
+  const dotGuide = {
+    textAlign: 'center',
+    color: '#cccccc',
+    mb: 3,
+  }
+  const outerBox = {
+    display: 'flex',
+    justifyContent: 'center',
+  }
+  const outerCard = {
+    borderRadius: 1,
+    bgcolor: '#2f2f2f',
+    width: '80%',
+    border: 1.25,
+    borderColor: '#353540',
+  }
+  const outerCardContent = {
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+  }
+  const descriptionTypography = {
+    width: '80%',
+    color: '#cccccc',
+    textAlign: 'center',
+  }
+  const popTagsBox = {
+    mt: 1.5,
+    display: 'flex',
+    justifyContent: 'center',
+  }
+  const popTagsMapBox = {
+    typography: 'paragraph',
+    padding: 1,
+    mx: 1.5,
+    borderRadius: 1,
+    background: '#2f2f2f',
+    color: '#cccccc',
+    textAlign: 'center',
+    fontSize: '1.25em',
+    '&:hover': { cursor: 'pointer', borderColor: '#468ef3' },
+    border: 1.25,
+    borderColor: '#353540',
+  }
+  const newGuideOuterBox = {
+    mt: 1,
+    display: 'flex',
+    justifyContent: 'center',
+  }
+  const newGuideInnerBox = {
+    textAlign: 'center',
+    borderRadius: 25,
+    my: 1.5,
+    width: '40%',
+    py: 2.5,
+    typography: 'h4',
+    border: 2,
+    borderColor: '#2f2f2f',
+    background: 'transparent',
+    color: '#eeeeee',
+    '&:hover': { cursor: 'pointer', borderColor: '#468ef3' },
+  }
+  const latestGuidesTypography = {
+    textAlign: 'center',
+    color: '#cccccc',
+    my: 1.5,
+  }
+
   return (
-    <div id="home" style={{ mt: 3, display: 'flex', flexDirection: 'column' }}>
-      <Typography variant="h3" sx={{ textAlign: 'center', color: '#cccccc', mb: 3 }}>
+    <Box id="home" style={outerDiv}>
+      <Typography variant="h3" sx={dotGuide}>
         {`<dotGuide />`}
       </Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Card
-          sx={{
-            borderRadius: 1,
-            bgcolor: '#2f2f2f',
-            width: '80%',
-            border: 1.25,
-            borderColor: '#353540',
-          }}>
-          <CardContent
-            sx={{
-              display: 'flex',
-              alignContent: 'center',
-              justifyContent: 'center',
-            }}>
-            <Typography sx={{ width: '80%', color: '#cccccc', textAlign: 'center' }}>
+      <Box sx={outerBox}>
+        <Card sx={outerCard}>
+          <CardContent sx={outerCardContent}>
+            <Typography sx={descriptionTypography}>
               Tool for software developers to standardized guides. Developers are given a template
               for all the information you might want in a guide. A finished guide displays a
               side-by-side view of code and references that explain specific portions of the code
@@ -117,57 +141,27 @@ export const Home = () => {
           </CardContent>
         </Card>
       </Box>
-      <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={popTagsBox}>
         {popularTags
           ? popularTags.map((tag, idx) => {
               return (
-                <Box
-                  sx={{
-                    typography: 'paragraph',
-                    padding: 1,
-                    mx: 1.5,
-                    borderRadius: 1,
-                    background: '#2f2f2f',
-                    color: '#cccccc',
-                    textAlign: 'center',
-                    fontSize: '1.25em',
-                    '&:hover': { cursor: 'pointer', borderColor: '#468ef3' },
-                    border: 1.25,
-                    borderColor: '#353540',
-                  }}
-                  onClick={(e) => handlePopTagClick(e)}
-                  key={idx}>
+                <Box sx={popTagsMapBox} onClick={(e) => handlePopTagClick(e)} key={idx}>
                   <Typography>{tag}</Typography>
                 </Box>
               )
             })
           : null}
       </Box>
-      <Box sx={{ mt: 1, display: 'flex', justifyContent: 'center' }}>
-        <Box
-          sx={{
-            textAlign: 'center',
-            borderRadius: 25,
-
-            my: 1.5,
-            width: '40%',
-            py: 2.5,
-            typography: 'h4',
-            border: 2,
-            borderColor: '#2f2f2f',
-            background: 'transparent',
-            color: '#eeeeee',
-            '&:hover': { cursor: 'pointer', borderColor: '#468ef3' },
-          }}
-          onClick={() => handleNewGuideClick()}>
+      <Box sx={newGuideOuterBox}>
+        <Box sx={newGuideInnerBox} onClick={() => handleNewGuideClick()}>
           New Guide
         </Box>
       </Box>
-      <Typography variant="h6" sx={{ pl: '23rem',textAlign: 'left', color: '#cccccc', my: 1.5 }}>
+      <Typography variant="h6" sx={latestGuidesTypography}>
         Latest Guides
       </Typography>
       {latestGuides.length ? <GuidePreview props={latestGuides} /> : null}
-    </div>
+    </Box>
   )
 }
 

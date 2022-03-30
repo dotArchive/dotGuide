@@ -1,4 +1,13 @@
 import { useEffect, useState } from 'react';
+import {
+	Typography,
+	IconButton,
+	TextField,
+	InputAdornment,
+} from '@mui/material';
+
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 function FrontEnd(props) {
 	const [frontEndList, setFrontEndList] = useState([{ frontEnd: '' }]);
@@ -35,32 +44,55 @@ function FrontEnd(props) {
 
 	return (
 		<div className="form-field">
-			<button type="button" onClick={handleFrontEndAdd} className="add-btn">
-				Add
-			</button>
-			{frontEndList.map((singleFrontEnd, index) => (
-				<div key={index} className="frontEnd">
-					<div className="addFrontEnd">
-						<input
-							placeholder="Front-End Technology"
-							name="frontEnd"
-							type="text"
-							id="frontEnd"
-							value={singleFrontEnd.frontEnd}
-							onChange={(e) => handleFrontEndChange(e, index)}
-						/>
+			<div className="flexbox" style={{ paddingRight: '2rem' }}>
+				<IconButton
+					sx={{ paddingLeft: '2.5px' }}
+					size="small"
+					onClick={handleFrontEndAdd}
+				>
+					<AddCircleOutlineIcon sx={{ color: '#468ef3' }} />
+				</IconButton>
 
-						{frontEndList.length !== 1 && (
-							<button
-								type="button"
-								onClick={() => handleFrontEndRemove(index)}
-								className="remove-btn"
-							>
-								<span>Remove</span>
-							</button>
-						)}
-					</div>
-				</div>
+				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+					Front End
+				</Typography>
+			</div>
+
+			{frontEndList.map((singleFrontEnd, index) => (
+				<TextField
+					key={index}
+					sx={{
+						'& .MuiOutlinedInput-root': {
+							'& fieldset': {
+								borderColor: 'white',
+								borderRadius: 3,
+								mt: 0.5,
+								mb: 0.5,
+							},
+							'& adornedEnd': {
+								pr: 0,
+							},
+						},
+					}}
+					name="language"
+					id="language"
+					onChange={(e) => handleFrontEndChange(e, index)}
+					variant="outlined"
+					value={singleFrontEnd.frontEndList}
+					size="small"
+					InputProps={{
+						startAdornment: (
+							<InputAdornment style={{ marginLeft: '-15px' }} position="start">
+								<IconButton
+									size="small"
+									onClick={() => handleFrontEndRemove(index)}
+								>
+									<RemoveCircleOutlineIcon sx={{ color: 'gray' }} />
+								</IconButton>
+							</InputAdornment>
+						),
+					}}
+				/>
 			))}
 		</div>
 	);

@@ -45,113 +45,102 @@ export default function AddGuide(props) {
   const username = user.username;
   const userId = user.uid;
 
+
   /*** Get current UserID from FireAuth ***/
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      const uid = user.uid;
-      setCurrentUid(uid);
-    });
-    myQuery();
-  }, [currentUid]);
+      const uid = user.uid
+      setCurrentUid(uid)
+    })
+    myQuery()
+  }, [currentUid])
 
   /*** Get current User from FireStore ***/
-  const docRef = collection(db, "users");
-  const q = query(docRef, where("uid", "==", currentUid));
+  const docRef = collection(db, 'users')
+  const q = query(docRef, where('uid', '==', currentUid))
 
   const myQuery = async () => {
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(q)
 
     querySnapshot.forEach((doc) => {
-      setUser(doc.data());
-    });
-  };
+      setUser(doc.data())
+    })
+  }
 
   /*** Create new Guide Doc in FireStore ***/
   useEffect(() => {
     const myDoc = async () => {
-      const mydocRef = await addDoc(collection(db, "guides"), {
+      const mydocRef = await addDoc(collection(db, 'guides'), {
         isPublished: false,
         createdAt: serverTimestamp(),
         favorites: 0,
-      });
-      setGuideId(mydocRef.id);
-      return mydocRef;
-    };
-    if (!props.editGuide) {
-      myDoc();
+      })
+      setGuideId(mydocRef.id)
+      return mydocRef
     }
-  }, []);
-
-  console.log(guideId);
+    if (!props.editGuide) {
+      myDoc()
+    }
+  }, [])
 
   /*** Sets Owner to new Guide Doc in Firestore ***/
   const setOwner = async () => {
-    const guideRef = doc(db, "guides", guideId);
+    const guideRef = doc(db, 'guides', guideId)
     await updateDoc(guideRef, {
       userId,
       username,
-    });
-    const q = query(
-      collection(db, "profiles"),
-      where("userId", "==", auth.currentUser.uid)
-    );
-    const qS = await getDocs(q);
-    const profileId = qS.docs[0].id;
-    await updateDoc(doc(db, "profiles", profileId), {
+    })
+    const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
+    const qS = await getDocs(q)
+    const profileId = qS.docs[0].id
+    await updateDoc(doc(db, 'profiles', profileId), {
       guides: arrayUnion(guideId),
-    });
+    })
     // console.log('setting owner')
-  };
+  }
 
   /*** Updates FireStore & Publish to True ***/
   const isPublished = async () => {
-    const guideRef = doc(db, "guides", guideId);
+    const guideRef = doc(db, 'guides', guideId)
     await updateDoc(guideRef, {
       userId,
       username,
       isPublished: true,
-    });
-    const q = query(
-      collection(db, "profiles"),
-      where("userId", "==", auth.currentUser.uid)
-    );
-    const qS = await getDocs(q);
-    const profileId = qS.docs[0].id;
-    await updateDoc(doc(db, "profiles", profileId), {
+    })
+    const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
+    const qS = await getDocs(q)
+    const profileId = qS.docs[0].id
+    await updateDoc(doc(db, 'profiles', profileId), {
       guides: arrayUnion(guideId),
-    });
+    })
     // console.log('setting published')
-  };
+  }
 
   const handleCancel = () => {
-    navigate("/");
-  };
+    navigate('/')
+  }
 
   return (
     <form>
+      {console.log(guideId)}
       <div className="post">
-        <Head
-          username={username}
-          guideId={guideId}
-          save={save}
-          submit={submit}
-        />
+        <Head username={username} guideId={guideId} save={save} submit={submit} />
       </div>
       <div className="post">
         <Body guideId={guideId} save={save} submit={submit} />
       </div>
 
-      <Box sx={{display: 'flex', justifyContent: 'center', pt: 5, pb: 5}}>
-        <Button onClick={handleCancel}>
-          <ArrowBackIcon sx={{ color: "gray", fontSize: 36, }} onClick={() => navigate("/")} />
-        </Button>
-        <Button onClick={() => setSave(true)}>
-          <SaveIcon sx={{ color: "#468ef3", fontSize: 36, pl: 5, pr: 5 }} />
-        </Button>
-        <Button>
-          <SendIcon sx={{ color: "#468ef3", fontSize: 36 }} onClick={() => setSubmit(true)} />
-        </Button>
-      </Box>
+      <div>
+        <button type="button" onClick={handleCancel} className="cancel-btn">
+          Cancel
+        </button>
+        <button type="button" onClick={() => setSave(true)} className="save-btn">
+          Save Draft
+        </button>
+        <button type="submit" onClick={() => setSubmit(true)} className="submit-btn">
+          Post Guide
+        </button>
+      </div>
     </form>
-  );
+  )
 }

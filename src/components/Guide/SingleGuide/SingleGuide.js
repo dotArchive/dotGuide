@@ -12,6 +12,7 @@ import {
   arrayUnion,
   arrayRemove,
   increment,
+  serverTimestamp,
 } from 'firebase/firestore'
 import { db, auth } from '../../../firebase'
 import {
@@ -36,6 +37,22 @@ import remarkGfm from 'remark-gfm'
 import CodeMirror from './CodeMirror'
 
 export default function SingleGuide() {
+  const guidePrototype = {
+    createdAt: serverTimestamp(),
+    body: [],
+    head: {
+      API: [],
+      backend: [],
+      description: '',
+      frontEnd: [],
+      language: [],
+      tag: [],
+      title: '',
+      url: [],
+    },
+    languages: [],
+    search: [],
+  }
   const navigate = useNavigate()
   //useStates
   const [guide, setGuide] = useState({})
@@ -49,7 +66,7 @@ export default function SingleGuide() {
 
   //other constants
   const { guideId } = useParams()
-  const { frontEnd, backEnd, tags, API, languages, username, title, createdAt, description } = guide
+  const { head, body, createdAt, username } = guide
   // const { codeBlock, content, filepath, language } = guide.body
 
   // getters, checkers, and setters start here
@@ -162,20 +179,7 @@ export default function SingleGuide() {
     }
   }, [profile])
 
-  useEffect(() => {}, [file])
-
-  // useEffect(() => {
-  //   if (Object.keys(profile).length) {
-  //     if (profile.favorites.includes(guideId)) {
-  //     }
-  //     if (!profile.favorites.includes(guideId)) {
-  //     }
-  //   }
-  // }, [isFavorite])
-
-  //use effects end here
-
-  // styles start here
+  /*** styles  start ***/
   const singleGuideTopCard = {
     background: '#2f2f2f',
     p: 1,
@@ -272,6 +276,67 @@ export default function SingleGuide() {
     borderColor: '#353540',
     color: 'white',
   }
+  const formControlSX = {
+    py: 0.5,
+    mt: 0.5,
+    width: '20ch',
+    color: 'white',
+    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#f57c00',
+    },
+    '& label.Mui-focused': {
+      color: '#f57c00',
+    },
+    '& label': {
+      color: 'white',
+    },
+    '&:hover label': {
+      color: '#f57c00',
+    },
+    '& .MuiInputBase-input': {
+      color: 'white',
+      py: 0.5,
+    },
+    '& .MuiOutlinedInput-root': {
+      '&:hover fieldset': {
+        borderColor: '#f57c00',
+      },
+      '&:focus fieldset': {
+        borderColor: '#f57c00',
+      },
+      '& fieldset': {
+        borderColor: 'white',
+      },
+      '&:focus .MuiInputLabel-root': {
+        borderColor: '#f57c00',
+      },
+    },
+  }
+  const menuItemSX = {
+    py: 0,
+    pl: 1,
+    backgroundColor: '#cccccc55',
+    fontSize: '1em',
+    color: 'white',
+  }
+  const showBodyButton = {
+    background: '#353540',
+    color: '#f57c00',
+    '&:hover': { background: '#505060' },
+    border: 1,
+    borderColor: '#2f2f2f',
+    mt: 2,
+  }
+  const publishButtonSX = {
+    alignSelf: 'flex-end',
+    mr: 1.25,
+    fontSize: 40,
+    color: 'white',
+    '&:hover': {
+      cursor: 'pointer',
+      color: 'green',
+    },
+  }
 
   // styles end here
 
@@ -283,9 +348,10 @@ export default function SingleGuide() {
         alignContent: 'center',
         justifyContent: 'center',
       }}>
+      {console.log(guide)}
       {/* Title */}
       <Typography variant="h3" sx={{ color: 'white', ml: 1 }}>
-        {title.toUpperCase()}
+        {guide.head.title.toUpperCase()}
       </Typography>
       {/* Title */}
       {!showBody ? (
@@ -331,7 +397,7 @@ export default function SingleGuide() {
               </Box>
             </Box>
             {/* description */}
-            <Typography sx={{ color: 'white', mr: 2 }}>{description}</Typography>
+            <Typography sx={{ color: 'white', mr: 2 }}>{guide.head.description}</Typography>
           </Card>
 
           {/* technologies used begin here */}
@@ -348,8 +414,8 @@ export default function SingleGuide() {
               <Typography sx={{ color: 'white' }} gutterBottom>
                 Languages
               </Typography>
-              {languages.length ? (
-                languages.map((item, idx) => {
+              {guide.head.language.length ? (
+                guide.head.language.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
                       {`${item}`}
@@ -365,11 +431,11 @@ export default function SingleGuide() {
               <Typography sx={{ color: 'white' }} gutterBottom>
                 Front End
               </Typography>
-              {frontEnd.length ? (
-                frontEnd.map((item, idx) => {
+              {guide.head.frontEnd.length ? (
+                guide.head.frontEnd.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
-                      {`${item}`}
+                      {`${item.frontEnd}`}
                     </Typography>
                   )
                 })
@@ -382,11 +448,11 @@ export default function SingleGuide() {
               <Typography sx={{ color: 'white' }} gutterBottom>
                 Back End
               </Typography>
-              {backEnd.length ? (
-                backEnd.map((item, idx) => {
+              {guide.head.backEnd.length ? (
+                guide.head.backEnd.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
-                      {`${item}`}
+                      {`${item.backEnd}`}
                     </Typography>
                   )
                 })
@@ -399,11 +465,11 @@ export default function SingleGuide() {
               <Typography sx={{ color: 'white' }} gutterBottom>
                 APIs
               </Typography>
-              {API ? (
-                API.map((item, idx) => {
+              {guide.head.API ? (
+                guide.head.API.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideApiCardTypography}>
-                      {`${item}`}
+                      {`${item.API}`}
                     </Typography>
                   )
                 })
@@ -426,11 +492,11 @@ export default function SingleGuide() {
               Tags
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
-              {tags.length
-                ? tags.map((item, idx) => {
+              {guide.head.tag.length
+                ? guide.head.tag.map((item, idx) => {
                     return item ? (
                       <Typography key={idx} sx={singleGuideTagTypography}>
-                        {`${item}`}
+                        {`${item.tag}`}
                       </Typography>
                     ) : (
                       <Typography key={idx} sx={singleGuideTagTypography}>
@@ -460,45 +526,7 @@ export default function SingleGuide() {
                       <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
                         {guide.body[file].language}
                       </Typography>
-                      <FormControl
-                        fullWidth
-                        size="small"
-                        sx={{
-                          py: 0.5,
-                          mt: 0.5,
-                          width: '20ch',
-                          color: 'white',
-                          '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: '#f57c00',
-                          },
-                          '& label.Mui-focused': {
-                            color: '#f57c00',
-                          },
-                          '& label': {
-                            color: 'white',
-                          },
-                          '&:hover label': {
-                            color: '#f57c00',
-                          },
-                          '& .MuiInputBase-input': {
-                            color: 'white',
-                            py: 0.5,
-                          },
-                          '& .MuiOutlinedInput-root': {
-                            '&:hover fieldset': {
-                              borderColor: '#f57c00',
-                            },
-                            '&:focus fieldset': {
-                              borderColor: '#f57c00',
-                            },
-                            '& fieldset': {
-                              borderColor: 'white',
-                            },
-                            '&:focus .MuiInputLabel-root': {
-                              borderColor: '#f57c00',
-                            },
-                          },
-                        }}>
+                      <FormControl fullWidth size="small" sx={formControlSX}>
                         <InputLabel>File</InputLabel>
                         <Select
                           value={file}
@@ -520,13 +548,7 @@ export default function SingleGuide() {
                                     value={idx}
                                     disableGutters={true}
                                     dense={true}
-                                    sx={{
-                                      py: 0,
-                                      pl: 1,
-                                      backgroundColor: '#cccccc55',
-                                      fontSize: '1em',
-                                      color: 'white',
-                                    }}>
+                                    sx={menuItemSX}>
                                     {file.filepath}
                                   </MenuItem>
                                 )
@@ -556,9 +578,7 @@ export default function SingleGuide() {
           {/* end body component */}
         </>
       )}
-      {/*
-      button for published and body/head transition starts here
-      */}
+      {/* button for published and body/head transition starts here */}
       <Box
         sx={{
           display: 'flex',
@@ -571,29 +591,13 @@ export default function SingleGuide() {
               setIsPublished(true)
               setGuidePublished()
             }}
-            sx={{
-              alignSelf: 'flex-end',
-              mr: 1.25,
-              fontSize: 40,
-              color: 'white',
-              '&:hover': {
-                cursor: 'pointer',
-                color: 'green',
-              },
-            }}
+            sx={publishButtonSX}
           />
         )}
         <Button
           variant="contained"
           elevation={12}
-          sx={{
-            background: '#353540',
-            color: '#f57c00',
-            '&:hover': { background: '#505060' },
-            border: 1,
-            borderColor: '#2f2f2f',
-            mt: 2,
-          }}
+          sx={showBodyButton}
           onClick={() => {
             setShowBody(!showBody)
           }}>

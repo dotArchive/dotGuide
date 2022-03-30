@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Typography, TextField } from '@mui/material';
 
 export default function File(props) {
 	const [fileList, setFileList] = useState([{ filepath: '' }]);
@@ -33,17 +34,29 @@ export default function File(props) {
 
 	return (
 		<div>
+			<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+				File Name
+			</Typography>
 			{fileList.map((singleFile, index) => (
 				<div key={index}>
-					<input
-						className="filePath"
-						placeholder="File Path"
+					<TextField
+						sx={{
+							'& .MuiOutlinedInput-root': {
+								'& fieldset': {
+									borderColor: 'white',
+									borderRadius: 3,
+									mt: 0.5,
+									mb: 0.5,
+								},
+							},
+						}}
 						name="filepath"
 						type="text"
 						id="filepath"
+						variant="outlined"
+						size="small"
 						value={singleFile.filepath}
 						onChange={(e) => handleFileChange(e, index)}
-						required
 					/>
 				</div>
 			))}
