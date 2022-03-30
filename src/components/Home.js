@@ -148,6 +148,7 @@ export const Home = () => {
           sx={{
             textAlign: 'center',
             borderRadius: 25,
+
             my: 1.5,
             width: '40%',
             py: 2.5,
@@ -162,7 +163,7 @@ export const Home = () => {
           New Guide
         </Box>
       </Box>
-      <Typography variant="h3" sx={{ textAlign: 'center', color: '#cccccc', my: 1.5 }}>
+      <Typography variant="h6" sx={{ pl: '23rem',textAlign: 'left', color: '#cccccc', my: 1.5 }}>
         Latest Guides
       </Typography>
       {latestGuides.length ? <GuidePreview props={latestGuides} /> : null}
