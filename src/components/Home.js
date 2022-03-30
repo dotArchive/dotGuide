@@ -119,14 +119,13 @@ export const Home = () => {
     '&:hover': { cursor: 'pointer', borderColor: '#468ef3' },
   }
   const latestGuidesTypography = {
-    pl: '23rem',
-    textAlign: 'left',
+    textAlign: 'center',
     color: '#cccccc',
     my: 1.5,
   }
 
   return (
-    <div id="home" style={outerDiv}>
+    <Box id="home" style={outerDiv}>
       <Typography variant="h3" sx={dotGuide}>
         {`<dotGuide />`}
       </Typography>
@@ -162,7 +161,7 @@ export const Home = () => {
         Latest Guides
       </Typography>
       {latestGuides.length ? <GuidePreview props={latestGuides} /> : null}
-    </div>
+    </Box>
   )
 }
 

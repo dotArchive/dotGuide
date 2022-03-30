@@ -122,6 +122,7 @@ export default function AddGuide(props) {
 
   return (
     <form>
+      {console.log(guideId)}
       <div className="post">
         <Head username={username} guideId={guideId} save={save} submit={submit} />
       </div>
