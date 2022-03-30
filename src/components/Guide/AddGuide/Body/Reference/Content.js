@@ -42,34 +42,37 @@ export default function Content(props) {
 
 	return (
 		<div>
+			<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+				Reference
+			</Typography>
 			{contentList.map((singleContent, index) => (
 				<div key={index}>
-					<TextField
+					<Typography
 						sx={{
-							'& .MuiOutlinedInput-root': {
-								'& fieldset': {
-									borderColor: 'white',
-									borderRadius: 3,
-									mt: 0.5,
-									mb: 0.5,
-								},
-								'& adornedEnd': {
-									pr: 0,
-								},
-							},
+							color: 'white',
+							fontSize: '0.7em',
+							minHeight: 18,
+							p: 0.5,
+							mt: 0.5,
+							mb: 0.5,
+							border: 1,
+							borderColor: 'transparent',
+							borderRadius: 3,
+							textAlign: 'center',
+							textOverflow: 'ellipsis',
+							display: 'flex',
+							flexWrap: 'wrap',
 						}}
-						color="warning"
-						name="content"
-						type="text"
-						id="content"
-						rows="1"
-						variant="outlined"
-						size="small"
-						className="textArea"
-						label="Reference Content"
-						value={singleContent.content}
-						onChange={(e) => handleContentChange(e, index)}
-					/>
+					>
+						<TextareaAutosize
+							className="textArea"
+							name="content"
+							id="content"
+							placeholder="Reference"
+							value={singleContent.content}
+							onChange={(e) => handleContentChange(e, index)}
+						/>
+					</Typography>
 				</div>
 			))}
 		</div>

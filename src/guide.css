@@ -16,8 +16,26 @@ select {
 }
 
 .textArea {
-	min-height: 1rem;
-	min-width: 11rem;
+	min-height: 1.5rem;
+	min-width: 6rem;
+	width: 14rem;
+	max-width: 14rem;
+	color: 'white';
+	font-size: 0.9rem;
+	margin-top: 0.5;
+	margin-bottom: 0.5;
+	border: 1;
+	border-color: white;
+	border-radius: 10px;
+	text-overflow: ellipsis;
+	background-color: #2f2f2f;
+	font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+	font-weight: 400;
+	font-size: 1rem;
+}
+
+textarea::placeholder {
+	color: white;
 }
 
 input {

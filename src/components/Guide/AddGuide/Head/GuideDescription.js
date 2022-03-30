@@ -48,7 +48,6 @@ export default function GuideDescription(props) {
 						},
 					},
 				}}
-				color="warning"
 				variant="outlined"
 				multiline
 				fullWidth

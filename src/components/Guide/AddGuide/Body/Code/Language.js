@@ -1,55 +1,194 @@
-import React, { useState, useEffect } from 'react'
-
+import React, { useState, useEffect } from 'react';
+import {
+	Typography,
+	Box,
+	IconButton,
+	Button,
+	Card,
+	Container,
+	TextField,
+	InputAdornment,
+	MenuItem,
+	Select,
+	FormControl,
+	InputLabel,
+} from '@mui/material';
+import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
+import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
+import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp';
+import Visibility from '@mui/icons-material/Visibility';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { ClassNames } from '@emotion/react';
 export default function Language(props) {
-  const [language, setLanguage] = useState([{ language: '' }])
-  useEffect(() => {
-    if (props.add === true) setLanguage([...language, { language: '' }])
-  })
+	const [language, setLanguage] = useState([{ language: '' }]);
+	useEffect(() => {
+		if (props.add === true) setLanguage([...language, { language: '' }]);
+	});
 
-  useEffect(() => {
-    if (props.remove === true) language.pop()
-  })
+	useEffect(() => {
+		if (props.remove === true) language.pop();
+	});
 
-  useEffect(() => {
-    props.languageChild(language)
-  }, [language])
+	useEffect(() => {
+		props.languageChild(language);
+	}, [language]);
 
-  const handleLanguageChange = (e, index) => {
-    const { name, value } = e.target
-    const list = [...language]
-    list[index][name] = value
-    setLanguage(list)
-  }
+	const handleLanguageChange = (e, index) => {
+		const { name, value } = e.target;
+		const list = [...language];
+		list[index]['language'] = value;
+		setLanguage(list);
+	};
 
-  return (
-    <div>
-      {language.map((singleLanguage, index) => (
-        <div key={index}>
-          <select
-            onChange={(e) => handleLanguageChange(e, index)}
-            name="language"
-            id="language"
-            value={singleLanguage.language}>
-            <option value="">Language</option>
-            <option value="javascript">JavaScript</option>
-            <option value="jsx">JSX</option>
-            <option value="xml">XML/HTML</option>
-            <option value="css">CSS</option>
-            <option value="markdown">Markdown</option>
-            <option value="cobol">Cobol</option>
-            <option value="django">Django</option>
-            <option value="haskell">Haskell</option>
-            <option value="pascal">Pascal</option>
-            <option value="php">PHP</option>
-            <option value="python">Python</option>
-            <option value="powershell">Powershell</option>
-            <option value="ruby">Ruby</option>
-            <option value="rust">Rust</option>
-            <option value="sass">SASS</option>
-            <option value="swift">Swift</option>
-          </select>
-        </div>
-      ))}
-    </div>
-  )
+	const languages = [
+		{
+			value: 'javascript',
+			name: 'JavaScript',
+		},
+		{
+			value: 'jsx',
+			name: 'JSX',
+		},
+		{
+			value: 'xml',
+			name: 'XML/HTML',
+		},
+		{
+			value: 'css',
+			name: 'CSS',
+		},
+		{
+			value: 'markdown',
+			name: 'Markdown',
+		},
+		{
+			value: 'cobol',
+			name: 'Cobol',
+		},
+		{
+			value: 'django',
+			name: 'Django',
+		},
+		{
+			value: 'haskell',
+			name: 'Haskell',
+		},
+		{
+			value: 'pascal',
+			name: 'Pascal',
+		},
+		{
+			value: 'php',
+			name: 'PHP',
+		},
+		{
+			value: 'python',
+			name: 'Python',
+		},
+		{
+			value: 'powershell',
+			name: 'Powershell',
+		},
+		{
+			value: 'ruby',
+			name: 'Ruby',
+		},
+		{
+			value: 'rust',
+			name: 'Rust',
+		},
+		{
+			value: 'sass',
+			name: 'Sass',
+		},
+		{
+			value: 'swift',
+			name: 'Swift',
+		},
+	];
+
+	return (
+		<div>
+			<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+				Language
+			</Typography>
+			{language.map((singleLanguage, index) => (
+				<div key={index}>
+					<FormControl
+						fullWidth
+						size="small"
+						sx={{
+							py: 0.5,
+							mt: 0.5,
+							color: 'white',
+							'& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+								borderRadius: 3,
+							},
+							'& label.Mui-focused': {},
+							'& label': {
+								color: 'white',
+							},
+							'&:hover label': {
+								color: '#f57c00',
+							},
+							'& .MuiInputBase-input': {
+								color: 'white',
+								py: 0.5,
+							},
+							'& .MuiOutlinedInput-root': {
+								'&:hover fieldset': {
+									borderRadius: 3,
+								},
+								'&:focus fieldset': {
+									borderRadius: 3,
+								},
+								'& fieldset': {
+									borderColor: 'white',
+									borderRadius: 3,
+								},
+								'&:focus .MuiInputLabel-root': {
+									borderColor: '#f57c00',
+									borderRadius: 3,
+								},
+							},
+						}}
+					>
+						<Select
+							key={index}
+							MenuProps={{
+								PaperProps: {
+									sx: {
+										bgcolor: '#303035',
+										color: 'white',
+									},
+								},
+							}}
+							size="small"
+							id="language"
+							onChange={(e) => handleLanguageChange(e, index)}
+							value={singleLanguage.language}
+						>
+							{languages.map((option) => (
+								<MenuItem
+									sx={{
+										py: 0,
+										pl: 1,
+										backgroundColor: '#cccccc55',
+										fontSize: '1em',
+										color: 'white',
+										width: '75%',
+									}}
+									key={option.value}
+									value={option.value}
+								>
+									{option.name}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+				</div>
+			))}
+		</div>
+	);
 }

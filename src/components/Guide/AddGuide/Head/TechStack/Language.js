@@ -79,7 +79,6 @@ export default function Language(props) {
 							},
 						},
 					}}
-					color="warning"
 					name="language"
 					id="language"
 					onChange={(e) => handleLanguageChange(e, index)}

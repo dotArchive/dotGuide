@@ -40,47 +40,39 @@ export default function CodeEditor(props) {
 		setCodeBlock(list);
 	};
 
-	const singleGuideTagCards = {
-		background: '#2f2f2f',
-		p: 1,
-		pl: 2,
-		pr: 2,
-		mr: 1,
-		mt: 1,
-		width: '25%',
-		minHeight: '10vh',
-		textOverflow: 'ellipsis',
-		border: 1.25,
-		borderColor: '#353540',
-	};
 	return (
 		<div>
+			<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+				Code Block
+			</Typography>
 			{codeBlock.map((singleCode, index) => (
 				<div key={index}>
-					<TextField
+					<Typography
 						sx={{
-							'& .MuiOutlinedInput-root': {
-								'& fieldset': {
-									borderColor: 'white',
-									borderRadius: 3,
-									mt: 0.5,
-									mb: 0.5,
-								},
-								'& adornedEnd': {
-									pr: 0,
-								},
-							},
+							color: 'white',
+							fontSize: '0.7em',
+							minHeight: 18,
+							p: 0.5,
+							mt: 0.5,
+							mb: 0.5,
+							border: 1,
+							borderColor: 'transparent',
+							borderRadius: 3,
+							textAlign: 'center',
+							textOverflow: 'ellipsis',
+							display: 'flex',
+							flexWrap: 'wrap',
 						}}
-						color="warning"
-						name="codeBlock"
-						type="text"
-						id="codeBlock"
-						variant="outlined"
-						size="small"
-						label="Code Block"
-						value={singleCode.codeBlock}
-						onChange={(e) => handleCodeChange(e, index)}
-					/>
+					>
+						<TextareaAutosize
+							className="textArea"
+							name="codeBlock"
+							id="codeBlock"
+							placeholder="Code Block"
+							value={singleCode.codeBlock}
+							onChange={(e) => handleCodeChange(e, index)}
+						/>
+					</Typography>
 				</div>
 			))}
 		</div>

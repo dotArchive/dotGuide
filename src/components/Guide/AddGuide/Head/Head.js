@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../../../firebase';
 import BackEnd from './TechStack/BackEnd';
 import FrontEnd from './TechStack/FrontEnd';
@@ -96,7 +96,7 @@ export default function Head(props) {
 			>
 				<div className="flexbox" style={{ justifyContent: 'space-between' }}>
 					<Typography sx={{ color: 'white', fontSize: '0.75em' }}>
-						{`${username} — Tue Mar 22 2022 18:00`}
+						{`${username} — Sever Timestamp`}
 					</Typography>
 					<div>
 						<IconButton>
