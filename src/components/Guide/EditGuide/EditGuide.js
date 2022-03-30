@@ -14,6 +14,10 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../../../firebase';
 import Body from './Body/Body';
 import Head from './Head/Head';
+import { Box, Button } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SaveIcon from "@mui/icons-material/Save";
+import SendIcon from "@mui/icons-material/Send";
 
 export default function AddGuide(props) {
 	/*** Hooks ***/
@@ -119,25 +123,17 @@ export default function AddGuide(props) {
 				<Body guide={guide} guideId={guideId} save={save} submit={submit} />
 			</div>
 
-			<div>
-				<button type="button" onClick={handleCancel} className="cancel-btn">
-					Cancel
-				</button>
-				<button
-					type="button"
-					onClick={() => setSave(true)}
-					className="save-btn"
-				>
-					Save Draft
-				</button>
-				<button
-					type="submit"
-					onClick={() => setSubmit(true)}
-					className="submit-btn"
-				>
-					Post Guide
-				</button>
-			</div>
+			<Box sx={{display: 'flex', justifyContent: 'center', pt: 5, pb: 5}}>
+        <Button onClick={handleCancel}>
+          <ArrowBackIcon sx={{ color: "gray", fontSize: 36, }} onClick={() => navigate("/")} />
+        </Button>
+        <Button onClick={() => setSave(true)}>
+          <SaveIcon sx={{ color: "#468ef3", fontSize: 36, pl: 5, pr: 5 }} />
+        </Button>
+        <Button>
+          <SendIcon sx={{ color: "#468ef3", fontSize: 36 }} onClick={() => setSubmit(true)} />
+        </Button>
+      </Box>
 		</form>
 	);
 }
