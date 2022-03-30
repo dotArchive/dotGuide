@@ -110,7 +110,7 @@ const Login = () => {
             className="login__btn"
             onClick={() => logInWithEmailAndPassword(email, password)}
           >
-            <CheckCircleOutlineIcon />
+            <CheckCircleOutlineIcon sx={{ color: "#468ef3", fontSize: 28, }}/>
           </Button>
         </Box>
       </Card>
