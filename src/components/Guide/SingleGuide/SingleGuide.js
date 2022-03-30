@@ -162,7 +162,7 @@ export default function SingleGuide() {
     }
   }, [profile])
 
-  useEffect(() => {}, [file])
+  // useEffect(() => {}, [file])
 
   // useEffect(() => {
   //   if (Object.keys(profile).length) {
@@ -271,6 +271,67 @@ export default function SingleGuide() {
     border: 1.25,
     borderColor: '#353540',
     color: 'white',
+  }
+  const formControlSX = {
+    py: 0.5,
+    mt: 0.5,
+    width: '20ch',
+    color: 'white',
+    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#f57c00',
+    },
+    '& label.Mui-focused': {
+      color: '#f57c00',
+    },
+    '& label': {
+      color: 'white',
+    },
+    '&:hover label': {
+      color: '#f57c00',
+    },
+    '& .MuiInputBase-input': {
+      color: 'white',
+      py: 0.5,
+    },
+    '& .MuiOutlinedInput-root': {
+      '&:hover fieldset': {
+        borderColor: '#f57c00',
+      },
+      '&:focus fieldset': {
+        borderColor: '#f57c00',
+      },
+      '& fieldset': {
+        borderColor: 'white',
+      },
+      '&:focus .MuiInputLabel-root': {
+        borderColor: '#f57c00',
+      },
+    },
+  }
+  const menuItemSX = {
+    py: 0,
+    pl: 1,
+    backgroundColor: '#cccccc55',
+    fontSize: '1em',
+    color: 'white',
+  }
+  const showBodyButton = {
+    background: '#353540',
+    color: '#f57c00',
+    '&:hover': { background: '#505060' },
+    border: 1,
+    borderColor: '#2f2f2f',
+    mt: 2,
+  }
+  const publishButtonSX = {
+    alignSelf: 'flex-end',
+    mr: 1.25,
+    fontSize: 40,
+    color: 'white',
+    '&:hover': {
+      cursor: 'pointer',
+      color: 'green',
+    },
   }
 
   // styles end here
@@ -460,45 +521,7 @@ export default function SingleGuide() {
                       <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
                         {guide.body[file].language}
                       </Typography>
-                      <FormControl
-                        fullWidth
-                        size="small"
-                        sx={{
-                          py: 0.5,
-                          mt: 0.5,
-                          width: '20ch',
-                          color: 'white',
-                          '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: '#f57c00',
-                          },
-                          '& label.Mui-focused': {
-                            color: '#f57c00',
-                          },
-                          '& label': {
-                            color: 'white',
-                          },
-                          '&:hover label': {
-                            color: '#f57c00',
-                          },
-                          '& .MuiInputBase-input': {
-                            color: 'white',
-                            py: 0.5,
-                          },
-                          '& .MuiOutlinedInput-root': {
-                            '&:hover fieldset': {
-                              borderColor: '#f57c00',
-                            },
-                            '&:focus fieldset': {
-                              borderColor: '#f57c00',
-                            },
-                            '& fieldset': {
-                              borderColor: 'white',
-                            },
-                            '&:focus .MuiInputLabel-root': {
-                              borderColor: '#f57c00',
-                            },
-                          },
-                        }}>
+                      <FormControl fullWidth size="small" sx={formControlSX}>
                         <InputLabel>File</InputLabel>
                         <Select
                           value={file}
@@ -520,13 +543,7 @@ export default function SingleGuide() {
                                     value={idx}
                                     disableGutters={true}
                                     dense={true}
-                                    sx={{
-                                      py: 0,
-                                      pl: 1,
-                                      backgroundColor: '#cccccc55',
-                                      fontSize: '1em',
-                                      color: 'white',
-                                    }}>
+                                    sx={menuItemSX}>
                                     {file.filepath}
                                   </MenuItem>
                                 )
@@ -556,9 +573,7 @@ export default function SingleGuide() {
           {/* end body component */}
         </>
       )}
-      {/*
-      button for published and body/head transition starts here
-      */}
+      {/* button for published and body/head transition starts here */}
       <Box
         sx={{
           display: 'flex',
@@ -571,29 +586,13 @@ export default function SingleGuide() {
               setIsPublished(true)
               setGuidePublished()
             }}
-            sx={{
-              alignSelf: 'flex-end',
-              mr: 1.25,
-              fontSize: 40,
-              color: 'white',
-              '&:hover': {
-                cursor: 'pointer',
-                color: 'green',
-              },
-            }}
+            sx={publishButtonSX}
           />
         )}
         <Button
           variant="contained"
           elevation={12}
-          sx={{
-            background: '#353540',
-            color: '#f57c00',
-            '&:hover': { background: '#505060' },
-            border: 1,
-            borderColor: '#2f2f2f',
-            mt: 2,
-          }}
+          sx={showBodyButton}
           onClick={() => {
             setShowBody(!showBody)
           }}>
