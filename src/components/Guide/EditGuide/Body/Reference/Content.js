@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
+import { Typography } from '@mui/material';
 
 export default function Content(props) {
 	const [contentList, setContentList] = useState([{ content: '' }]);
@@ -33,19 +35,37 @@ export default function Content(props) {
 
 	return (
 		<div>
+			<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+				Reference
+			</Typography>
 			{contentList.map((singleContent, index) => (
 				<div key={index}>
-					<textarea
-						placeholder="Reference Content"
-						name="content"
-						type="text"
-						id="content"
-						rows="1"
-						className="textArea"
-						value={singleContent.content}
-						onChange={(e) => handleContentChange(e, index)}
-						required
-					/>
+					<Typography
+						sx={{
+							color: 'white',
+							fontSize: '0.7em',
+							minHeight: 18,
+							p: 0.5,
+							mt: 0.5,
+							mb: 0.5,
+							border: 1,
+							borderColor: 'transparent',
+							borderRadius: 3,
+							textAlign: 'center',
+							textOverflow: 'ellipsis',
+							display: 'flex',
+							flexWrap: 'wrap',
+						}}
+					>
+						<TextareaAutosize
+							className="textArea"
+							name="content"
+							id="content"
+							placeholder="Reference"
+							value={singleContent.content}
+							onChange={(e) => handleContentChange(e, index)}
+						/>
+					</Typography>
 				</div>
 			))}
 		</div>
