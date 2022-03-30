@@ -175,7 +175,7 @@ export default function SingleGuide() {
 
   //use effects end here
 
-  // styles start here
+  /*** styles  start ***/
   const singleGuideTopCard = {
     background: '#2f2f2f',
     p: 1,

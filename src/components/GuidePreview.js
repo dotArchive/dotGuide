@@ -17,7 +17,7 @@ const GuidePreview = (guides) => {
   const handleGuideClick = (guideId) => {
     navigate(`/guide/${guideId}`)
   }
-
+  /*** styles  start ***/
   const outerCard = {
     background: '#2f2f2f',
     color: 'white',

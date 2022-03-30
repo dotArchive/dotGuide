@@ -19,6 +19,7 @@ const UserGuidePreview = (guides) => {
     navigate(`/guide/${guideId}`)
   }
 
+  /*** styles  start ***/
   const mapCard = {
     background: '#2f2f2f',
     color: 'white',

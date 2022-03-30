@@ -57,6 +57,7 @@ export default function EditUser() {
     }
   }
 
+  /*** styles  start ***/
   const outerBox = {
     display: 'flex',
     alignContent: 'center',

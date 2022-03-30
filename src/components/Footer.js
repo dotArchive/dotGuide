@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, Container, Typography, Link } from '@mui/material/'
 
 const Footer = () => {
+  /*** styles  start ***/
   const outerContainer = {
     display: 'flex',
     justifyContent: 'center',

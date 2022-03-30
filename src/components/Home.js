@@ -50,6 +50,7 @@ export const Home = () => {
     navigate(`/search/${e.target.value}`)
   }
 
+  /*** styles  start ***/
   const outerDiv = {
     mt: 3,
     display: 'flex',

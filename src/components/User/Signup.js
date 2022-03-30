@@ -35,6 +35,7 @@ const Signup = () => {
     if (user) navigate('/profile')
   }, [user, loading])
 
+  /*** styles  start ***/
   const outerBox = {
     display: 'flex',
     alignContent: 'center',
