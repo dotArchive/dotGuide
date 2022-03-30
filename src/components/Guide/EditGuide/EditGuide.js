@@ -98,6 +98,7 @@ export default function AddGuide(props) {
 	/*** Updates FireStore & Publish to True ***/
 	const isPublished = async () => {
 		const guideRef = doc(db, 'guides', guideId);
+		console.log(guideRef)
 		await updateDoc(guideRef, {
 			isPublished: true,
 		});
