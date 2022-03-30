@@ -102,20 +102,46 @@ const Profile = () => {
   const guideProps = { guides: guides, list: profile.guides };
   const favProps = { guides: favorites, list: profile.favorites };
   return (
-    <Container>
-      {console.log(guideProps, favProps)}
-      <Card sx={{ borderRadius: 1, border: 1.25, borderColor: '#353540' }}>
-        <CardContent sx={{ color: 'white', bgcolor: '#2f2f2f' }}>
-          <Typography sx={{ mb: 0.5 }}>Username: {user.username}</Typography>
-          <Typography sx={{ mb: 0.5 }}>Email: {user.email}</Typography>
-          <Typography>
-            <Button
-              sx={{ borderRadius: 1 }}
-              variant="contained"
-              onClick={() => navigate('/edit-profile')}>
-              Edit Profile
-            </Button>
-
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignContent: "center",
+        justifyContent: "center",
+        width: "50%",
+        ml: "auto",
+        mr: "auto",
+      }}
+    >
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          text: "center",
+          background: "#2f2f2f",
+          p: 1,
+          pl: 2,
+          pr: 2,
+          mr: "auto",
+          ml: "auto",
+          mb: 5,
+          width: "50%",
+          minHeight: "10vh",
+          textOverflow: "ellipsis",
+          border: 1.25,
+          borderColor: "#353540",
+          flexGrow: 1,
+        }}
+      >
+        <Typography
+          variant="h3"
+          sx={{ pt: 2, pb: 3, color: "white", textAlign: "center" }}
+        >
+          Profile
+        </Typography>
+        <Box sx={{ display: "flex" }}>
+          <Typography sx={{ mt: 0.75, mb: 0.5, pr: 2, color: "white" }}>
+            Username:
           </Typography>
           <TextField
             sx={{
@@ -138,6 +164,7 @@ const Profile = () => {
             label={user.username}
           />
         </Box>
+
         <Box sx={{ display: "flex" }}>
           <Typography sx={{ mt: 1, mb: 0.75, pr: 6.25, color: "white" }}>
             Email:
