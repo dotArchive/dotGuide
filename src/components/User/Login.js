@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { Button, Card, TextField, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,40 +23,99 @@ const Login = () => {
   }, [user, loading]);
 
   return (
-    <div className="login">
-      <div className="login__container">
-        <input
+    <Box
+      sx={{
+        display: "flex",
+        alignContent: "center",
+        justifyContent: "center",
+        width: "50%",
+        ml: "auto",
+        mr: "auto",
+      }}
+    >
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          background: "#2f2f2f",
+          p: 1,
+          pl: 2,
+          pr: 2,
+          // mr: 1,
+          width: "25%",
+          minHeight: "10vh",
+          textOverflow: "ellipsis",
+          border: 1.25,
+          borderColor: "#353540",
+          flexGrow: 1,
+        }}
+      >
+        <Typography variant="h3" sx={{ pt: 3, pb: 5, color: "white", textAlign: "center" }}>
+          Login
+        </Typography>
+        <TextField
+          sx={{
+            pb: 1,
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "white",
+                borderRadius: 3,
+                mt: 0.5,
+                mb: 0.5,
+              },
+              "& adornedEnd": {
+                pr: 0,
+              },
+            },
+          }}
+          size="small"
+          variant="outlined"
           type="text"
           className="login__textBox"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="EMAIL"
+          label="Email"
         />
-        <input
+        <TextField
+          sx={{
+            pb: 1,
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "white",
+                borderRadius: 3,
+                mt: 0.5,
+                mb: 0.5,
+              },
+              "& adornedEnd": {
+                pr: 0,
+              },
+            },
+          }}
+          size="small"
+          variant="outlined"
           type="password"
           className="login__textBox"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="PASSWORD"
+          label="Password"
         />
-        <button
-          className="login__btn"
-          onClick={() => logInWithEmailAndPassword(email, password)}
-        >
-          Login
-        </button>
-        {/* <button className="login__btn login__google" onClick={signInWithGoogle}>
-          Login with Google
-        </button> */}
-        <div>
-          <Link to="/reset">Forgot Password</Link>
-        </div>
-        <div>
-          Don't have an account? <Link to="/signup">Register</Link> now.
-        </div>
-      </div>
-    </div>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Button>
+            <ArrowBackIcon
+              sx={{ color: "gray" }}
+              onClick={() => navigate("/")}
+            />
+          </Button>
+          <Button
+            className="login__btn"
+            onClick={() => logInWithEmailAndPassword(email, password)}
+          >
+            <CheckCircleOutlineIcon />
+          </Button>
+        </Box>
+      </Card>
+    </Box>
   );
-}
+};
 
 export default Login;

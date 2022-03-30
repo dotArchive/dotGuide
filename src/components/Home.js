@@ -97,7 +97,7 @@ export const Home = () => {
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Card
           sx={{
-            borderRadius: 5,
+            borderRadius: 1,
             bgcolor: '#2f2f2f',
             width: '80%',
           }}>
@@ -125,7 +125,7 @@ export const Home = () => {
                     typography: 'paragraph',
                     padding: 1,
                     mx: 1.5,
-                    borderRadius: 2.5,
+                    borderRadius: 1,
                     background: '#2f2f2f',
                     color: '#cccccc',
                     textAlign: 'center',
@@ -144,20 +144,22 @@ export const Home = () => {
         <Box
           sx={{
             textAlign: 'center',
-            borderRadius: 5,
+            borderRadius: 25,
+            border: 2,
+            borderColor: '#2f2f2f',
+            background: 'transparent',
             my: 1.5,
-            width: '50%',
+            width: '27%',
             py: 2.5,
             typography: 'h4',
-            background: '#468ef3',
             color: '#eeeeee',
-            '&:hover': { cursor: 'pointer' },
+            '&:hover': { cursor: 'pointer', borderColor: '#468ef3' }
           }}
           onClick={() => handleNewGuideClick()}>
           New Guide
         </Box>
       </Box>
-      <Typography variant="h3" sx={{ textAlign: 'center', color: '#cccccc', my: 1.5 }}>
+      <Typography variant="h6" sx={{ pl: '23rem',textAlign: 'left', color: '#cccccc', my: 1.5 }}>
         Latest Guides
       </Typography>
       {latestGuides.length ? <GuidePreview props={latestGuides} /> : null}

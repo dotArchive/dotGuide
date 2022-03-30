@@ -29,9 +29,9 @@ const GuidePreview = (guides) => {
                 sx={{
                   background: '#2f2f2f',
                   color: 'white',
-                  borderRadius: 10,
+                  borderRadius: 1,
                   mx: 1,
-                  my: 1,
+                  my: 0.5,
                   '&:hover': { cursor: 'pointer' },
                   width: '50%',
                   display: 'flex',

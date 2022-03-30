@@ -3,23 +3,18 @@ import { Card, Container } from '@mui/material/'
 
 const Footer = () => {
   return (
-    <Container sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
-      <Card
-        sx={{ width: '52.5%', textAlign: 'center', borderRadius: 5 }}
-        style={{ backgroundColor: '#2f2f2f' }}
-        id="footer">
+    <div style={{textAlign: 'center'}}>
         <p style={{ color: 'white' }}>
           Web Design & Development by{' '}
           <a
-            style={{ color: '#f57c00' }}
+            style={{ color: '#468ef3' }}
             href="https://github.com/dotArchive/dotGuide"
             target="_blank"
             rel="noopener noreferrer">
             {`<dotGuide />`}
           </a>
         </p>
-      </Card>
-    </Container>
+    </div>
   )
 }
 
