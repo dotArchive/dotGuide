@@ -73,7 +73,6 @@ function CodeURL(props) {
 									},
 								},
 							}}
-							color="warning"
 							name="language"
 							id="language"
 							onChange={(e) => handleURLChange(e, index)}

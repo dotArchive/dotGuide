@@ -71,7 +71,6 @@ function BackEnd(props) {
 							},
 						},
 					}}
-					color="warning"
 					name="language"
 					id="language"
 					onChange={(e) => handleBackEndChange(e, index)}

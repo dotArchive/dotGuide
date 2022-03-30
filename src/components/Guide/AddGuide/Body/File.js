@@ -41,6 +41,9 @@ export default function File(props) {
 
 	return (
 		<div>
+			<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+				File Name
+			</Typography>
 			{fileList.map((singleFile, index) => (
 				<div key={index}>
 					<TextField
@@ -52,19 +55,13 @@ export default function File(props) {
 									mt: 0.5,
 									mb: 0.5,
 								},
-								'& adornedEnd': {
-									pr: 0,
-								},
 							},
 						}}
-						color="warning"
-						// className="filePath"
 						name="filepath"
 						type="text"
 						id="filepath"
 						variant="outlined"
 						size="small"
-						label="File Path"
 						value={singleFile.filepath}
 						onChange={(e) => handleFileChange(e, index)}
 					/>

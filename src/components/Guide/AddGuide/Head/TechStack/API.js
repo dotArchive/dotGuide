@@ -73,7 +73,6 @@ function API(props) {
 							},
 						},
 					}}
-					color="warning"
 					name="language"
 					id="language"
 					onChange={(e) => handleAPIChange(e, index)}
