@@ -42,12 +42,19 @@ export default function Body(props) {
 		setRemove(false);
 	}, [remove]);
 
-	useEffect(() => {
-		if (props.save === true) {
-			console.log('updating body, save');
-			updateBody();
-		}
-	});
+
+  useEffect(() => {
+    if (props.save === true) {
+      console.log('updating body, save')
+      updateBody()
+    }
+  })
+  useEffect(() => {
+    if (props.submit === true) {
+      console.log('updating body, publish')
+      updateBody()
+    }
+  })
 
 	let body = [];
 	const guideId = props.guideId;

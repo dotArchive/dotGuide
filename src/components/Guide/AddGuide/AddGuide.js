@@ -137,25 +137,49 @@ export default function AddGuide(props) {
 				<Body guideId={guideId} save={save} submit={submit} />
 			</div>
 
-			<div>
-				<button type="button" onClick={handleCancel} className="cancel-btn">
-					Cancel
-				</button>
-				<button
-					type="button"
-					onClick={() => setSave(true)}
-					className="save-btn"
-				>
-					Save Draft
-				</button>
-				<button
-					type="submit"
-					onClick={() => setSubmit(true)}
-					className="submit-btn"
-				>
-					Post Guide
-				</button>
-			</div>
-		</form>
-	);
+
+  /*** Updates FireStore & Publish to True ***/
+  const isPublished = async () => {
+    const guideRef = doc(db, 'guides', guideId)
+    await updateDoc(guideRef, {
+      userId,
+      username,
+      isPublished: true,
+    })
+    const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
+    const qS = await getDocs(q)
+    const profileId = qS.docs[0].id
+    await updateDoc(doc(db, 'profiles', profileId), {
+      guides: arrayUnion(guideId),
+    })
+    // console.log('setting published')
+  }
+
+  const handleCancel = () => {
+    navigate('/')
+  }
+
+  return (
+    <form>
+      {console.log(guideId)}
+      <div className="post">
+        <Head username={username} guideId={guideId} save={save} submit={submit} />
+      </div>
+      <div className="post">
+        <Body guideId={guideId} save={save} submit={submit} />
+      </div>
+
+      <div>
+        <button type="button" onClick={handleCancel} className="cancel-btn">
+          Cancel
+        </button>
+        <button type="button" onClick={() => setSave(true)} className="save-btn">
+          Save Draft
+        </button>
+        <button type="submit" onClick={() => setSubmit(true)} className="submit-btn">
+          Post Guide
+        </button>
+      </div>
+    </form>
+  )
 }

@@ -164,6 +164,7 @@ const Profile = () => {
             label={user.username}
           />
         </Box>
+
         <Box sx={{ display: "flex" }}>
           <Typography sx={{ mt: 1, mb: 0.75, pr: 6.25, color: "white" }}>
             Email:
