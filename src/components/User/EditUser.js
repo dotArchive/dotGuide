@@ -133,7 +133,8 @@ export default function EditUser() {
             <ArrowBackIcon sx={{ color: 'gray' }} />
           </Button>
           <Button onClick={() => updateProfile()}>
-            <CheckCircleOutlineIcon sx={{ color: '#468ef3' }} />
+            <CheckCircleOutlineIcon sx={{ color: "#468ef3", fontSize: 28, }} />
+
           </Button>
         </Box>
       </Card>

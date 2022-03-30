@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   collection,
   getDocs,
@@ -10,36 +10,41 @@ import {
   where,
   serverTimestamp,
   arrayUnion,
-} from 'firebase/firestore'
-import { onAuthStateChanged } from 'firebase/auth'
-import { db, auth } from '../../../firebase'
-import Body from './Body/Body'
-import Head from './Head/Head'
+} from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { db, auth } from "../../../firebase";
+import Body from "./Body/Body";
+import Head from "./Head/Head";
+import { Box, Button } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SaveIcon from "@mui/icons-material/Save";
+import SendIcon from "@mui/icons-material/Send";
 
 export default function AddGuide(props) {
   /*** Hooks ***/
-  const [currentUid, setCurrentUid] = useState('')
-  const [user, setUser] = useState({})
-  const [guideId, setGuideId] = useState('')
-  const [save, setSave] = useState(false)
-  const [submit, setSubmit] = useState(false)
+  const [currentUid, setCurrentUid] = useState("");
+  const [user, setUser] = useState({});
+  const [guideId, setGuideId] = useState("");
+  const [save, setSave] = useState(false);
+  const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
-    setSave(false)
-    if (save === true) setOwner()
-  }, [save])
+    setSave(false);
+    if (save === true) setOwner();
+  }, [save]);
 
   useEffect(() => {
-    setSubmit(false)
+    setSubmit(false);
     if (submit === true) {
-      isPublished()
-      navigate('/')
+      isPublished();
+      navigate("/");
     }
-  }, [submit])
+  }, [submit]);
 
-  const navigate = useNavigate()
-  const username = user.username
-  const userId = user.uid
+  const navigate = useNavigate();
+  const username = user.username;
+  const userId = user.uid;
+
 
   /*** Get current UserID from FireAuth ***/
   useEffect(() => {

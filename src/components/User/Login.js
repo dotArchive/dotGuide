@@ -91,8 +91,12 @@ const Login = () => {
           <Button>
             <ArrowBackIcon sx={{ color: 'gray' }} onClick={() => navigate('/')} />
           </Button>
-          <Button className="login__btn" onClick={() => logInWithEmailAndPassword(email, password)}>
-            <CheckCircleOutlineIcon />
+          <Button
+            className="login__btn"
+            onClick={() => logInWithEmailAndPassword(email, password)}
+          >
+            <CheckCircleOutlineIcon sx={{ color: "#468ef3", fontSize: 28, }}/>
+
           </Button>
         </Box>
       </Card>
