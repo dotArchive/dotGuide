@@ -48,7 +48,8 @@ export default function CodeEditor(props) {
 							flexWrap: 'wrap',
 						}}
 					>
-						<TextareaAutosize
+						<textarea
+							rows="1"
 							className="textArea"
 							name="codeBlock"
 							id="codeBlock"

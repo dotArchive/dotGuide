@@ -57,7 +57,8 @@ export default function Content(props) {
 							flexWrap: 'wrap',
 						}}
 					>
-						<TextareaAutosize
+						<textarea
+							rows="1"
 							className="textArea"
 							name="content"
 							id="content"
