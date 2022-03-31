@@ -1,16 +1,21 @@
+//react imports
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+//firebase imports
 import { db, auth } from '../../firebase'
 import { collection, getDocs, where, query, getDoc, doc } from 'firebase/firestore'
-import { TextField } from '@mui/material'
 import { onAuthStateChanged } from 'firebase/auth'
-import Container from '@mui/material/Container'
+
+//mui imports
+import TextField from '@mui/material/TextField'
 import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
 import EditIcon from '@mui/icons-material/Edit'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+
+//components
 import UserGuidePreview from './UserGuidePreviews'
 
 const Profile = () => {
@@ -18,15 +23,17 @@ const Profile = () => {
   const [user, setUser] = useState({})
   const [uid, setUid] = useState('')
   const [profile, setProfile] = useState({})
+
   //guides and favorites lists
   const [guides, setGuides] = useState([])
   const [favorites, setFavorites] = useState([])
+
   //toggles for opening and closing guides and favorites lists
   const [guidesOpen, setGuidesOpen] = useState(false)
   const [favoritesOpen, setFavoritesOpen] = useState(false)
   const navigate = useNavigate()
 
-  // Get User from firebase Auth
+  // useEffects start here
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -42,6 +49,7 @@ const Profile = () => {
     getFavorites()
   }, [profile])
 
+  // Firebase data pulls start here
   const getUser = () => {
     const myDoc = async () => {
       const docRef = collection(db, 'users')
@@ -92,9 +100,12 @@ const Profile = () => {
     }
     myProfile()
   }
+
+  //combiners for passing props
   const guideProps = { guides: guides, list: profile.guides }
   const favProps = { guides: favorites, list: profile.favorites }
 
+  /*** styles start here ***/
   const outerBox = {
     display: 'flex',
     flexDirection: 'column',
@@ -112,6 +123,18 @@ const Profile = () => {
     border: 1.25,
     borderColor: '#353540',
   }
+  const profileTypography = {
+    pt: 2,
+    pb: 3,
+    color: 'white',
+    textAlign: 'center',
+  }
+  const usernameTypography = {
+    mt: 0.75,
+    mb: 0.5,
+    pr: 2,
+    color: 'white',
+  }
   const profileTopCardText = {
     pb: 1,
     '& .MuiOutlinedInput-root': {
@@ -126,29 +149,63 @@ const Profile = () => {
       },
     },
   }
+  const emailTypography = {
+    mt: 1,
+    mb: 0.75,
+    pr: 6.25,
+    color: 'white',
+  }
+  const guideListsOuterBox = {
+    display: 'flex',
+    alignSelf: 'space-around',
+    flowDirection: 'row',
+    // justifyContent: 'center',
+  }
+  const guideListsBox = {
+    ml: 0.5,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  }
+  const guidesListsTypography = {
+    color: 'white',
+    my: 1,
+    fontSize: '2em',
+    alignSelf: 'center',
+  }
+  const openButtonStyles = {
+    borderRadius: 1,
+    mb: 0.5,
+    width: '50%',
+    alignSelf: 'center',
+  }
+
   return (
     <>
       <Box sx={outerBox}>
+        {/*** start profile top card ***/}
+
         <Card sx={profileTopCard}>
-          <Typography variant="h3" sx={{ pt: 2, pb: 3, color: 'white', textAlign: 'center' }}>
+          <Typography variant="h3" sx={profileTypography}>
             Profile
           </Typography>
+          {/*** username field ***/}
           <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ mt: 0.75, mb: 0.5, pr: 2, color: 'white' }}>Username:</Typography>
+            <Typography sx={usernameTypography}>Username:</Typography>
             <TextField
               sx={profileTopCardText}
-              disabled="true"
+              disabled={true}
               size="small"
               variant="outlined"
               label={user.username}
             />
           </Box>
-
           <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ mt: 1, mb: 0.75, pr: 6.25, color: 'white' }}>Email:</Typography>
+            {/*** email field ***/}
+            <Typography sx={emailTypography}>Email:</Typography>
             <TextField
               sx={profileTopCardText}
-              disabled="true"
+              disabled={true}
               size="small"
               variant="outlined"
               label={user.email}
@@ -160,23 +217,18 @@ const Profile = () => {
             </Button>
           </Box>
         </Card>
-        <Box
-          sx={{
-            display: 'flex',
-            alignSelf: 'space-around',
-            flowDirection: 'row',
-            // justifyContent: 'center',
-          }}>
-          <Box sx={{ ml: 0.5, width: '100%', display: 'flex', flexDirection: 'column' }}>
-            <Typography
-              variant="h3"
-              sx={{ color: 'white', my: 1, fontSize: '2em', alignSelf: 'center' }}>
+
+        {/*** start guide lists ***/}
+        <Box sx={guideListsOuterBox}>
+          <Box sx={guideListsBox}>
+            <Typography variant="h3" sx={guidesListsTypography}>
               My Guides
             </Typography>
             {!guidesOpen ? (
               <>
+                {/*** open button for user owned guides ***/}
                 <Button
-                  sx={{ borderRadius: 1, mb: 0.5 }}
+                  sx={openButtonStyles}
                   variant="contained"
                   onClick={() => {
                     setGuidesOpen(!guidesOpen)
@@ -186,8 +238,9 @@ const Profile = () => {
               </>
             ) : (
               <>
+                {/*** close button for user owned guides ***/}
                 <Button
-                  sx={{ borderRadius: 1, mb: 0.5 }}
+                  sx={openButtonStyles}
                   variant="contained"
                   onClick={() => {
                     setGuidesOpen(!guidesOpen)
@@ -198,17 +251,16 @@ const Profile = () => {
               </>
             )}
           </Box>
-          <Box sx={{ ml: 0.5, width: '100%', display: 'flex', flexDirection: 'column' }}>
-            <Typography
-              variant="h3"
-              sx={{ color: 'white', my: 1, fontSize: '2em', alignSelf: 'center' }}>
+          <Box sx={guideListsBox}>
+            <Typography variant="h3" sx={guidesListsTypography}>
               My Favorites
             </Typography>
             {!favoritesOpen ? (
               <>
+                {/*** open button for favs ***/}
                 {profile.favorites ? (
                   <Button
-                    sx={{ borderRadius: 1, mb: 0.5 }}
+                    sx={openButtonStyles}
                     variant="contained"
                     onClick={() => {
                       setFavoritesOpen(!favoritesOpen)
@@ -219,8 +271,9 @@ const Profile = () => {
               </>
             ) : (
               <>
+                {/*** close button for favs ***/}
                 <Button
-                  sx={{ borderRadius: 1, mb: 0.5 }}
+                  sx={openButtonStyles}
                   variant="contained"
                   onClick={() => {
                     setFavoritesOpen(!favoritesOpen)
