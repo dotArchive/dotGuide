@@ -1,116 +1,112 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+//react imports
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+
+//firebase imports
 import {
-	collection,
-	getDocs,
-	addDoc,
-	updateDoc,
-	doc,
-	query,
-	where,
-	getDoc,
-} from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
-import { db, auth } from '../../../firebase';
-import Body from './Body/Body';
-import Head from './Head/Head';
-import { Box, Button } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import SaveIcon from '@mui/icons-material/Save';
-import SendIcon from '@mui/icons-material/Send';
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+  query,
+  where,
+  getDoc,
+} from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
+import { db, auth } from '../../../firebase'
+
+//mui imports
+import Body from './Body/Body'
+import Head from './Head/Head'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import SaveIcon from '@mui/icons-material/Save'
+import SendIcon from '@mui/icons-material/Send'
 
 export default function AddGuide(props) {
-	/*** Hooks ***/
-	const [currentUid, setCurrentUid] = useState('');
-	const [user, setUser] = useState({});
-	// const [guideId, setGuideId] = useState('');
-	const [save, setSave] = useState(false);
-	const [submit, setSubmit] = useState(false);
-	const [guide, setGuide] = useState({});
+  /*** Hooks ***/
+  const navigate = useNavigate()
+  let { guideId } = useParams()
 
-	useEffect(() => {
-		setSave(false);
-	}, [save]);
+  //user auth
+  const [currentUid, setCurrentUid] = useState('')
+  //data state
+  const [user, setUser] = useState({})
+  const [guide, setGuide] = useState({})
+  //saving state to db
+  const [save, setSave] = useState(false)
+  const [submit, setSubmit] = useState(false)
 
-	useEffect(() => {
-		setSubmit(false);
-		if (submit === true) {
-			isPublished();
-			navigate('/');
-		}
-	}, [submit]);
+  //useEffects
+  useEffect(() => {
+    if (currentUid.length) {
+      const getGuide = async () => {
+        const docSnap = await getDoc(doc(db, 'guides', guideId))
+        if (docSnap.exists()) {
+          setGuide(docSnap.data())
+        } else {
+          console.log(`unable to get guide!`)
+        }
+      }
+      getGuide()
+    }
+  }, [])
 
-	useEffect(() => {
-		getGuide();
-	}, []);
+  /*** Get current UserID from FireAuth ***/
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      const uid = user.uid
+      setCurrentUid(uid)
+    })
+  }, [currentUid])
 
-	let { guideId } = useParams();
-	const navigate = useNavigate();
-	const username = user.username;
-	const userId = user.uid;
+  useEffect(() => {
+    setSave(false)
+  }, [save])
 
-	/*** Get current UserID from FireAuth ***/
-	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			const uid = user.uid;
-			setCurrentUid(uid);
-		});
-	}, [currentUid]);
+  useEffect(() => {
+    setSubmit(false)
+    if (submit === true) {
+      /*** Updates FireStore & Publish to True ***/
+      const isPublished = async () => {
+        const guideRef = doc(db, 'guides', guideId)
+        console.log(guideRef)
+        await updateDoc(guideRef, { isPublished: true })
+      }
+      isPublished()
+      navigate('/')
+    }
+  }, [submit])
 
-	const getGuide = async () => {
-		const docSnap = await getDoc(doc(db, 'guides', guideId));
-		if (docSnap.exists()) {
-			setGuide(docSnap.data());
-		} else {
-			console.log(`unable to get guide!`);
-		}
-	};
+  const username = user.username
+  const userId = user.uid
 
-	/*** Updates FireStore & Publish to True ***/
-	const isPublished = async () => {
-		const guideRef = doc(db, 'guides', guideId);
-		console.log(guideRef)
-		await updateDoc(guideRef, {
-			isPublished: true,
-		});
-	};
+  const handleCancel = () => {
+    navigate('/')
+  }
 
-	const handleCancel = () => {
-		navigate('/');
-	};
+  return (
+    <form>
+      <div className="post">
+        <Head guide={guide} username={username} guideId={guideId} save={save} submit={submit} />
+      </div>
+      <div className="post">
+        <Body guide={guide} guideId={guideId} save={save} submit={submit} />
+      </div>
 
-	return (
-		<form>
-			<div className="post">
-				<Head
-					guide={guide}
-					username={username}
-					guideId={guideId}
-					save={save}
-					submit={submit}
-				/>
-			</div>
-			<div className="post">
-				<Body guide={guide} guideId={guideId} save={save} submit={submit} />
-			</div>
-
-			<Box sx={{ display: 'flex', justifyContent: 'center', pt: 5, pb: 5 }}>
-				<Button onClick={handleCancel}>
-					<ArrowBackIcon
-						sx={{ color: 'gray', fontSize: 36 }}
-						onClick={() => navigate('/')}
-					/>
-				</Button>
-				<Button onClick={() => setSave(true)}>
-					<SaveIcon sx={{ color: '#468ef3', fontSize: 36, pl: 5, pr: 5 }} />
-				</Button>
-				<Button>
-					<SendIcon
-						sx={{ color: '#468ef3', fontSize: 36 }}
-						onClick={() => setSubmit(true)}
-					/>
-				</Button>
-			</Box>
-		</form>
-	);
+      <Box sx={{ display: 'flex', justifyContent: 'center', pt: 5, pb: 5 }}>
+        <Button onClick={handleCancel}>
+          <ArrowBackIcon sx={{ color: 'gray', fontSize: 36 }} onClick={() => navigate('/')} />
+        </Button>
+        <Button onClick={() => setSave(true)}>
+          <SaveIcon sx={{ color: '#468ef3', fontSize: 36, pl: 5, pr: 5 }} />
+        </Button>
+        <Button>
+          <SendIcon sx={{ color: '#468ef3', fontSize: 36 }} onClick={() => setSubmit(true)} />
+        </Button>
+      </Box>
+    </form>
+  )
 }

@@ -123,8 +123,7 @@ const Signup = () => {
             <ArrowBackIcon sx={{ color: 'gray' }} onClick={() => navigate('/')} />
           </Button>
           <Button variant="text" onClick={signup}>
-            <CheckCircleOutlineIcon sx={{ color: "#468ef3", fontSize: 28 }} />
-
+            <CheckCircleOutlineIcon sx={{ color: '#468ef3', fontSize: 28 }} />
           </Button>
         </Box>
       </Card>

@@ -8,16 +8,23 @@ import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded'
 
 const GuidePreview = (guides) => {
   const [arr, setArr] = useState([])
+  const [guideIds, setGuideIds] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
-    setArr(guides.props)
+    setArr(guides.props.latestGuides)
+    setGuideIds(guides.props.latestGuideIds)
   }, [guides.props])
 
   const handleGuideClick = (guideId) => {
     navigate(`/guide/${guideId}`)
   }
   /*** styles  start ***/
+  const mainDiv = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  }
   const outerCard = {
     background: '#2f2f2f',
     color: 'white',
@@ -67,20 +74,19 @@ const GuidePreview = (guides) => {
     maxWidth: '100%',
   }
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={mainDiv}>
       {arr.length
         ? arr.map((guide, idx) => {
-            const { title, username, tags, guideId } = guide
+            const { username, tags } = guide
 
             return (
-              <Card sx={outerCard} onClick={() => handleGuideClick(guideId)} key={idx}>
-                {console.log(guide)}
+              <Card sx={outerCard} onClick={() => handleGuideClick(guideIds[idx])} key={idx}>
                 <CardContent
                   sx={{
                     py: 1,
                   }}>
                   <Typography variant="h5" sx={titleTypography}>
-                    {title ? title : null}
+                    {guide.head.title ? guide.head.title : null}
                   </Typography>
                   <Typography sx={usernameTypography}>
                     {`— ${username ? username : null}`}
