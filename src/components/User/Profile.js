@@ -4,7 +4,16 @@ import { useNavigate } from 'react-router-dom'
 
 //firebase imports
 import { db, auth } from '../../firebase'
-import { collection, getDocs, where, query, getDoc, doc } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  where,
+  query,
+  getDoc,
+  doc,
+  addDoc,
+  serverTimestamp,
+} from 'firebase/firestore'
 import { onAuthStateChanged } from 'firebase/auth'
 
 //mui imports
@@ -19,6 +28,8 @@ import Box from '@mui/material/Box'
 import UserGuidePreview from './UserGuidePreviews'
 
 const Profile = () => {
+  const navigate = useNavigate()
+
   // data fetching
   const [user, setUser] = useState({})
   const [uid, setUid] = useState('')
@@ -31,7 +42,6 @@ const Profile = () => {
   //toggles for opening and closing guides and favorites lists
   const [guidesOpen, setGuidesOpen] = useState(false)
   const [favoritesOpen, setFavoritesOpen] = useState(false)
-  const navigate = useNavigate()
 
   // useEffects start here
   useEffect(() => {
@@ -40,66 +50,73 @@ const Profile = () => {
         setUid(user.uid)
       }
     })
+    const getUser = () => {
+      const myDoc = async () => {
+        const docRef = collection(db, 'users')
+        const q = query(docRef, where('uid', '==', `${uid}`))
+        const docSnap = await getDocs(q)
+        docSnap.forEach((doc) => {
+          setUser(doc.data())
+        })
+      }
+      myDoc()
+    }
+    const getGuides = () => {
+      const myGuides = async () => {
+        const guidesArr = []
+        const guideRef = collection(db, 'guides')
+        const q = query(guideRef, where('userId', '==', uid))
+        const qS = await getDocs(q)
+        qS.forEach((doc) => {
+          guidesArr.push(doc.data())
+        })
+        setGuides(guidesArr)
+      }
+      myGuides()
+    }
+    const getProfile = () => {
+      const makeProfile = async () => {
+        await addDoc(collection(db, 'profiles'), {
+          createdAt: serverTimestamp(),
+          email: user.email,
+          userId: uid,
+          isAdmin: false,
+          isBanned: false,
+          guides: [],
+          githubUrl: '',
+          favorites: [],
+          username: user.username,
+        })
+      }
+      const myProfile = async () => {
+        const profileRef = collection(db, 'profiles')
+        const q = query(profileRef, where('userId', '==', uid))
+        const qS = await getDocs(q)
+        qS.length ? qS.forEach((doc) => setProfile(doc.data())) : makeProfile()
+      }
+      myProfile()
+    }
     getUser()
     getGuides()
     getProfile()
   }, [uid])
 
   useEffect(() => {
+    const getFavorites = () => {
+      const myFavorites = async () => {
+        const favoritesArr = []
+        let favorites = profile.favorites
+        favorites.forEach(async (favorite) => {
+          const guideRef = doc(db, 'guides', favorite)
+          const gS = await getDoc(guideRef)
+          return gS.exists() ? favoritesArr.push(gS.data()) : null
+        })
+        setFavorites(favoritesArr)
+      }
+      myFavorites()
+    }
     getFavorites()
   }, [profile])
-
-  // Firebase data pulls start here
-  const getUser = () => {
-    const myDoc = async () => {
-      const docRef = collection(db, 'users')
-      const q = query(docRef, where('uid', '==', `${uid}`))
-      const docSnap = await getDocs(q)
-      docSnap.forEach((doc) => {
-        setUser(doc.data())
-      })
-    }
-    myDoc()
-  }
-  const getGuides = () => {
-    const myGuides = async () => {
-      const guidesArr = []
-      const guideRef = collection(db, 'guides')
-      const q = query(guideRef, where('userId', '==', uid))
-      const qS = await getDocs(q)
-      qS.forEach((doc) => {
-        guidesArr.push(doc.data())
-      })
-      setGuides(guidesArr)
-    }
-    myGuides()
-  }
-
-  const getFavorites = () => {
-    const myFavorites = async () => {
-      const favoritesArr = []
-      let favorites = profile.favorites
-      favorites.forEach(async (favorite) => {
-        const guideRef = doc(db, 'guides', favorite)
-        const gS = await getDoc(guideRef)
-        return gS.exists() ? favoritesArr.push(gS.data()) : null
-      })
-      setFavorites(favoritesArr)
-    }
-    myFavorites()
-  }
-
-  const getProfile = () => {
-    const myProfile = async () => {
-      const profileRef = collection(db, 'profiles')
-      const q = query(profileRef, where('userId', '==', uid))
-      const qS = await getDocs(q)
-      qS.forEach((doc) => {
-        setProfile(doc.data())
-      })
-    }
-    myProfile()
-  }
 
   //combiners for passing props
   const guideProps = { guides: guides, list: profile.guides }
@@ -154,6 +171,11 @@ const Profile = () => {
     mb: 0.75,
     pr: 6.25,
     color: 'white',
+  }
+  const newGuideButton = {
+    width: '25%',
+    alignSelf: 'center',
+    my: 1,
   }
   const guideListsOuterBox = {
     display: 'flex',
@@ -217,6 +239,11 @@ const Profile = () => {
             </Button>
           </Box>
         </Card>
+
+        {/*** new guide button ***/}
+        <Button sx={newGuideButton} variant="contained" onClick={() => navigate('/guide/add')}>
+          Create New Guide
+        </Button>
 
         {/*** start guide lists ***/}
         <Box sx={guideListsOuterBox}>
