@@ -43,24 +43,23 @@ export const Home = () => {
       setSearchGuideIds(guideIds)
     }
     if (searchTerm === 'allguides') {
-      const getAllGuides = async () => {
-        const guidesArr = []
-        const guideIds = []
-        const q = query(collection(db, 'guides'), where('isPublished', '==', true))
-        const docSnap = await getDocs(q)
-        docSnap.forEach((doc) => {
-          guidesArr.push(doc.data())
-          guideIds.push(doc.id)
-        })
-        setSearchGuides(guidesArr)
-        setSearchGuideIds(guideIds)
-      }
       getAllGuides()
     } else {
       getSearch()
     }
   }
-
+  const getAllGuides = async () => {
+    const guidesArr = []
+    const guideIds = []
+    const q = query(collection(db, 'guides'), where('isPublished', '==', true))
+    const docSnap = await getDocs(q)
+    docSnap.forEach((doc) => {
+      guidesArr.push(doc.data())
+      guideIds.push(doc.id)
+    })
+    setSearchGuides(guidesArr)
+    setSearchGuideIds(guideIds)
+  }
   const getLatestFiveGuides = () => {
     const getGuides = async () => {
       const guidesArr = []
@@ -86,7 +85,12 @@ export const Home = () => {
     getSearchGuide()
   }
   const handleAllGuideClick = () => {
-    setSearchTerm('allguides')
+    try {
+      setSearchTerm('allguides')
+      getAllGuides()
+    } catch (error) {
+      console.log(error)
+    }
   }
   const handleNewGuideClick = () => {
     navigate(`/guide/add`)
@@ -246,7 +250,7 @@ export const Home = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-            <Button onClick={handleSearchClick} sx={searchButtons}>
+            <Button onClick={handleAllGuideClick} sx={searchButtons}>
               ALL GUIDES
             </Button>
             <Button onClick={handleSearchClick} sx={searchButtons}>
