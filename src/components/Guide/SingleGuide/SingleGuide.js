@@ -35,6 +35,7 @@ import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded
 import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp'
 import CodeIcon from '@mui/icons-material/Code'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import SendIcon from '@mui/icons-material/Send'
 
 //other imports
 import ReactMarkdown from 'react-markdown'
@@ -376,6 +377,10 @@ export default function SingleGuide() {
     color: 'white',
     fontSize: '0.75em',
   }
+  const sendIcon = {
+    color: '#468ef3',
+    fontSize: 30,
+  }
 
   // styles end here
 
@@ -595,13 +600,15 @@ export default function SingleGuide() {
       {/* button for published and body/head transition starts here */}
       <Box sx={publishBox}>
         {isPublished ? null : (
-          <CheckCircleOutlineIcon
-            onClick={() => {
-              setIsPublished(true)
-              setGuidePublished()
-            }}
-            sx={publishButtonSX}
-          />
+          <Button sx={{ mt: 2 }}>
+            <SendIcon
+              sx={sendIcon}
+              onClick={() => {
+                setIsPublished(true)
+                setGuidePublished()
+              }}
+            />
+          </Button>
         )}
         <Button
           variant="contained"
