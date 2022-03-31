@@ -1,4 +1,5 @@
 //react imports
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -132,7 +133,9 @@ export default function SingleGuide() {
 		}
 	}, [profile]);
 
+
 	// getters, checkers, and setters and events
+
 
 	const editGuide = (e) => {
 		e.preventDefault();
@@ -397,6 +400,7 @@ export default function SingleGuide() {
 		},
 	};
 
+
 	// styles end here
 
 	return Object.keys(guide).length ? (
@@ -415,6 +419,7 @@ export default function SingleGuide() {
 					</Typography>
 
 					{/* edit & favorite icons */}
+
 
 					<Box>
 						{/* IsOwner */}
@@ -461,6 +466,7 @@ export default function SingleGuide() {
 			{!showBody ? (
 				<>
 					{/* start headcomponent */}
+
 
 					{/* technologies used begin here */}
 					<Box sx={singleGuideTechBox}>
@@ -675,4 +681,5 @@ export default function SingleGuide() {
 	) : (
 		<Typography sx={typographyOnlyWhite}>"loading..."</Typography>
 	);
+
 }

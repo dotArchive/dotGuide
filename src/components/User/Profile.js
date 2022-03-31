@@ -23,6 +23,8 @@ import EditIcon from '@mui/icons-material/Edit'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 //components
 import UserGuidePreview from './UserGuidePreviews'
@@ -174,7 +176,13 @@ const Profile = () => {
     color: 'white',
   }
   const newGuideButton = {
-    width: '25%',
+    borderRadius: 25,
+    width: "15%",
+    border: 2,
+    borderColor: "#2f2f2f",
+    background: "transparent",
+    color: "#eeeeee",
+    "&:hover": { cursor: "pointer", borderColor: "#468ef3" },
     alignSelf: 'center',
     my: 1,
   }
@@ -197,9 +205,9 @@ const Profile = () => {
     alignSelf: 'center',
   }
   const openButtonStyles = {
-    borderRadius: 1,
+    borderRadius: 10,
     mb: 0.5,
-    width: '50%',
+    width: '5%',
     alignSelf: 'center',
   }
 
@@ -243,7 +251,7 @@ const Profile = () => {
         </Card>
 
         {/*** new guide button ***/}
-        <Button sx={newGuideButton} variant="contained" onClick={() => navigate('/guide/add')}>
+        <Button sx={newGuideButton} variant="outline" onClick={() => navigate('/guide/add')}>
           Create New Guide
         </Button>
 
@@ -258,11 +266,11 @@ const Profile = () => {
                 {/*** open button for user owned guides ***/}
                 <Button
                   sx={openButtonStyles}
-                  variant="contained"
+                  variant="text"
                   onClick={() => {
                     setGuidesOpen(!guidesOpen)
                   }}>
-                  See Guides
+                  <VisibilityIcon />
                 </Button>
               </>
             ) : (
@@ -270,11 +278,11 @@ const Profile = () => {
                 {/*** close button for user owned guides ***/}
                 <Button
                   sx={openButtonStyles}
-                  variant="contained"
+                  variant="text"
                   onClick={() => {
                     setGuidesOpen(!guidesOpen)
                   }}>
-                  Close Guides
+                  <VisibilityOffIcon />
                 </Button>
                 <UserGuidePreview props={guideProps} />
               </>
@@ -290,11 +298,11 @@ const Profile = () => {
                 {profile.favorites ? (
                   <Button
                     sx={openButtonStyles}
-                    variant="contained"
+                    variant="text"
                     onClick={() => {
                       setFavoritesOpen(!favoritesOpen)
                     }}>
-                    See Favorites
+                    <VisibilityIcon />
                   </Button>
                 ) : null}
               </>
@@ -303,11 +311,11 @@ const Profile = () => {
                 {/*** close button for favs ***/}
                 <Button
                   sx={openButtonStyles}
-                  variant="contained"
+                  variant="text"
                   onClick={() => {
                     setFavoritesOpen(!favoritesOpen)
                   }}>
-                  Close Favorites
+                  <VisibilityOffIcon />
                 </Button>
                 <UserGuidePreview props={favProps} />
               </>
