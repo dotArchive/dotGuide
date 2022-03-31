@@ -1,6 +1,6 @@
 //react imports
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 //firestore imports
 import {
@@ -15,94 +15,97 @@ import {
   arrayUnion,
   arrayRemove,
   increment,
-} from 'firebase/firestore'
-import { db, auth } from '../../../firebase'
+} from "firebase/firestore";
+import { db, auth } from "../../../firebase";
 
 //MUI imports
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import Container from '@mui/material/Container'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import Container from "@mui/material/Container";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 //mui icons
-import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded'
-import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded'
-import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp'
-import CodeIcon from '@mui/icons-material/Code'
-import SendIcon from '@mui/icons-material/Send'
+import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
+import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
+import ModeEditSharpIcon from "@mui/icons-material/ModeEditSharp";
+import CodeIcon from "@mui/icons-material/Code";
+import SendIcon from "@mui/icons-material/Send";
 
 //other imports
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import CodeMirror from './CodeMirror'
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import CodeMirror from "./CodeMirror";
 
 export default function SingleGuide() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // guide and profile data
-  const [guide, setGuide] = useState({})
-  const [profile, setProfile] = useState({})
-  const [favorites, setFavorites] = useState(0)
+  const [guide, setGuide] = useState({});
+  const [profile, setProfile] = useState({});
+  const [favorites, setFavorites] = useState(0);
 
   // toggles for events
-  const [isFavorite, setIsFavorite] = useState(false)
-  const [isOwner, setIsOwner] = useState(false)
-  const [isPublished, setIsPublished] = useState(false)
-  const [showBody, setShowBody] = useState(false)
-  const [file, setFile] = useState(0)
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+  const [isPublished, setIsPublished] = useState(false);
+  const [showBody, setShowBody] = useState(false);
+  const [file, setFile] = useState(0);
 
   //other constants
-  const { guideId } = useParams()
-  const { createdAt, username } = guide
+  const { guideId } = useParams();
+  const { createdAt, username } = guide;
 
   //useEffects start here
   useEffect(() => {
     const publishChecker = () => {
       if (Object.keys(guide).length) {
         if (guide.isPublished) {
-          setIsPublished(true)
+          setIsPublished(true);
         }
       }
-    }
-    publishChecker()
-  }, [])
+    };
+    publishChecker();
+  }, []);
   useEffect(() => {
     const getGuide = async () => {
-      const docRef = doc(db, 'guides', guideId)
-      const docSnap = await getDoc(docRef)
+      const docRef = doc(db, "guides", guideId);
+      const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        setGuide(docSnap.data())
+        setGuide(docSnap.data());
       } else {
-        console.log(`unable to get guide!`)
+        console.log(`unable to get guide!`);
       }
-    }
+    };
     if (Object.keys(guide).length === 0) {
-      getGuide()
+      getGuide();
     }
-  }, [guideId])
+  }, [guideId]);
   useEffect(() => {
     const getProfile = async () => {
       if (Object.keys(guide).length) {
-        const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
-        const qS = await getDocs(q)
+        const q = query(
+          collection(db, "profiles"),
+          where("userId", "==", auth.currentUser.uid)
+        );
+        const qS = await getDocs(q);
         qS.forEach((doc) => {
-          setProfile(doc.data())
-        })
+          setProfile(doc.data());
+        });
       } else {
-        console.log('try profile again')
+        console.log("try profile again");
       }
-    }
+    };
     if (Object.keys(guide).length) {
-      getProfile()
-      setFavorites(guide.favorites)
-      setIsPublished(guide.isPublished)
+      getProfile();
+      setFavorites(guide.favorites);
+      setIsPublished(guide.isPublished);
     }
-  }, [guide])
+  }, [guide]);
   useEffect(() => {
     // console.log(profile)
     if (Object.keys(profile).length) {
@@ -110,159 +113,165 @@ export default function SingleGuide() {
         if (Object.keys(profile).length) {
           profile.favorites.forEach((fav) => {
             if (fav === guideId) {
-              setIsFavorite(true)
+              setIsFavorite(true);
             }
-          })
+          });
         }
-      }
+      };
       const ownerChecker = () => {
         if (Object.keys(profile).length) {
           profile.guides.forEach((guide) => {
             if (guide === guideId) {
-              setIsOwner(true)
+              setIsOwner(true);
             }
-          })
+          });
         }
-      }
-      favChecker()
-      ownerChecker()
+      };
+      favChecker();
+      ownerChecker();
     }
-  }, [profile])
+  }, [profile]);
 
   // getters, checkers, and setters and events
 
   const editGuide = (e) => {
-    e.preventDefault()
-    navigate(`/guide/edit/${guideId}`)
-  }
+    e.preventDefault();
+    navigate(`/guide/edit/${guideId}`);
+  };
   const setGuidePublished = async () => {
-    const guideRef = doc(db, 'guides', guideId)
-    setDoc(guideRef, { isPublished: true }, { merge: true })
-  }
+    const guideRef = doc(db, "guides", guideId);
+    setDoc(guideRef, { isPublished: true }, { merge: true });
+  };
   const setProfileFavorite = async () => {
     const qS = await getDocs(
-      query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
-    )
-    const profileId = qS.docs[0].id
-    await updateDoc(doc(db, 'profiles', profileId), {
+      query(
+        collection(db, "profiles"),
+        where("userId", "==", auth.currentUser.uid)
+      )
+    );
+    const profileId = qS.docs[0].id;
+    await updateDoc(doc(db, "profiles", profileId), {
       favorites: arrayUnion(guideId),
-    })
-    await updateDoc(doc(db, 'guides', guideId), { favorites: increment(1) })
-    setFavorites(favorites + 1)
-  }
+    });
+    await updateDoc(doc(db, "guides", guideId), { favorites: increment(1) });
+    setFavorites(favorites + 1);
+  };
   const removeProfileFavorite = async () => {
     const qS = await getDocs(
-      query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
-    )
-    const profileId = qS.docs[0].id
-    await updateDoc(doc(db, 'profiles', profileId), {
+      query(
+        collection(db, "profiles"),
+        where("userId", "==", auth.currentUser.uid)
+      )
+    );
+    const profileId = qS.docs[0].id;
+    await updateDoc(doc(db, "profiles", profileId), {
       favorites: arrayRemove(guideId),
-    })
-    await updateDoc(doc(db, 'guides', guideId), { favorites: increment(-1) })
+    });
+    await updateDoc(doc(db, "guides", guideId), { favorites: increment(-1) });
 
-    setFavorites(favorites - 1)
-  }
+    setFavorites(favorites - 1);
+  };
 
   /*** styles  start ***/
   const outerContainer = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignContent: 'center',
-    justifyContent: 'center',
-  }
+    display: "flex",
+    flexDirection: "column",
+    alignContent: "center",
+    justifyContent: "center",
+  };
   const singleGuideTopCard = {
-    background: '#2f2f2f',
+    background: "#2f2f2f",
     p: 1,
     pl: 2,
     mt: 1,
     border: 1.25,
-    borderColor: '#353540',
-  }
+    borderColor: "#353540",
+  };
   const singleGuideTopBox = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    minHeight: '40px',
-  }
+    display: "flex",
+    justifyContent: "space-between",
+    minHeight: "40px",
+  };
   const typographyTimestampUsername = {
-    color: 'white',
-    fontSize: '0.75em',
-  }
+    color: "white",
+    fontSize: "0.75em",
+  };
   const singleGuideTechBox = {
-    display: 'flex',
-    justifyContent: 'space-between',
-  }
+    display: "flex",
+    justifyContent: "space-between",
+  };
   const singleGuideTagCards = {
-    background: '#2f2f2f',
+    background: "#2f2f2f",
     p: 1,
     pl: 2,
     pr: 2,
     mr: 1,
     mt: 1,
-    width: '25%',
-    minHeight: '10vh',
-    textOverflow: 'ellipsis',
+    width: "25%",
+    minHeight: "10vh",
+    textOverflow: "ellipsis",
     border: 1.25,
-    borderColor: '#353540',
-  }
+    borderColor: "#353540",
+  };
   const singleGuideApiCard = {
-    background: '#2f2f2f',
+    background: "#2f2f2f",
     p: 1,
     pl: 2,
     pr: 2,
     mt: 1,
-    width: '25%',
-    minHeight: '10vh',
-    textOverflow: 'ellipsis',
+    width: "25%",
+    minHeight: "10vh",
+    textOverflow: "ellipsis",
     border: 1.25,
-    borderColor: '#353540',
-  }
+    borderColor: "#353540",
+  };
   const singleGuideTagOuterCard = {
-    background: '#2f2f2f',
+    background: "#2f2f2f",
     border: 1.25,
-    borderColor: '#353540',
+    borderColor: "#353540",
     mt: 1,
-  }
+  };
   const singleGuideTagCardTypography = {
-    color: 'white',
-    fontSize: '0.7em',
+    color: "white",
+    fontSize: "0.7em",
     minHeight: 18,
     p: 0.5,
     mt: 0.5,
     mb: 0.5,
     border: 1,
-    borderColor: 'white',
+    borderColor: "white",
     borderRadius: 3,
-    textAlign: 'center',
-    textOverflow: 'ellipsis',
-  }
+    textAlign: "center",
+    textOverflow: "ellipsis",
+  };
   const singleGuideApiCardTypography = {
-    color: 'white',
-    fontSize: '0.7em',
+    color: "white",
+    fontSize: "0.7em",
     minHeight: 18,
     p: 0.5,
     mt: 0.5,
     mb: 0.5,
     border: 1,
-    borderColor: 'white',
+    borderColor: "white",
     borderRadius: 3,
-    textAlign: 'center',
-    textOverflow: 'ellipsis',
-  }
+    textAlign: "center",
+    textOverflow: "ellipsis",
+  };
   const singleGuideAltCardTypography = {
-    color: 'white',
-    fontSize: '0.7em',
+    color: "white",
+    fontSize: "0.7em",
     minHeight: 18,
     p: 0.5,
     mt: 0.5,
     mb: 0.5,
     border: 1,
-    borderColor: 'white',
+    borderColor: "white",
     borderRadius: 3,
-    textAlign: 'center',
-  }
+    textAlign: "center",
+  };
   const singleGuideTagTypography = {
-    color: 'white',
-    fontSize: '0.7em',
+    color: "white",
+    fontSize: "0.7em",
     minHeight: 18,
     p: 0.5,
     mt: 0.5,
@@ -270,106 +279,106 @@ export default function SingleGuide() {
     mr: 0.5,
     ml: 0.5,
     border: 1,
-    borderColor: 'white',
+    borderColor: "white",
     borderRadius: 3,
-    textAlign: 'center',
-  }
+    textAlign: "center",
+  };
   const singleGuideReferenceCard = {
-    background: '#2f2f2f',
+    background: "#2f2f2f",
     p: 1,
     pl: 2,
     mt: 1,
-    overflow: 'auto',
-    height: '450px',
+    overflow: "auto",
+    height: "450px",
     border: 1.25,
-    borderColor: '#353540',
-    color: 'white',
-  }
+    borderColor: "#353540",
+    color: "white",
+  };
   const singleGuideReferenceBox = {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  }
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  };
   const formControlSX = {
     py: 0.5,
     mt: 0.5,
-    width: '20ch',
-    color: 'white',
-    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#468ef3',
+    width: "20ch",
+    color: "white",
+    "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#468ef3",
     },
-    '& label.Mui-focused': {
-      color: '#468ef3',
+    "& label.Mui-focused": {
+      color: "#468ef3",
     },
-    '& label': {
-      color: 'white',
+    "& label": {
+      color: "white",
     },
-    '&:hover label': {
-      color: '#468ef3',
+    "&:hover label": {
+      color: "#468ef3",
     },
-    '& .MuiInputBase-input': {
-      color: 'white',
+    "& .MuiInputBase-input": {
+      color: "white",
       py: 0.5,
     },
-    '& .MuiOutlinedInput-root': {
-      '&:hover fieldset': {
-        borderColor: '#468ef3',
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "#468ef3",
       },
-      '&:focus fieldset': {
-        borderColor: '#468ef3',
+      "&:focus fieldset": {
+        borderColor: "#468ef3",
       },
-      '& fieldset': {
-        borderColor: 'white',
+      "& fieldset": {
+        borderColor: "white",
       },
-      '&:focus .MuiInputLabel-root': {
-        borderColor: '#468ef3',
+      "&:focus .MuiInputLabel-root": {
+        borderColor: "#468ef3",
       },
     },
-  }
+  };
   const menuPropsSX = {
     PaperProps: {
       sx: {
-        bgcolor: '#303035',
-        color: 'white',
+        bgcolor: "#303035",
+        color: "white",
       },
     },
-  }
+  };
   const menuItemSX = {
     py: 0,
     pl: 1,
-    backgroundColor: '#cccccc55',
-    fontSize: '1em',
-    color: 'white',
-  }
+    backgroundColor: "#cccccc55",
+    fontSize: "1em",
+    color: "white",
+  };
   const sendIcon = {
-    color: '#468ef3',
+    color: "#468ef3",
     fontSize: 30,
-  }
+  };
   const showBodyButton = {
-    background: '#353540',
-    color: '#468ef3',
-    '&:hover': { background: '#505060' },
+    background: "#353540",
+    color: "#468ef3",
+    "&:hover": { background: "#505060" },
     border: 1,
-    borderColor: '#2f2f2f',
+    borderColor: "#2f2f2f",
     mt: 2,
-  }
+  };
   const publishBox = {
-    display: 'flex',
-    justifyContent: 'flex-end',
+    display: "flex",
+    justifyContent: "flex-end",
     minHeight: 40,
-  }
+  };
   const typographyOnlyWhite = {
-    color: 'white',
-  }
+    color: "white",
+  };
   const typographyWhiteMargin = {
-    color: 'white',
+    color: "white",
     ml: 1,
     mt: 1,
-  }
+  };
   const typographyWhiteFontSize = {
-    color: 'white',
-    fontSize: '0.75em',
-  }
+    color: "white",
+    fontSize: "0.75em",
+  };
 
   // styles end here
 
@@ -396,34 +405,46 @@ export default function SingleGuide() {
               <Box>
                 {/* IsOwner */}
                 <IconButton onClick={(e) => editGuide(e)}>
-                  {isOwner ? <ModeEditSharpIcon sx={typographyOnlyWhite} /> : null}
+                  {isOwner ? (
+                    <ModeEditSharpIcon sx={typographyOnlyWhite} />
+                  ) : null}
                 </IconButton>
                 {/* isFavorite */}
                 <IconButton
                   onClick={() => {
                     if (!isFavorite) {
-                      setProfile({ ...profile, favorites: [...profile.favorites, guideId] })
-                      setProfileFavorite()
+                      setProfile({
+                        ...profile,
+                        favorites: [...profile.favorites, guideId],
+                      });
+                      setProfileFavorite();
                     } else if (isFavorite) {
                       setProfile({
                         ...profile,
-                        favorites: profile.favorites.filter((fav) => fav !== guideId),
-                      })
-                      removeProfileFavorite()
+                        favorites: profile.favorites.filter(
+                          (fav) => fav !== guideId
+                        ),
+                      });
+                      removeProfileFavorite();
                     }
-                    setIsFavorite(!isFavorite)
-                  }}>
+                    setIsFavorite(!isFavorite);
+                  }}
+                >
                   {isFavorite ? (
-                    <BookmarkRoundedIcon sx={{ color: 'red' }} />
+                    <BookmarkRoundedIcon sx={{ color: "red" }} />
                   ) : (
                     <BookmarkBorderRoundedIcon sx={typographyOnlyWhite} />
                   )}
-                  <Typography sx={{ mx: 2, color: '#468ef3' }}>{favorites}</Typography>
+                  <Typography sx={{ mx: 2, color: "#468ef3" }}>
+                    {favorites}
+                  </Typography>
                 </IconButton>
               </Box>
             </Box>
             {/* description */}
-            <Typography sx={{ color: 'white', mr: 2 }}>{guide.head.description}</Typography>
+            <Typography sx={{ color: "white", mr: 2 }}>
+              {guide.head.description}
+            </Typography>
           </Card>
 
           {/* technologies used begin here */}
@@ -442,10 +463,12 @@ export default function SingleGuide() {
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
                       {`${item.language}`}
                     </Typography>
-                  )
+                  );
                 })
               ) : (
-                <Typography sx={singleGuideAltCardTypography}>no languages yet!</Typography>
+                <Typography sx={singleGuideAltCardTypography}>
+                  no languages yet!
+                </Typography>
               )}
             </Card>
 
@@ -459,10 +482,12 @@ export default function SingleGuide() {
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
                       {`${item.frontEnd}`}
                     </Typography>
-                  )
+                  );
                 })
               ) : (
-                <Typography sx={singleGuideAltCardTypography}>no front end yet!</Typography>
+                <Typography sx={singleGuideAltCardTypography}>
+                  no front end yet!
+                </Typography>
               )}
             </Card>
 
@@ -476,10 +501,12 @@ export default function SingleGuide() {
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
                       {`${item.backEnd}`}
                     </Typography>
-                  )
+                  );
                 })
               ) : (
-                <Typography sx={singleGuideAltCardTypography}>no back end yet!</Typography>
+                <Typography sx={singleGuideAltCardTypography}>
+                  no back end yet!
+                </Typography>
               )}
             </Card>
 
@@ -493,20 +520,22 @@ export default function SingleGuide() {
                     <Typography key={idx} sx={singleGuideApiCardTypography}>
                       {`${item.API}`}
                     </Typography>
-                  )
+                  );
                 })
               ) : (
-                <Typography sx={singleGuideAltCardTypography}>no APIs yet!</Typography>
+                <Typography sx={singleGuideAltCardTypography}>
+                  no APIs yet!
+                </Typography>
               )}
             </Card>
           </Box>
 
           <Card elevation={12} sx={singleGuideTagOuterCard}>
-            <Typography sx={{ color: 'white', mb: 1, ml: 1 }}>
+            <Typography sx={{ color: "white", mb: 1, ml: 1 }}>
               {/* start the tags here */}
               Tags
             </Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", mb: 1 }}>
               {guide.head.tag.length
                 ? guide.head.tag.map((item, idx) => {
                     return item ? (
@@ -517,7 +546,7 @@ export default function SingleGuide() {
                       <Typography key={idx} sx={singleGuideTagTypography}>
                         no tags yet!
                       </Typography>
-                    )
+                    );
                   })
                 : null}
             </Box>
@@ -528,8 +557,15 @@ export default function SingleGuide() {
         <>
           {/* start body component */}
           {guide.body.length ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', width: '49%', mx: 0.5 }}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "49%",
+                  mx: 0.5,
+                }}
+              >
                 <Typography sx={typographyWhiteMargin}>CodeBlock</Typography>
                 <Card sx={singleGuideReferenceCard}>
                   <Box sx={singleGuideReferenceBox}>
@@ -545,9 +581,10 @@ export default function SingleGuide() {
                         <InputLabel>File</InputLabel>
                         <Select
                           value={file}
-                          label={'File'}
+                          label={"File"}
                           MenuProps={menuPropsSX}
-                          onChange={(e) => setFile(e.target.value)}>
+                          onChange={(e) => setFile(e.target.value)}
+                        >
                           {guide.body.length
                             ? guide.body.map((file, idx) => {
                                 return (
@@ -556,10 +593,11 @@ export default function SingleGuide() {
                                     value={idx}
                                     disableGutters={true}
                                     dense={true}
-                                    sx={menuItemSX}>
+                                    sx={menuItemSX}
+                                  >
                                     {file.filepath}
                                   </MenuItem>
-                                )
+                                );
                               })
                             : null}
                         </Select>
@@ -572,10 +610,13 @@ export default function SingleGuide() {
                   />
                 </Card>
               </Box>
-              <Box sx={{ width: '51%', mx: 0.5 }}>
+              <Box sx={{ width: "51%", mx: 0.5 }}>
                 <Typography sx={typographyWhiteMargin}>Reference</Typography>
                 <Card sx={singleGuideReferenceCard}>
-                  <ReactMarkdown children={guide.body[file].content} remarkPlugins={[remarkGfm]} />
+                  <ReactMarkdown
+                    children={guide.body[file].content}
+                    remarkPlugins={[remarkGfm]}
+                  />
                 </Card>
               </Box>
             </Box>
@@ -593,8 +634,8 @@ export default function SingleGuide() {
             <SendIcon
               sx={sendIcon}
               onClick={() => {
-                setIsPublished(true)
-                setGuidePublished()
+                setIsPublished(true);
+                setGuidePublished();
               }}
             />
           </Button>
@@ -604,13 +645,14 @@ export default function SingleGuide() {
           elevation={12}
           sx={showBodyButton}
           onClick={() => {
-            setShowBody(!showBody)
-          }}>
+            setShowBody(!showBody);
+          }}
+        >
           <CodeIcon />
         </Button>
       </Box>
     </Container>
   ) : (
     <Typography sx={typographyOnlyWhite}>"loading..."</Typography>
-  )
+  );
 }
