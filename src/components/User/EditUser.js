@@ -62,7 +62,7 @@ export default function EditUser() {
     display: 'flex',
     alignContent: 'center',
     justifyContent: 'center',
-    width: '50%',
+    width: '25%',
     ml: 'auto',
     mr: 'auto',
   }
