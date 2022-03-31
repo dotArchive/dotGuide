@@ -1,5 +1,8 @@
+//react imports
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+
+//firestore imports
 import {
   collection,
   doc,
@@ -12,47 +15,33 @@ import {
   arrayUnion,
   arrayRemove,
   increment,
-  serverTimestamp,
 } from 'firebase/firestore'
 import { db, auth } from '../../../firebase'
-import {
-  Typography,
-  Box,
-  IconButton,
-  Button,
-  Card,
-  Container,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-} from '@mui/material'
+
+//MUI imports
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import Container from '@mui/material/Container'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+//mui icons
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded'
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded'
 import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp'
 import CodeIcon from '@mui/icons-material/Code'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+
+//other imports
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import CodeMirror from './CodeMirror'
 
 export default function SingleGuide() {
-  const guidePrototype = {
-    createdAt: serverTimestamp(),
-    body: [],
-    head: {
-      API: [],
-      backend: [],
-      description: '',
-      frontEnd: [],
-      language: [],
-      tag: [],
-      title: '',
-      url: [],
-    },
-    languages: [],
-    search: [],
-  }
   const navigate = useNavigate()
 
   // guide and profile data
@@ -69,23 +58,84 @@ export default function SingleGuide() {
 
   //other constants
   const { guideId } = useParams()
-  const { head, body, createdAt, username } = guide
+  const { createdAt, username } = guide
 
-  // getters, checkers, and setters start here
-  const getGuide = async () => {
-    const docRef = doc(db, 'guides', guideId)
-    const docSnap = await getDoc(docRef)
-    if (docSnap.exists()) {
-      setGuide(docSnap.data())
-    } else {
-      console.log(`unable to get guide!`)
+  //useEffects start here
+  useEffect(() => {
+    const publishChecker = () => {
+      if (Object.keys(guide).length) {
+        if (guide.isPublished) {
+          setIsPublished(true)
+        }
+      }
     }
+    publishChecker()
+  }, [])
+  useEffect(() => {
+    const getGuide = async () => {
+      const docRef = doc(db, 'guides', guideId)
+      const docSnap = await getDoc(docRef)
+      if (docSnap.exists()) {
+        setGuide(docSnap.data())
+      } else {
+        console.log(`unable to get guide!`)
+      }
+    }
+    if (Object.keys(guide).length === 0) {
+      getGuide()
+    }
+  }, [guideId])
+  useEffect(() => {
+    const getProfile = async () => {
+      if (Object.keys(guide).length) {
+        const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
+        const qS = await getDocs(q)
+        qS.forEach((doc) => {
+          setProfile(doc.data())
+        })
+      } else {
+        console.log('try profile again')
+      }
+    }
+    if (Object.keys(guide).length) {
+      getProfile()
+      setFavorites(guide.favorites)
+      setIsPublished(guide.isPublished)
+    }
+  }, [guide])
+  useEffect(() => {
+    // console.log(profile)
+    if (Object.keys(profile).length) {
+      const favChecker = () => {
+        if (Object.keys(profile).length) {
+          profile.favorites.forEach((fav) => {
+            if (fav === guideId) {
+              setIsFavorite(true)
+            }
+          })
+        }
+      }
+      const ownerChecker = () => {
+        if (Object.keys(profile).length) {
+          profile.guides.forEach((guide) => {
+            if (guide === guideId) {
+              setIsOwner(true)
+            }
+          })
+        }
+      }
+      favChecker()
+      ownerChecker()
+    }
+  }, [profile])
+
+  // getters, checkers, and setters and events
+
+  const editGuide = (e) => {
+    e.preventDefault()
+    navigate(`/guide/edit/${guideId}`)
   }
   const setGuidePublished = async () => {
-    // //option 1
-    // await setDoc(doc(db, 'guides', guideId), {...guide, isPublished: true})
-
-    // option 2
     const guideRef = doc(db, 'guides', guideId)
     setDoc(guideRef, { isPublished: true }, { merge: true })
   }
@@ -112,72 +162,6 @@ export default function SingleGuide() {
 
     setFavorites(favorites - 1)
   }
-  const favChecker = () => {
-    if (Object.keys(profile).length) {
-      profile.favorites.forEach((fav) => {
-        if (fav === guideId) {
-          setIsFavorite(true)
-        }
-      })
-    }
-  }
-  const ownerChecker = () => {
-    if (Object.keys(profile).length) {
-      profile.guides.forEach((guide) => {
-        if (guide === guideId) {
-          setIsOwner(true)
-        }
-      })
-    }
-  }
-  const getProfile = async () => {
-    if (Object.keys(guide).length) {
-      const q = query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
-      const qS = await getDocs(q)
-      qS.forEach((doc) => {
-        setProfile(doc.data())
-      })
-    } else {
-      console.log('try profile again')
-    }
-  }
-  const editGuide = (e) => {
-    //editGuide is event handler for sending you to the edit guide page for this guide
-    e.preventDefault()
-    navigate(`/guide/edit/${guideId}`)
-  }
-  const publishChecker = () => {
-    if (Object.keys(guide).length) {
-      if (guide.isPublished) {
-        setIsPublished(true)
-      }
-    }
-  }
-  // getters, checkers, and setters end here
-
-  //useEffects start here
-  useEffect(() => {
-    publishChecker()
-  }, [])
-  useEffect(() => {
-    if (Object.keys(guide).length === 0) {
-      getGuide()
-    }
-  }, [guideId])
-  useEffect(() => {
-    if (Object.keys(guide).length) {
-      getProfile()
-      setFavorites(guide.favorites)
-      setIsPublished(guide.isPublished)
-    }
-  }, [guide])
-  useEffect(() => {
-    // console.log(profile)
-    if (Object.keys(profile).length) {
-      favChecker()
-      ownerChecker()
-    }
-  }, [profile])
 
   /*** styles  start ***/
   const outerContainer = {
