@@ -54,20 +54,22 @@ export default function SingleGuide() {
     search: [],
   }
   const navigate = useNavigate()
-  //useStates
+
+  // guide and profile data
   const [guide, setGuide] = useState({})
   const [profile, setProfile] = useState({})
+  const [favorites, setFavorites] = useState(0)
+
+  // toggles for events
   const [isFavorite, setIsFavorite] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
   const [isPublished, setIsPublished] = useState(false)
   const [showBody, setShowBody] = useState(false)
-  const [favorites, setFavorites] = useState(0)
   const [file, setFile] = useState(0)
 
   //other constants
   const { guideId } = useParams()
   const { head, body, createdAt, username } = guide
-  // const { codeBlock, content, filepath, language } = guide.body
 
   // getters, checkers, and setters start here
   const getGuide = async () => {
@@ -87,7 +89,6 @@ export default function SingleGuide() {
     const guideRef = doc(db, 'guides', guideId)
     setDoc(guideRef, { isPublished: true }, { merge: true })
   }
-
   const setProfileFavorite = async () => {
     const qS = await getDocs(
       query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
@@ -99,7 +100,6 @@ export default function SingleGuide() {
     await updateDoc(doc(db, 'guides', guideId), { favorites: increment(1) })
     setFavorites(favorites + 1)
   }
-
   const removeProfileFavorite = async () => {
     const qS = await getDocs(
       query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
@@ -158,11 +158,12 @@ export default function SingleGuide() {
   //useEffects start here
   useEffect(() => {
     publishChecker()
+  }, [])
+  useEffect(() => {
     if (Object.keys(guide).length === 0) {
       getGuide()
     }
-  }, [])
-
+  }, [guideId])
   useEffect(() => {
     if (Object.keys(guide).length) {
       getProfile()
@@ -170,7 +171,6 @@ export default function SingleGuide() {
       setIsPublished(guide.isPublished)
     }
   }, [guide])
-
   useEffect(() => {
     // console.log(profile)
     if (Object.keys(profile).length) {
@@ -180,6 +180,12 @@ export default function SingleGuide() {
   }, [profile])
 
   /*** styles  start ***/
+  const outerContainer = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignContent: 'center',
+    justifyContent: 'center',
+  }
   const singleGuideTopCard = {
     background: '#2f2f2f',
     p: 1,
@@ -187,6 +193,19 @@ export default function SingleGuide() {
     mt: 1,
     border: 1.25,
     borderColor: '#353540',
+  }
+  const singleGuideTopBox = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    minHeight: '40px',
+  }
+  const typographyTimestampUsername = {
+    color: 'white',
+    fontSize: '0.75em',
+  }
+  const singleGuideTechBox = {
+    display: 'flex',
+    justifyContent: 'space-between',
   }
   const singleGuideTagCards = {
     background: '#2f2f2f',
@@ -212,6 +231,12 @@ export default function SingleGuide() {
     textOverflow: 'ellipsis',
     border: 1.25,
     borderColor: '#353540',
+  }
+  const singleGuideTagOuterCard = {
+    background: '#2f2f2f',
+    border: 1.25,
+    borderColor: '#353540',
+    mt: 1,
   }
   const singleGuideTagCardTypography = {
     color: 'white',
@@ -276,22 +301,27 @@ export default function SingleGuide() {
     borderColor: '#353540',
     color: 'white',
   }
+  const singleGuideReferenceBox = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  }
   const formControlSX = {
     py: 0.5,
     mt: 0.5,
     width: '20ch',
     color: 'white',
     '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#f57c00',
+      borderColor: '#468ef3',
     },
     '& label.Mui-focused': {
-      color: '#f57c00',
+      color: '#468ef3',
     },
     '& label': {
       color: 'white',
     },
     '&:hover label': {
-      color: '#f57c00',
+      color: '#468ef3',
     },
     '& .MuiInputBase-input': {
       color: 'white',
@@ -299,16 +329,24 @@ export default function SingleGuide() {
     },
     '& .MuiOutlinedInput-root': {
       '&:hover fieldset': {
-        borderColor: '#f57c00',
+        borderColor: '#468ef3',
       },
       '&:focus fieldset': {
-        borderColor: '#f57c00',
+        borderColor: '#468ef3',
       },
       '& fieldset': {
         borderColor: 'white',
       },
       '&:focus .MuiInputLabel-root': {
-        borderColor: '#f57c00',
+        borderColor: '#468ef3',
+      },
+    },
+  }
+  const menuPropsSX = {
+    PaperProps: {
+      sx: {
+        bgcolor: '#303035',
+        color: 'white',
       },
     },
   }
@@ -321,11 +359,16 @@ export default function SingleGuide() {
   }
   const showBodyButton = {
     background: '#353540',
-    color: '#f57c00',
+    color: '#468ef3',
     '&:hover': { background: '#505060' },
     border: 1,
     borderColor: '#2f2f2f',
     mt: 2,
+  }
+  const publishBox = {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    minHeight: 40,
   }
   const publishButtonSX = {
     alignSelf: 'flex-end',
@@ -337,20 +380,25 @@ export default function SingleGuide() {
       color: 'green',
     },
   }
+  const typographyOnlyWhite = {
+    color: 'white',
+  }
+  const typographyWhiteMargin = {
+    color: 'white',
+    ml: 1,
+    mt: 1,
+  }
+  const typographyWhiteFontSize = {
+    color: 'white',
+    fontSize: '0.75em',
+  }
 
   // styles end here
 
   return Object.keys(guide).length ? (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignContent: 'center',
-        justifyContent: 'center',
-      }}>
-      {console.log(guide)}
+    <Container sx={outerContainer}>
       {/* Title */}
-      <Typography variant="h3" sx={{ color: 'white', ml: 1 }}>
+      <Typography variant="h3" sx={typographyWhiteMargin}>
         {guide.head.title.toUpperCase()}
       </Typography>
       {/* Title */}
@@ -359,9 +407,9 @@ export default function SingleGuide() {
           {/* start headcomponent */}
           {/* top card */}
           <Card elevation={12} sx={singleGuideTopCard}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', minHeight: '40px' }}>
+            <Box sx={singleGuideTopBox}>
               {/* timestamp and username logic */}
-              <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
+              <Typography sx={typographyTimestampUsername}>
                 {`${username} — ${createdAt.toDate().toString().slice(0, 25)}`}
               </Typography>
 
@@ -370,7 +418,7 @@ export default function SingleGuide() {
               <Box>
                 {/* IsOwner */}
                 <IconButton onClick={(e) => editGuide(e)}>
-                  {isOwner ? <ModeEditSharpIcon sx={{ color: 'white' }} /> : null}
+                  {isOwner ? <ModeEditSharpIcon sx={typographyOnlyWhite} /> : null}
                 </IconButton>
                 {/* isFavorite */}
                 <IconButton
@@ -390,9 +438,9 @@ export default function SingleGuide() {
                   {isFavorite ? (
                     <BookmarkRoundedIcon sx={{ color: 'red' }} />
                   ) : (
-                    <BookmarkBorderRoundedIcon sx={{ color: 'white' }} />
+                    <BookmarkBorderRoundedIcon sx={typographyOnlyWhite} />
                   )}
-                  <Typography sx={{ mx: 2, color: '#f57c00' }}>{favorites}</Typography>
+                  <Typography sx={{ mx: 2, color: '#468ef3' }}>{favorites}</Typography>
                 </IconButton>
               </Box>
             </Box>
@@ -401,24 +449,20 @@ export default function SingleGuide() {
           </Card>
 
           {/* technologies used begin here */}
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}>
+          <Box sx={singleGuideTechBox}>
             {/*
           start the tech cards here
       */}
 
             <Card elevation={12} sx={singleGuideTagCards}>
-              <Typography sx={{ color: 'white' }} gutterBottom>
+              <Typography sx={typographyOnlyWhite} gutterBottom>
                 Languages
               </Typography>
               {guide.head.language.length ? (
                 guide.head.language.map((item, idx) => {
                   return (
                     <Typography key={idx} sx={singleGuideTagCardTypography}>
-                      {`${item}`}
+                      {`${item.language}`}
                     </Typography>
                   )
                 })
@@ -428,7 +472,7 @@ export default function SingleGuide() {
             </Card>
 
             <Card elevation={12} sx={singleGuideTagCards}>
-              <Typography sx={{ color: 'white' }} gutterBottom>
+              <Typography sx={typographyOnlyWhite} gutterBottom>
                 Front End
               </Typography>
               {guide.head.frontEnd.length ? (
@@ -445,7 +489,7 @@ export default function SingleGuide() {
             </Card>
 
             <Card elevation={12} sx={singleGuideTagCards}>
-              <Typography sx={{ color: 'white' }} gutterBottom>
+              <Typography sx={typographyOnlyWhite} gutterBottom>
                 Back End
               </Typography>
               {guide.head.backEnd.length ? (
@@ -462,7 +506,7 @@ export default function SingleGuide() {
             </Card>
 
             <Card elevation={12} sx={singleGuideApiCard}>
-              <Typography sx={{ color: 'white' }} gutterBottom>
+              <Typography sx={typographyOnlyWhite} gutterBottom>
                 APIs
               </Typography>
               {guide.head.API ? (
@@ -479,14 +523,7 @@ export default function SingleGuide() {
             </Card>
           </Box>
 
-          <Card
-            elevation={12}
-            sx={{
-              background: '#2f2f2f',
-              border: 1.25,
-              borderColor: '#353540',
-              mt: 1,
-            }}>
+          <Card elevation={12} sx={singleGuideTagOuterCard}>
             <Typography sx={{ color: 'white', mb: 1, ml: 1 }}>
               {/* start the tags here */}
               Tags
@@ -515,15 +552,15 @@ export default function SingleGuide() {
           {guide.body.length ? (
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', width: '49%', mx: 0.5 }}>
-                <Typography sx={{ color: 'white', ml: 1, mt: 1 }}>CodeBlock</Typography>
+                <Typography sx={typographyWhiteMargin}>CodeBlock</Typography>
                 <Card sx={singleGuideReferenceCard}>
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                    <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
+                  <Box sx={singleGuideReferenceBox}>
+                    <Typography sx={typographyWhiteFontSize}>
                       {guide.body[file].filepath}
                     </Typography>
 
                     <Box sx={{ ml: 2 }}>
-                      <Typography sx={{ color: 'white', fontSize: '0.75em' }}>
+                      <Typography sx={typographyWhiteFontSize}>
                         {guide.body[file].language}
                       </Typography>
                       <FormControl fullWidth size="small" sx={formControlSX}>
@@ -531,14 +568,7 @@ export default function SingleGuide() {
                         <Select
                           value={file}
                           label={'File'}
-                          MenuProps={{
-                            PaperProps: {
-                              sx: {
-                                bgcolor: '#303035',
-                                color: 'white',
-                              },
-                            },
-                          }}
+                          MenuProps={menuPropsSX}
                           onChange={(e) => setFile(e.target.value)}>
                           {guide.body.length
                             ? guide.body.map((file, idx) => {
@@ -565,26 +595,21 @@ export default function SingleGuide() {
                 </Card>
               </Box>
               <Box sx={{ width: '51%', mx: 0.5 }}>
-                <Typography sx={{ color: 'white', ml: 1, mt: 1 }}>Reference</Typography>
+                <Typography sx={typographyWhiteMargin}>Reference</Typography>
                 <Card sx={singleGuideReferenceCard}>
                   <ReactMarkdown children={guide.body[file].content} remarkPlugins={[remarkGfm]} />
                 </Card>
               </Box>
             </Box>
           ) : (
-            <Typography sx={{ color: 'white' }}>"loading..."</Typography>
+            <Typography sx={typographyOnlyWhite}>"loading..."</Typography>
           )}
 
           {/* end body component */}
         </>
       )}
       {/* button for published and body/head transition starts here */}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          minHeight: 40,
-        }}>
+      <Box sx={publishBox}>
         {isPublished ? null : (
           <CheckCircleOutlineIcon
             onClick={() => {
@@ -606,6 +631,6 @@ export default function SingleGuide() {
       </Box>
     </Container>
   ) : (
-    <Typography sx={{ color: 'white' }}>"loading..."</Typography>
+    <Typography sx={typographyOnlyWhite}>"loading..."</Typography>
   )
 }
