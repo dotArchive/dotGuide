@@ -144,7 +144,7 @@ export const Home = () => {
     borderColor: "#353540",
   };
   const newGuideOuterBox = {
-    mt: 1,
+    mt: 4,
     display: "flex",
     justifyContent: "center",
   };
@@ -168,16 +168,17 @@ export const Home = () => {
   };
   const latestGuidesTypography = {
     width: "50%",
+    display: "flex",
+    justifyContent: "center",
     color: "#cccccc",
     my: 1.5,
     ml: "auto",
     mr: "auto",
-    pl: "20rem",
   };
   const editTextField = {
     pt: 2,
     pb: 1,
-    width: '200px',
+    width: 400,
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderColor: "white",
@@ -214,6 +215,11 @@ export const Home = () => {
           </CardContent>
         </Card>
       </Box>
+      <Box sx={newGuideOuterBox}>
+        <Box sx={newGuideInnerBox} onClick={() => handleNewGuideClick()}>
+          New Guide
+        </Box>
+      </Box>
       <Box sx={searchBox}>
         <TextField
           sx={editTextField}
@@ -223,30 +229,10 @@ export const Home = () => {
         />
         <Button
           onClick={getSearchGuide}
-          sx={{ p: 0, ml: 3, mt: 1, borderRadius: 10, color: "#468ef3" }}
+          sx={{ ml: 3, mt: 1, borderRadius: 10, color: "#468ef3" }}
         >
-          search
+          SEARCH
         </Button>
-      </Box>
-      <Box sx={popTagsBox}>
-        {popularTags
-          ? popularTags.map((tag, idx) => {
-              return (
-                <Box
-                  sx={popTagsMapBox}
-                  onClick={(e) => handlePopTagClick(e)}
-                  key={idx}
-                >
-                  <Typography>{tag}</Typography>
-                </Box>
-              );
-            })
-          : null}
-      </Box>
-      <Box sx={newGuideOuterBox}>
-        <Box sx={newGuideInnerBox} onClick={() => handleNewGuideClick()}>
-          New Guide
-        </Box>
       </Box>
       <Box>
         {searchTerm ? (
