@@ -4,12 +4,11 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState } from 'react'
 import { db } from '../firebase'
-import { collection, doc, getDocs, query, orderBy, where, limit } from 'firebase/firestore'
+import { collection, getDocs, query, orderBy, where, limit } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import GuidePreview from './GuidePreview'
 import { TextField, Button } from '@mui/material'
 import SearchPreview from './SearchPreview'
-import { countColumn } from 'codemirror'
 
 export const Home = () => {
   const navigate = useNavigate()
@@ -155,8 +154,8 @@ export const Home = () => {
     textAlign: 'center',
     borderRadius: 25,
     my: 1.5,
-    width: '40%',
-    py: 2.5,
+    width: '33%',
+    py: 1.5,
     typography: 'h4',
     border: 2,
     borderColor: '#2f2f2f',
