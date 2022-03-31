@@ -40,7 +40,15 @@ export default function AddGuide(props) {
   const [submit, setSubmit] = useState(false)
 
   //useEffects
+  useEffect(() => {}, [])
+
+  /*** Get current UserID from FireAuth ***/
   useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      const uid = user.uid
+      setCurrentUid(uid)
+      setUser(user)
+    })
     if (currentUid.length) {
       const getGuide = async () => {
         const docSnap = await getDoc(doc(db, 'guides', guideId))
@@ -52,14 +60,6 @@ export default function AddGuide(props) {
       }
       getGuide()
     }
-  }, [])
-
-  /*** Get current UserID from FireAuth ***/
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      const uid = user.uid
-      setCurrentUid(uid)
-    })
   }, [currentUid])
 
   useEffect(() => {
@@ -72,16 +72,12 @@ export default function AddGuide(props) {
       /*** Updates FireStore & Publish to True ***/
       const isPublished = async () => {
         const guideRef = doc(db, 'guides', guideId)
-        console.log(guideRef)
         await updateDoc(guideRef, { isPublished: true })
       }
       isPublished()
       navigate('/')
     }
   }, [submit])
-
-  const username = user.username
-  const userId = user.uid
 
   const handleCancel = () => {
     navigate('/')
@@ -90,7 +86,13 @@ export default function AddGuide(props) {
   return (
     <form>
       <div className="post">
-        <Head guide={guide} username={username} guideId={guideId} save={save} submit={submit} />
+        <Head
+          guide={guide}
+          username={guide.username}
+          guideId={guideId}
+          save={save}
+          submit={submit}
+        />
       </div>
       <div className="post">
         <Body guide={guide} guideId={guideId} save={save} submit={submit} />

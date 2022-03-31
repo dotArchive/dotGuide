@@ -31,9 +31,6 @@ export default function Head(props) {
 
   useEffect(() => {
     if (props.save === true) updateHead()
-  })
-
-  useEffect(() => {
     if (props.submit === true) updateHead()
   })
 
@@ -93,6 +90,7 @@ export default function Head(props) {
         justifyContent: 'center',
         color: 'white',
       }}>
+      {/* {console.log(props)} */}
       <Title guide={props.guide} titleChild={(data) => setTitle(data)} />
       <Card
         sx={{
@@ -105,25 +103,9 @@ export default function Head(props) {
           mb: '0.5rem',
         }}>
         <div className="flexbox" style={{ justifyContent: 'space-between' }}>
-          <Typography sx={{ color: 'white', fontSize: '0.75em' }}>{`Username`}</Typography>
-          <div>
-            <IconButton>
-              <ModeEditSharpIcon sx={{ color: 'white' }} />
-            </IconButton>
-            <IconButton>
-              {isFavorite ? (
-                <BookmarkRoundedIcon
-                  sx={{ color: '#d32f2f' }}
-                  onClick={() => setIsFavorite(!isFavorite)}
-                />
-              ) : (
-                <BookmarkBorderRoundedIcon
-                  sx={{ color: 'white' }}
-                  onClick={() => setIsFavorite(!isFavorite)}
-                />
-              )}
-            </IconButton>
-          </div>
+          <Typography sx={{ color: 'white', fontSize: '0.75em', height: 40 }}>
+            {props.username}
+          </Typography>
         </div>
         <GuideDescription guide={props.guide} descriptionChild={(data) => setDescription(data)} />
       </Card>
