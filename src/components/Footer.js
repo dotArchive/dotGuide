@@ -6,7 +6,7 @@ const Footer = () => {
   const outerContainer = {
     display: 'flex',
     justifyContent: 'center',
-    mt: 1,
+    mt: 4,
     background: 'transparent',
   }
   const outerCard = {
