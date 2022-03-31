@@ -92,13 +92,14 @@ const Profile = () => {
         const profileRef = collection(db, 'profiles')
         const q = query(profileRef, where('userId', '==', uid))
         const qS = await getDocs(q)
-        qS.length ? qS.forEach((doc) => setProfile(doc.data())) : makeProfile()
+        console.log(qS.docs.length)
+        qS.docs.length ? qS.forEach((doc) => setProfile(doc.data())) : makeProfile()
       }
       myProfile()
     }
     getUser()
-    getGuides()
     getProfile()
+    getGuides()
   }, [uid])
 
   useEffect(() => {
@@ -208,6 +209,7 @@ const Profile = () => {
         {/*** start profile top card ***/}
 
         <Card sx={profileTopCard}>
+          {console.log(profile)}
           <Typography variant="h3" sx={profileTypography}>
             Profile
           </Typography>

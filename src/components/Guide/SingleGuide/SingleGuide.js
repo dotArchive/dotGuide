@@ -34,7 +34,6 @@ import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded'
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded'
 import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp'
 import CodeIcon from '@mui/icons-material/Code'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import SendIcon from '@mui/icons-material/Send'
 
 //other imports
@@ -342,6 +341,10 @@ export default function SingleGuide() {
     fontSize: '1em',
     color: 'white',
   }
+  const sendIcon = {
+    color: '#468ef3',
+    fontSize: 30,
+  }
   const showBodyButton = {
     background: '#353540',
     color: '#468ef3',
@@ -355,16 +358,6 @@ export default function SingleGuide() {
     justifyContent: 'flex-end',
     minHeight: 40,
   }
-  const publishButtonSX = {
-    alignSelf: 'flex-end',
-    mr: 1.25,
-    fontSize: 40,
-    color: 'white',
-    '&:hover': {
-      cursor: 'pointer',
-      color: 'green',
-    },
-  }
   const typographyOnlyWhite = {
     color: 'white',
   }
@@ -376,10 +369,6 @@ export default function SingleGuide() {
   const typographyWhiteFontSize = {
     color: 'white',
     fontSize: '0.75em',
-  }
-  const sendIcon = {
-    color: '#468ef3',
-    fontSize: 30,
   }
 
   // styles end here
