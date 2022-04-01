@@ -46,31 +46,31 @@ export default function Head(props) {
 	// passing data on to database
 	// top head data
 	const language = languages.map((language) => {
-		search.push(language.language);
+		search.push(language.language.toLowerCase());
 		return language;
 	});
 	const frontEnd = frontEnds.map((frontEnd) => {
-		search.push(frontEnd.frontEnd);
+		search.push(frontEnd.frontEnd.toLowerCase());
 		return frontEnd;
 	});
 	const backEnd = backEnds.map((backEnd) => {
-		search.push(backEnd.backEnd);
+		search.push(backEnd.backEnd.toLowerCase());
 		return backEnd;
 	});
 	const API = apis.map((API) => {
-		search.push(API.API);
+		search.push(API.API.toLowerCase());
 		return API;
 	});
 
 	//bottom head data
 	const url = urls.map((url) => url);
 	const tag = tags.map((tag) => {
-		search.push(tag.tag);
+		search.push(tag.tag.toLowerCase());
 		return tag;
 	});
 
 	const updateHead = async () => {
-		search.push(title);
+		search.push(title.toLowerCase());
 		const guideRef = doc(db, 'guides', guideId);
 		await updateDoc(guideRef, {
 			head: {
