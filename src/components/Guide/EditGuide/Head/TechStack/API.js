@@ -16,7 +16,7 @@ function API(props) {
 			let editAPI = props.guide.head.API.map((singleAPI) => {
 				return singleAPI;
 			});
-			setAPIList([...editAPI, { API: '' }]);
+			setAPIList([...editAPI]);
 		}
 	}, [props.guide.userId]);
 

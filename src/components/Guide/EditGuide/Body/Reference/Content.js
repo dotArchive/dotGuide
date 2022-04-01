@@ -10,7 +10,7 @@ export default function Content(props) {
 			let editContent = props.guide.bodyRef.content.map((singleContent) => {
 				return singleContent;
 			});
-			setContentList([...editContent, { content: '' }]);
+			setContentList([...editContent]);
 		}
 	}, [props.guide.userId]);
 

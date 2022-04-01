@@ -22,15 +22,18 @@ import {
 import { db, auth } from '../../firebase';
 
 export default function PublishGuide() {
-	const [guide, setGuide] = useState({});
+	const [guide, setGuide] = useState({ head: '' });
 
 	const navigate = useNavigate();
 	const guideId = useParams().guideId;
+
+	console.log(guide.head.title);
 
 	useEffect(() => {
 		const getGuide = async () => {
 			const docRef = doc(db, 'guides', guideId);
 			const docSnap = await getDoc(docRef);
+			console.log(docSnap.data());
 			if (docSnap.exists()) {
 				setGuide(docSnap.data());
 			} else {
@@ -80,7 +83,7 @@ export default function PublishGuide() {
 	return (
 		<Container sx={outerContainer}>
 			<Typography variant="h3" sx={typographyWhiteMargin}>
-				{guide.head.title}
+				{guide.head.title ? guide.head.title : 'Your Guide'}
 			</Typography>
 			<Typography variant="h3" sx={typographyWhiteMargin}>
 				has been successfully published!
