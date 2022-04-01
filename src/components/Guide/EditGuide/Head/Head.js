@@ -152,14 +152,22 @@ export default function Head(props) {
 		pr: 2,
 		width: '50%',
 	};
+	const titleCard = {
+		background: '#2f2f2f',
+		p: 1,
+		pl: 2,
+		pr: 2,
+		border: 1.25,
+		borderColor: '#353540',
+		mb: '0.5rem',
+	};
 
 	return (
 		<Container sx={outerContainer}>
-			<Title guide={props.guide} titleChild={(data) => setTitle(data)} />
+			<Card sx={titleCard}>
+				<Title guide={props.guide} titleChild={(data) => setTitle(data)} />
+			</Card>
 			<Card sx={topCard}>
-				<div className="flexbox" style={{ justifyContent: 'space-between' }}>
-					<Typography sx={usernameTypography}>{props.username}</Typography>
-				</div>
 				<GuideDescription
 					guide={props.guide}
 					descriptionChild={(data) => setDescription(data)}

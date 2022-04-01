@@ -52,7 +52,6 @@ export default function Content(props) {
 							className="textArea"
 							name="content"
 							id="content"
-							placeholder="Reference"
 							value={singleContent.content}
 							onChange={(e) => handleContentChange(e, index)}
 						/>
