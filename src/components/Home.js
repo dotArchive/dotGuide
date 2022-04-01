@@ -17,7 +17,7 @@ import Card from '@mui/material/Card'
 // custom component imports
 import GuidePreview from './GuidePreview'
 import SearchPreview from './SearchPreview'
-import logo from './logo.svg'
+import logo from '../data/logo.svg'
 
 export const Home = () => {
   const navigate = useNavigate()
