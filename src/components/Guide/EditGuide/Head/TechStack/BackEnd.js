@@ -16,7 +16,7 @@ function BackEnd(props) {
 			let editBackEnd = props.guide.head.backEnd.map((singleBackEnd) => {
 				return singleBackEnd;
 			});
-			setBackEndList([...editBackEnd, { backEnd: '' }]);
+			setBackEndList([...editBackEnd]);
 		}
 	}, [props.guide.userId]);
 

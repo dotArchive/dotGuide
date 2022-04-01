@@ -16,7 +16,7 @@ export default function Language(props) {
 			let editLanguage = props.guide.head.language.map((singleLanguage) => {
 				return singleLanguage;
 			});
-			setLanguage([...editLanguage, { language: '' }]);
+			setLanguage([...editLanguage]);
 		}
 	}, [props.guide.userId]);
 

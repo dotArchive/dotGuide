@@ -12,7 +12,7 @@ export default function CodeEditor(props) {
 					return singleCodeBlock;
 				}
 			);
-			setCodeBlock([...editCodeBlock, { codeBlock: '' }]);
+			setCodeBlock([...editCodeBlock]);
 		}
 	}, [props.guide.userId]);
 
