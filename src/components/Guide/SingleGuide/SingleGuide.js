@@ -249,18 +249,6 @@ export default function SingleGuide() {
     textAlign: 'center',
     textOverflow: 'ellipsis',
   }
-  const singleGuideAltCardTypography = {
-    color: 'white',
-    fontSize: '0.7em',
-    minHeight: 18,
-    p: 0.5,
-    mt: 0.5,
-    mb: 0.5,
-    border: 1,
-    borderColor: 'white',
-    borderRadius: 3,
-    textAlign: 'center',
-  }
   const singleGuideTagTypography = {
     color: 'white',
     fontSize: '0.7em',
@@ -323,14 +311,6 @@ export default function SingleGuide() {
       '&:focus .MuiInputLabel-root': {
         borderColor: '#f57c00',
         borderRadius: 3,
-      },
-    },
-  }
-  const menuPropsSX = {
-    PaperProps: {
-      sx: {
-        bgcolor: '#303035',
-        color: 'white',
       },
     },
   }
@@ -457,68 +437,60 @@ export default function SingleGuide() {
               <Typography sx={typographyOnlyWhite} gutterBottom>
                 Languages
               </Typography>
-              {guide.head.language.length ? (
-                guide.head.language.map((item, idx) => {
-                  return (
-                    <Typography key={idx} sx={singleGuideTagCardTypography}>
-                      {`${item.language}`}
-                    </Typography>
+              {guide.head.language
+                ? guide.head.language.map((item, idx) =>
+                    item.language ? (
+                      <Typography key={idx} sx={singleGuideTagCardTypography}>
+                        {`${item.language}`}
+                      </Typography>
+                    ) : null
                   )
-                })
-              ) : (
-                <Typography sx={singleGuideAltCardTypography}>no languages yet!</Typography>
-              )}
+                : null}
             </Card>
 
             <Card elevation={12} sx={singleGuideTagCards}>
               <Typography sx={typographyOnlyWhite} gutterBottom>
                 Front End
               </Typography>
-              {guide.head.frontEnd.length ? (
-                guide.head.frontEnd.map((item, idx) => {
-                  return (
-                    <Typography key={idx} sx={singleGuideTagCardTypography}>
-                      {`${item.frontEnd}`}
-                    </Typography>
+              {guide.head.frontEnd
+                ? guide.head.frontEnd.map((item, idx) =>
+                    item.frontEnd ? (
+                      <Typography key={idx} sx={singleGuideTagCardTypography}>
+                        {`${item.frontEnd}`}
+                      </Typography>
+                    ) : null
                   )
-                })
-              ) : (
-                <Typography sx={singleGuideAltCardTypography}>no front end yet!</Typography>
-              )}
+                : null}
             </Card>
 
             <Card elevation={12} sx={singleGuideTagCards}>
               <Typography sx={typographyOnlyWhite} gutterBottom>
                 Back End
               </Typography>
-              {guide.head.backEnd.length ? (
-                guide.head.backEnd.map((item, idx) => {
-                  return (
-                    <Typography key={idx} sx={singleGuideTagCardTypography}>
-                      {`${item.backEnd}`}
-                    </Typography>
+              {guide.head.backEnd
+                ? guide.head.backEnd.map((item, idx) =>
+                    item.backEnd ? (
+                      <Typography key={idx} sx={singleGuideTagCardTypography}>
+                        {`${item.backEnd}`}
+                      </Typography>
+                    ) : null
                   )
-                })
-              ) : (
-                <Typography sx={singleGuideAltCardTypography}>no back end yet!</Typography>
-              )}
+                : null}
             </Card>
 
             <Card elevation={12} sx={singleGuideApiCard}>
               <Typography sx={typographyOnlyWhite} gutterBottom>
                 APIs
               </Typography>
-              {guide.head.API ? (
-                guide.head.API.map((item, idx) => {
-                  return (
-                    <Typography key={idx} sx={singleGuideApiCardTypography}>
-                      {`${item.API}`}
-                    </Typography>
+              {guide.head.API
+                ? guide.head.API.map((item, idx) =>
+                    item.API ? (
+                      <Typography key={idx} sx={singleGuideApiCardTypography}>
+                        {`${item.API}`}
+                      </Typography>
+                    ) : null
                   )
-                })
-              ) : (
-                <Typography sx={singleGuideAltCardTypography}>no APIs yet!</Typography>
-              )}
+                : null}
             </Card>
           </Box>
 
@@ -528,18 +500,14 @@ export default function SingleGuide() {
               Tags
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
-              {guide.head.tag.length
-                ? guide.head.tag.map((item, idx) => {
-                    return item ? (
+              {guide.head.tag
+                ? guide.head.tag.map((item, idx) =>
+                    item.tag ? (
                       <Typography key={idx} sx={singleGuideTagTypography}>
                         {`${item.tag}`}
                       </Typography>
-                    ) : (
-                      <Typography key={idx} sx={singleGuideTagTypography}>
-                        no tags yet!
-                      </Typography>
-                    )
-                  })
+                    ) : null
+                  )
                 : null}
             </Box>
           </Card>
