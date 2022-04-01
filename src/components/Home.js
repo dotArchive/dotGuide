@@ -102,6 +102,7 @@ export const Home = () => {
 		navigate(`/guide/add`);
 	};
 
+
 	const guideProps = { latestGuides, latestGuideIds };
 	const searchProps = { searchGuides, searchGuideIds };
 
@@ -296,5 +297,6 @@ export const Home = () => {
 		</Box>
 	);
 };
+
 
 export default Home;
