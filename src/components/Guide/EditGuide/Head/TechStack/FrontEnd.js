@@ -17,7 +17,7 @@ function FrontEnd(props) {
 			let editFrontEnd = props.guide.head.frontEnd.map((singleFrontEnd) => {
 				return singleFrontEnd;
 			});
-			setFrontEndList([...editFrontEnd, { frontEnd: '' }]);
+			setFrontEndList([...editFrontEnd]);
 		}
 	}, [props.guide.userId]);
 

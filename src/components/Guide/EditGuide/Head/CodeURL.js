@@ -16,7 +16,7 @@ function CodeURL(props) {
 			let editUrl = props.guide.head.url.map((singleUrl) => {
 				return singleUrl;
 			});
-			setcodeURL([...editUrl, { URL: '' }]);
+			setcodeURL([...editUrl]);
 		}
 	}, [props.guide.userId]);
 

@@ -16,7 +16,7 @@ function Tag(props) {
 			let editTag = props.guide.head.tag.map((singleTag) => {
 				return singleTag;
 			});
-			setTagList([...editTag, { tag: '' }]);
+			setTagList([...editTag]);
 		}
 	}, [props.guide.userId]);
 
