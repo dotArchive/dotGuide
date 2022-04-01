@@ -147,13 +147,10 @@ export default function Head(props) {
 
 	return (
 		<Container sx={topLevelContainer}>
-			<Title titleChild={(data) => setTitle(data)} />
 			<Card sx={titleCard}>
-				<div className="flexbox" style={{ justifyContent: 'space-between' }}>
-					<Typography sx={usernameTypography}>{username}</Typography>
-					<div></div>
-				</div>
-
+				<Title titleChild={(data) => setTitle(data)} />
+			</Card>
+			<Card sx={titleCard}>
 				<GuideDescription descriptionChild={(data) => setDescription(data)} />
 			</Card>
 			<Typography sx={{ color: 'white', ml: 1 }}></Typography>
