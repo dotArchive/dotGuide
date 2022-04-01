@@ -276,6 +276,7 @@ export default function SingleGuide() {
 		color: 'white',
 		fontSize: '0.7em',
 		minHeight: 18,
+		minWidth: 25,
 		p: 0.5,
 		mt: 0.5,
 		mb: 0.5,
