@@ -1,97 +1,92 @@
-import { useEffect, useState } from 'react';
-import {
-	Typography,
-	IconButton,
-	TextField,
-	InputAdornment,
-} from '@mui/material';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useEffect, useState } from 'react'
+import { Typography, IconButton, TextField, InputAdornment } from '@mui/material'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 
 function API(props) {
-	const [APIList, setAPIList] = useState([{ API: '' }]);
+  const [APIList, setAPIList] = useState([{ API: '' }])
 
-	useEffect(() => {
-		if (props.guide.head) {
-			let editAPI = props.guide.head.API.map((singleAPI) => {
-				return singleAPI;
-			});
-			setAPIList([...editAPI]);
-		}
-	}, [props.guide.userId]);
+  useEffect(() => {
+    if (props.guide.head) {
+      if (props.guide.head.API) {
+        let editAPI = props.guide.head.API.map((singleAPI) => {
+          return singleAPI
+        })
+        setAPIList([...editAPI])
+      }
+    }
+  }, [props.guide.userId])
 
-	useEffect(() => {
-		props.apiChild(APIList);
-	}, [APIList]);
+  useEffect(() => {
+    props.apiChild(APIList)
+  }, [APIList])
 
-	const handleAPIChange = (e, index) => {
-		const { name, value } = e.target;
-		const list = [...APIList];
-		list[index][name] = value;
-		setAPIList(list);
-	};
+  const handleAPIChange = (e, index) => {
+    const { name, value } = e.target
+    const list = [...APIList]
+    list[index][name] = value
+    setAPIList(list)
+  }
 
-	const handleAPIRemove = (index) => {
-		const list = [...APIList];
-		list.splice(index, 1);
-		setAPIList(list);
-	};
+  const handleAPIRemove = (index) => {
+    const list = [...APIList]
+    list.splice(index, 1)
+    setAPIList(list)
+  }
 
-	const handleAPIAdd = () => {
-		setAPIList([...APIList, { API: '' }]);
-	};
+  const handleAPIAdd = () => {
+    setAPIList([...APIList, { API: '' }])
+  }
 
-	return (
-		<div className="form-field">
-			<div className="flexbox" style={{ paddingRight: '2rem' }}>
-				<IconButton
-					sx={{ paddingLeft: '2.5px' }}
-					size="small"
-					onClick={handleAPIAdd}
-				>
-					<AddCircleOutlineIcon sx={{ color: '#468ef3' }} />
-				</IconButton>
+  const apiTextField = {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+        borderRadius: 3,
+        mt: 0.5,
+        mb: 0.5,
+      },
+      '& adornedEnd': {
+        pr: 0,
+      },
+    },
+  }
 
-				<Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
-					API
-				</Typography>
-			</div>
+  return (
+    <div className="form-field">
+      <div className="flexbox" style={{ paddingRight: '2rem' }}>
+        <IconButton sx={{ paddingLeft: '2.5px' }} size="small" onClick={handleAPIAdd}>
+          <AddCircleOutlineIcon sx={{ color: '#468ef3' }} />
+        </IconButton>
 
-			{APIList.map((singleAPI, index) => (
-				<TextField
-					key={index}
-					sx={{
-						'& .MuiOutlinedInput-root': {
-							'& fieldset': {
-								borderColor: 'white',
-								borderRadius: 3,
-								mt: 0.5,
-								mb: 0.5,
-							},
-							'& adornedEnd': {
-								pr: 0,
-							},
-						},
-					}}
-					name="API"
-					id="API"
-					onChange={(e) => handleAPIChange(e, index)}
-					variant="outlined"
-					value={singleAPI.API}
-					size="small"
-					InputProps={{
-						startAdornment: (
-							<InputAdornment style={{ marginLeft: '-15px' }} position="start">
-								<IconButton size="small" onClick={() => handleAPIRemove(index)}>
-									<RemoveCircleOutlineIcon sx={{ color: 'gray' }} />
-								</IconButton>
-							</InputAdornment>
-						),
-					}}
-				/>
-			))}
-		</div>
-	);
+        <Typography sx={{ mt: 0.5, color: 'white' }} gutterBottom>
+          API
+        </Typography>
+      </div>
+
+      {APIList.map((singleAPI, index) => (
+        <TextField
+          key={index}
+          sx={apiTextField}
+          name="API"
+          id="API"
+          onChange={(e) => handleAPIChange(e, index)}
+          variant="outlined"
+          value={singleAPI.API}
+          size="small"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment style={{ marginLeft: '-15px' }} position="start">
+                <IconButton size="small" onClick={() => handleAPIRemove(index)}>
+                  <RemoveCircleOutlineIcon sx={{ color: 'gray' }} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      ))}
+    </div>
+  )
 }
 
-export default API;
+export default API

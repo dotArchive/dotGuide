@@ -96,7 +96,7 @@ export const Home = () => {
 
   // event handling
   const handleSearchClick = () => {
-    getSearchGuide()
+    searchTerm === '' ? console.error('cannot search nothing') : getSearchGuide()
   }
   const handleAllGuideClick = () => {
     try {

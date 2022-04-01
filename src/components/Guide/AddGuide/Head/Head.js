@@ -46,30 +46,41 @@ export default function Head(props) {
   // passing data on to database
   // top head data
   const language = languages.map((language) => {
-    search.push(language.language.toLowerCase())
+    if (language.language.length) {
+      search.push(language.language.toLowerCase())
+    }
     return language
   })
   const frontEnd = frontEnds.map((frontEnd) => {
-    search.push(frontEnd.frontEnd.toLowerCase())
+    if (frontEnd.frontEnd.length) {
+      search.push(frontEnd.frontEnd.toLowerCase())
+    }
     return frontEnd
   })
   const backEnd = backEnds.map((backEnd) => {
-    search.push(backEnd.backEnd.toLowerCase())
+    if (backEnd.backEnd.length) {
+      search.push(backEnd.backEnd.toLowerCase())
+    }
     return backEnd
   })
   const API = apis.map((API) => {
-    search.push(API.API.toLowerCase())
+    if (API.API.length) {
+      search.push(API.API.toLowerCase())
+    }
     return API
   })
 
   //bottom head data
   const url = urls.map((url) => url)
   const tag = tags.map((tag) => {
-    search.push(tag.tag.toLowerCase())
+    if (tag.tag.length) {
+      search.push(tag.tag.toLowerCase())
+    }
     return tag
   })
 
   const updateHead = async () => {
+    //filter given tags and attributes, if empty, remove it
     const LANG = language.filter((el) => el.language !== '')
     const TAG = tag.filter((el) => el.tag !== '')
     const api = API.filter((el) => el.API !== '')
@@ -77,11 +88,13 @@ export default function Head(props) {
     const BEND = backEnd.filter((el) => el.backEnd !== '')
     const urls = url.filter((el) => el.URL !== '')
 
+    // set head that will be added to update
     let head = {
       title,
       description,
     }
 
+    // if there's something left after filter, add it to head
     if (LANG.length) head.language = LANG
     if (TAG.length) head.tag = TAG
     if (api.length) head.API = api
@@ -89,8 +102,11 @@ export default function Head(props) {
     if (BEND.length) head.backEnd = BEND
     if (url.length) head.URL = urls
 
+    // add existing tags to search list
     search.push(title.toLowerCase())
     const guideRef = doc(db, 'guides', guideId)
+
+    // update head, search, and timestamp
     await updateDoc(guideRef, {
       head,
       search,
