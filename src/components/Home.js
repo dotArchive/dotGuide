@@ -1,20 +1,32 @@
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
+// React imports
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+// firebase imports
 import { db } from '../firebase'
 import { collection, getDocs, query, orderBy, where, limit } from 'firebase/firestore'
-import { useNavigate } from 'react-router-dom'
+
+// Mui component imports
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import CardContent from '@mui/material/CardContent'
+import TextField from '@mui/material/TextField'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+
+// custom component imports
 import GuidePreview from './GuidePreview'
-import { TextField, Button } from '@mui/material'
 import SearchPreview from './SearchPreview'
+import logo from './logo.svg'
 
 export const Home = () => {
   const navigate = useNavigate()
 
+  // getting data
   const [latestGuides, setLatestGuides] = useState([])
   const [latestGuideIds, setLatestGuideIds] = useState([])
+
+  // search states
   const [searchTerm, setSearchTerm] = useState('')
   const [searchGuides, setSearchGuides] = useState([])
   const [searchGuideIds, setSearchGuideIds] = useState([])
@@ -23,6 +35,7 @@ export const Home = () => {
     getLatestFiveGuides()
   }, [])
 
+  // data queries
   const getSearchGuide = () => {
     const getSearch = async () => {
       const guidesArr = []
@@ -81,6 +94,7 @@ export const Home = () => {
     getGuides()
   }
 
+  // event handling
   const handleSearchClick = () => {
     getSearchGuide()
   }
@@ -216,9 +230,15 @@ export const Home = () => {
 
   return (
     <Box id="home" style={outerDiv}>
-      <Typography variant="h3" sx={dotGuide}>
+      {/* <Typography variant="h3" sx={dotGuide}>
         {`<dotGuide />`}
-      </Typography>
+      </Typography> */}
+      <img
+        src={logo}
+        style={{ marginTop: '1em', marginBottom: '3em', marginLeft: '20%', marginRight: '20%' }}
+        className="App-logo"
+        alt="dot guide logo"
+      />
       <Box sx={outerBox}>
         <Card sx={outerCard}>
           <CardContent sx={outerCardContent}>
