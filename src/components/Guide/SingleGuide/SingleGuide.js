@@ -30,20 +30,21 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
+import Popover from '@mui/material/Popover'
+import Link from '@mui/material/Link'
+
 //mui icons
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded'
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded'
 import ModeEditSharpIcon from '@mui/icons-material/ModeEditSharp'
 import CodeIcon from '@mui/icons-material/Code'
 import SendIcon from '@mui/icons-material/Send'
+import LinkIcon from '@mui/icons-material/Link'
 
 //other imports
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import CodeMirror from './CodeMirror'
-import { Popover, Link } from '@mui/material'
-import { withTheme } from '@emotion/react'
-import LinkIcon from '@mui/icons-material/Link'
 
 export default function SingleGuide() {
   const navigate = useNavigate()
@@ -142,31 +143,29 @@ export default function SingleGuide() {
     e.preventDefault()
     navigate(`/guide/edit/${guideId}`)
   }
+
   const setGuidePublished = async () => {
     const guideRef = doc(db, 'guides', guideId)
     setDoc(guideRef, { isPublished: true }, { merge: true })
   }
+
   const setProfileFavorite = async () => {
     const qS = await getDocs(
       query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
     )
     const profileId = qS.docs[0].id
-    await updateDoc(doc(db, 'profiles', profileId), {
-      favorites: arrayUnion(guideId),
-    })
+    await updateDoc(doc(db, 'profiles', profileId), { favorites: arrayUnion(guideId) })
     await updateDoc(doc(db, 'guides', guideId), { favorites: increment(1) })
     setFavorites(favorites + 1)
   }
+
   const removeProfileFavorite = async () => {
     const qS = await getDocs(
       query(collection(db, 'profiles'), where('userId', '==', auth.currentUser.uid))
     )
     const profileId = qS.docs[0].id
-    await updateDoc(doc(db, 'profiles', profileId), {
-      favorites: arrayRemove(guideId),
-    })
+    await updateDoc(doc(db, 'profiles', profileId), { favorites: arrayRemove(guideId) })
     await updateDoc(doc(db, 'guides', guideId), { favorites: increment(-1) })
-
     setFavorites(favorites - 1)
   }
 
@@ -223,12 +222,7 @@ export default function SingleGuide() {
     border: 1.25,
     borderColor: '#353540',
   }
-  const singleGuideTagOuterCard = {
-    background: '#2f2f2f',
-    border: 1.25,
-    borderColor: '#353540',
-    width: '49%',
-  }
+
   const singleGuideTagCardTypography = {
     color: 'white',
     fontSize: '0.7em',
@@ -384,16 +378,27 @@ export default function SingleGuide() {
     display: 'flex',
     my: 1,
     justifyContent: 'space-between',
-    gap: '10px',
   }
-  const tagsUrlsCards = {
+  const tagsUrlsLeft = {
     background: '#2f2f2f',
     border: 1.25,
     borderColor: '#353540',
     p: 1,
     pl: 2,
     pr: 2,
-    width: '49%',
+    mr: 0.5,
+    width: '100%',
+  }
+
+  const tagsUrlsRight = {
+    background: '#2f2f2f',
+    border: 1.25,
+    borderColor: '#353540',
+    p: 1,
+    pl: 2,
+    pr: 2,
+    ml: 0.5,
+    width: '100%',
   }
   const urlPopover = {
     p: 1,
@@ -560,7 +565,7 @@ export default function SingleGuide() {
           </Box>
 
           <Box sx={tagUrlBox}>
-            <Card elevation={12} sx={singleGuideTagOuterCard}>
+            <Card elevation={12} sx={tagsUrlsLeft}>
               <Typography sx={{ color: 'white', mb: 1, ml: 1 }}>
                 {/* start the tags here */}
                 Tags
@@ -577,12 +582,12 @@ export default function SingleGuide() {
                   : null}
               </Box>
             </Card>
-            <Card sx={tagsUrlsCards}>
+            <Card elevation={12} sx={tagsUrlsRight}>
               <Typography sx={{ color: 'white', mb: 1, ml: 1 }}>Links</Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
                 {guide.head.url.length
                   ? guide.head.url.map((item, idx) =>
-                      item ? (
+                      item.URL ? (
                         <div key={idx}>
                           <Link href={item.URL} target="_blank" underline="none">
                             <IconButton
