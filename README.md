@@ -1,6 +1,6 @@
 # \<dotGuide/\>
 
-dotGuide is an amazing tool to help educators, organizations, individuals, and groups alike.
+[dotGuide](https://readme-c72e5.web.app/) is an amazing tool to help educators, organizations, individuals, and groups alike.
 
 Have you ever remembered that one time you wrote code that solve the exact problem you're encountering right now, but you can't remember which repo it's in, which file, or which branch?
 
@@ -29,4 +29,4 @@ Need to really zero in on what your hooks are doing in your React project? Expla
 
 ## View Website
 
-https://readme-c72e5.web.app/
+[dotGuide Website](https://readme-c72e5.web.app/)
