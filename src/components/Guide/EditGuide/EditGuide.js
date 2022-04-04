@@ -6,12 +6,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import {
   collection,
   getDocs,
-  addDoc,
   updateDoc,
   doc,
   query,
   where,
   getDoc,
+  deleteDoc,
+  arrayRemove,
 } from 'firebase/firestore'
 import { onAuthStateChanged } from 'firebase/auth'
 import { db, auth } from '../../../firebase'
@@ -24,6 +25,7 @@ import Box from '@mui/material/Box'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SaveIcon from '@mui/icons-material/Save'
 import SendIcon from '@mui/icons-material/Send'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 export default function AddGuide(props) {
   /*** Hooks ***/
@@ -32,9 +34,13 @@ export default function AddGuide(props) {
 
   //user auth
   const [currentUid, setCurrentUid] = useState('')
+
   //data state
   const [user, setUser] = useState({})
   const [guide, setGuide] = useState({})
+  const [profile, setProfile] = useState({})
+  const [profileId, setProfileId] = useState('')
+
   //saving state to db
   const [save, setSave] = useState(false)
   const [submit, setSubmit] = useState(false)
@@ -63,6 +69,25 @@ export default function AddGuide(props) {
   }, [currentUid])
 
   useEffect(() => {
+    const getProfile = async () => {
+      if (Object.keys(guide).length) {
+        const docRef = collection(db, 'profiles')
+        const q = query(docRef, where('userId', '==', currentUid))
+        const qSnap = await getDocs(q)
+        qSnap.forEach((doc) => {
+          setProfile(doc.data())
+          setProfileId(doc.id)
+        })
+      } else {
+        console.log('Cannot get profile')
+      }
+    }
+    if (Object.keys(guide).length) {
+      getProfile()
+    }
+  }, [guide])
+
+  useEffect(() => {
     setSave(false)
   }, [save])
 
@@ -78,6 +103,23 @@ export default function AddGuide(props) {
       navigate(`/guide/publish/${guideId}`)
     }
   }, [submit])
+
+  const deleteProfileGuide = async () => {
+    const profileRef = doc(db, 'profiles', profileId)
+    console.log(profileRef)
+    await updateDoc(profileRef, {
+      guides: arrayRemove(guideId),
+    })
+  }
+
+  const deleteGuide = () => {
+    const handleDelete = async () => {
+      const docRef = doc(db, 'guides', guideId)
+      await deleteDoc(docRef)
+      navigate('/profile')
+    }
+    handleDelete()
+  }
 
   const handleCancel = () => {
     navigate('/')
@@ -107,6 +149,13 @@ export default function AddGuide(props) {
             if (currentUid === guide.userId) setSave(true)
           }}>
           <SaveIcon sx={{ color: '#468ef3', fontSize: 36, pl: 5, pr: 5 }} />
+        </Button>
+        <Button
+          onClick={() => {
+            deleteProfileGuide()
+            deleteGuide()
+          }}>
+          <DeleteIcon sx={{ color: '#f44336', fontSize: 36, pl: 5, pr: 5 }} />
         </Button>
         <Button>
           <SendIcon
