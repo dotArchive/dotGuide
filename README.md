@@ -1,4 +1,4 @@
-# \<dotGuide /\>
+# \< dotGuide /\>
 
 [dotGuide](https://readme-c72e5.web.app/) is an amazing tool to help educators, organizations, individuals, and groups alike.
 
@@ -6,7 +6,7 @@ Have you ever remembered that one time you wrote code that solve the exact probl
 
 No more wasting time and searching on SO for a quick fix!
 
-dotGuide has you covered with side-by-side comparison with code and markdowns.
+dotGuide has you covered with side-by-side comparison with code and markdown.
 ## How it works
 
 Add as many files to a "Guide" as you want, each one comes with its own accompanying markdown to help explain what's going on.
