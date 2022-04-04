@@ -47,7 +47,7 @@ const registerWithEmailAndPassword = async (username, email, password) => {
 		uid: user.uid,
 		username: username,
 		email: email,
-		password: password,
+		// password: password,
 	});
 };
 
