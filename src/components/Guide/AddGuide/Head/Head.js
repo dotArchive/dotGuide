@@ -46,31 +46,31 @@ export default function Head(props) {
 	// passing data on to database
 	// top head data
 	const language = languages.map((language) => {
-		search.push(language.language);
+		search.push(language.language.toLowerCase());
 		return language;
 	});
 	const frontEnd = frontEnds.map((frontEnd) => {
-		search.push(frontEnd.frontEnd);
+		search.push(frontEnd.frontEnd.toLowerCase());
 		return frontEnd;
 	});
 	const backEnd = backEnds.map((backEnd) => {
-		search.push(backEnd.backEnd);
+		search.push(backEnd.backEnd.toLowerCase());
 		return backEnd;
 	});
 	const API = apis.map((API) => {
-		search.push(API.API);
+		search.push(API.API.toLowerCase());
 		return API;
 	});
 
 	//bottom head data
 	const url = urls.map((url) => url);
 	const tag = tags.map((tag) => {
-		search.push(tag.tag);
+		search.push(tag.tag.toLowerCase());
 		return tag;
 	});
 
 	const updateHead = async () => {
-		search.push(title);
+		search.push(title.toLowerCase());
 		const guideRef = doc(db, 'guides', guideId);
 		await updateDoc(guideRef, {
 			head: {
@@ -147,13 +147,10 @@ export default function Head(props) {
 
 	return (
 		<Container sx={topLevelContainer}>
-			<Title titleChild={(data) => setTitle(data)} />
 			<Card sx={titleCard}>
-				<div className="flexbox" style={{ justifyContent: 'space-between' }}>
-					<Typography sx={usernameTypography}>{username}</Typography>
-					<div></div>
-				</div>
-
+				<Title titleChild={(data) => setTitle(data)} />
+			</Card>
+			<Card sx={titleCard}>
 				<GuideDescription descriptionChild={(data) => setDescription(data)} />
 			</Card>
 			<Typography sx={{ color: 'white', ml: 1 }}></Typography>

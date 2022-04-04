@@ -1,20 +1,32 @@
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
+// React imports
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+// firebase imports
 import { db } from '../firebase'
 import { collection, getDocs, query, orderBy, where, limit } from 'firebase/firestore'
-import { useNavigate } from 'react-router-dom'
+
+// Mui component imports
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import CardContent from '@mui/material/CardContent'
+import TextField from '@mui/material/TextField'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+
+// custom component imports
 import GuidePreview from './GuidePreview'
-import { TextField, Button } from '@mui/material'
 import SearchPreview from './SearchPreview'
+import logo from '../data/logo.svg'
 
 export const Home = () => {
   const navigate = useNavigate()
 
+  // getting data
   const [latestGuides, setLatestGuides] = useState([])
   const [latestGuideIds, setLatestGuideIds] = useState([])
+
+  // search states
   const [searchTerm, setSearchTerm] = useState('')
   const [searchGuides, setSearchGuides] = useState([])
   const [searchGuideIds, setSearchGuideIds] = useState([])
@@ -23,6 +35,7 @@ export const Home = () => {
     getLatestFiveGuides()
   }, [])
 
+  // data queries
   const getSearchGuide = () => {
     const getSearch = async () => {
       const guidesArr = []
@@ -43,24 +56,23 @@ export const Home = () => {
       setSearchGuideIds(guideIds)
     }
     if (searchTerm === 'allguides') {
-      const getAllGuides = async () => {
-        const guidesArr = []
-        const guideIds = []
-        const q = query(collection(db, 'guides'), where('isPublished', '==', true))
-        const docSnap = await getDocs(q)
-        docSnap.forEach((doc) => {
-          guidesArr.push(doc.data())
-          guideIds.push(doc.id)
-        })
-        setSearchGuides(guidesArr)
-        setSearchGuideIds(guideIds)
-      }
       getAllGuides()
     } else {
       getSearch()
     }
   }
-
+  const getAllGuides = async () => {
+    const guidesArr = []
+    const guideIds = []
+    const q = query(collection(db, 'guides'), where('isPublished', '==', true))
+    const docSnap = await getDocs(q)
+    docSnap.forEach((doc) => {
+      guidesArr.push(doc.data())
+      guideIds.push(doc.id)
+    })
+    setSearchGuides(guidesArr)
+    setSearchGuideIds(guideIds)
+  }
   const getLatestFiveGuides = () => {
     const getGuides = async () => {
       const guidesArr = []
@@ -82,11 +94,17 @@ export const Home = () => {
     getGuides()
   }
 
+  // event handling
   const handleSearchClick = () => {
     getSearchGuide()
   }
   const handleAllGuideClick = () => {
-    setSearchTerm('allguides')
+    try {
+      setSearchTerm('allguides')
+      getAllGuides()
+    } catch (error) {
+      console.log(error)
+    }
   }
   const handleNewGuideClick = () => {
     navigate(`/guide/add`)
@@ -212,9 +230,15 @@ export const Home = () => {
 
   return (
     <Box id="home" style={outerDiv}>
-      <Typography variant="h3" sx={dotGuide}>
+      {/* <Typography variant="h3" sx={dotGuide}>
         {`<dotGuide />`}
-      </Typography>
+      </Typography> */}
+      <img
+        src={logo}
+        style={{ marginTop: '1em', marginBottom: '3em', marginLeft: '20%', marginRight: '20%' }}
+        className="App-logo"
+        alt="dot guide logo"
+      />
       <Box sx={outerBox}>
         <Card sx={outerCard}>
           <CardContent sx={outerCardContent}>
@@ -246,7 +270,7 @@ export const Home = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-            <Button onClick={handleSearchClick} sx={searchButtons}>
+            <Button onClick={handleAllGuideClick} sx={searchButtons}>
               ALL GUIDES
             </Button>
             <Button onClick={handleSearchClick} sx={searchButtons}>

@@ -41,6 +41,9 @@ import SendIcon from '@mui/icons-material/Send';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import CodeMirror from './CodeMirror';
+import { Popover, Link } from '@mui/material';
+import { withTheme } from '@emotion/react';
+import LinkIcon from '@mui/icons-material/Link';
 
 export default function SingleGuide() {
 	const navigate = useNavigate();
@@ -133,9 +136,7 @@ export default function SingleGuide() {
 		}
 	}, [profile]);
 
-
 	// getters, checkers, and setters and events
-
 
 	const editGuide = (e) => {
 		e.preventDefault();
@@ -401,8 +402,45 @@ export default function SingleGuide() {
 		},
 	};
 
+	const tagUrlBox = {
+		display: 'flex',
+		mb: 1,
+		justifyContent: 'space-between',
+		gap: '10px',
+	};
+	const tagsUrlsCards = {
+		background: '#2f2f2f',
+		border: 1.25,
+		borderColor: '#353540',
+		flexGrow: 1,
+		p: 1,
+		pl: 2,
+		pr: 2,
+		width: '50%',
+	};
+
+	const urlPopover = {
+		p: 1,
+		background: '#2f2f2f',
+		border: 1.25,
+		borderColor: '#353540',
+		color: 'white',
+	};
 
 	// styles end here
+
+	const [anchorEl, setAnchorEl] = useState(null);
+	const [open, setOpen] = useState(false);
+
+	const handlePopoverOpen = (event, idx) => {
+		setAnchorEl(event.target);
+		setOpen(idx);
+	};
+
+	const handlePopoverClose = () => {
+		setAnchorEl(null);
+		setOpen(null);
+	};
 
 	return Object.keys(guide).length ? (
 		<Container sx={outerContainer}>
@@ -420,7 +458,6 @@ export default function SingleGuide() {
 					</Typography>
 
 					{/* edit & favorite icons */}
-
 
 					<Box>
 						{/* IsOwner */}
@@ -467,7 +504,6 @@ export default function SingleGuide() {
 			{!showBody ? (
 				<>
 					{/* start headcomponent */}
-
 
 					{/* technologies used begin here */}
 					<Box sx={singleGuideTechBox}>
@@ -551,28 +587,85 @@ export default function SingleGuide() {
 							)}
 						</Card>
 					</Box>
+					<Typography sx={{ color: 'white', mt: 1, ml: 1 }}></Typography>
 
-					<Card elevation={12} sx={singleGuideTagOuterCard}>
-						<Typography sx={{ color: 'white', mb: 1, ml: 1 }}>
-							{/* start the tags here */}
-							Tags
-						</Typography>
-						<Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
-							{guide.head.tag.length
-								? guide.head.tag.map((item, idx) => {
-										return item ? (
-											<Typography key={idx} sx={singleGuideTagTypography}>
-												{`${item.tag}`}
-											</Typography>
-										) : (
-											<Typography key={idx} sx={singleGuideTagTypography}>
-												no tags yet!
-											</Typography>
-										);
-								  })
-								: null}
-						</Box>
-					</Card>
+					<Box sx={tagUrlBox}>
+						<Card sx={tagsUrlsCards}>
+							<Typography sx={{ color: 'white', mb: 1, ml: 1 }}>
+								{/* start the tags here */}
+								Tags
+							</Typography>
+							<Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
+								{guide.head.tag.length
+									? guide.head.tag.map((item, idx) => {
+											return item ? (
+												<Typography key={idx} sx={singleGuideTagTypography}>
+													{`${item.tag}`}
+												</Typography>
+											) : (
+												<Typography key={idx} sx={singleGuideTagTypography}>
+													no tags yet!
+												</Typography>
+											);
+									  })
+									: null}
+							</Box>
+						</Card>
+						<Card sx={tagsUrlsCards}>
+							<Typography sx={{ color: 'white', mb: 1, ml: 1 }}>
+								Links
+							</Typography>
+							<Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
+								{guide.head.url.length
+									? guide.head.url.map((item, idx) => {
+											return item ? (
+												<div key={idx}>
+													<Link
+														href={item.URL}
+														target="_blank"
+														underline="none"
+													>
+														<IconButton
+															sx={singleGuideTagTypography}
+															onMouseEnter={(e) => handlePopoverOpen(e, idx)}
+															onMouseLeave={handlePopoverClose}
+															size="small"
+														>
+															<LinkIcon />
+														</IconButton>
+													</Link>
+
+													<Popover
+														sx={{
+															pointerEvents: 'none',
+														}}
+														open={open === idx}
+														anchorEl={anchorEl}
+														anchorOrigin={{
+															vertical: 'bottom',
+															horizontal: 'left',
+														}}
+														transformOrigin={{
+															vertical: 'top',
+															horizontal: 'center',
+														}}
+														onClose={handlePopoverClose}
+														disableRestoreFocus
+													>
+														<Typography sx={urlPopover}>{item.URL}</Typography>
+													</Popover>
+												</div>
+											) : (
+												<Typography key={idx} sx={singleGuideTagTypography}>
+													no URLs yet!
+												</Typography>
+											);
+									  })
+									: null}
+							</Box>
+						</Card>
+					</Box>
+
 					{/* end head component */}
 				</>
 			) : (
@@ -682,5 +775,4 @@ export default function SingleGuide() {
 	) : (
 		<Typography sx={typographyOnlyWhite}>"loading..."</Typography>
 	);
-
 }

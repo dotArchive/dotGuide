@@ -12,7 +12,7 @@ export default function CodeEditor(props) {
 					return singleCodeBlock;
 				}
 			);
-			setCodeBlock([...editCodeBlock, { codeBlock: '' }]);
+			setCodeBlock([...editCodeBlock]);
 		}
 	}, [props.guide.userId]);
 
@@ -64,7 +64,6 @@ export default function CodeEditor(props) {
 							className="textArea"
 							name="codeBlock"
 							id="codeBlock"
-							placeholder="Code Block"
 							value={singleCode.codeBlock}
 							onChange={(e) => handleCodeChange(e, index)}
 						/>

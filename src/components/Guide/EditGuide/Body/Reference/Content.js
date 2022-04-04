@@ -10,7 +10,7 @@ export default function Content(props) {
 			let editContent = props.guide.bodyRef.content.map((singleContent) => {
 				return singleContent;
 			});
-			setContentList([...editContent, { content: '' }]);
+			setContentList([...editContent]);
 		}
 	}, [props.guide.userId]);
 
@@ -62,7 +62,6 @@ export default function Content(props) {
 							className="textArea"
 							name="content"
 							id="content"
-							placeholder="Reference"
 							value={singleContent.content}
 							onChange={(e) => handleContentChange(e, index)}
 						/>
