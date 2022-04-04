@@ -585,32 +585,34 @@ export default function SingleGuide() {
             <Card elevation={12} sx={tagsUrlsRight}>
               <Typography sx={{ color: 'white', mb: 1, ml: 1 }}>Links</Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1 }}>
-                {guide.head.url.length
-                  ? guide.head.url.map((item, idx) =>
-                      item.URL ? (
-                        <div key={idx}>
-                          <Link href={item.URL} target="_blank" underline="none">
-                            <IconButton
-                              sx={singleGuideTagTypography}
-                              onMouseEnter={(e) => handlePopoverOpen(e, idx)}
-                              onMouseLeave={handlePopoverClose}
-                              size="small">
-                              <LinkIcon />
-                            </IconButton>
-                          </Link>
-                          <Popover
-                            sx={{ pointerEvents: 'none' }}
-                            open={open === idx}
-                            anchorEl={anchorEl}
-                            anchorOrigin={popoverAnchorOrigin}
-                            transformOrigin={popoverTransformOrigin}
-                            onClose={handlePopoverClose}
-                            disableRestoreFocus>
-                            <Typography sx={urlPopover}>{item.URL}</Typography>
-                          </Popover>
-                        </div>
-                      ) : null
-                    )
+                {guide.head.url
+                  ? guide.head.url.length
+                    ? guide.head.url.map((item, idx) =>
+                        item.URL ? (
+                          <div key={idx}>
+                            <Link href={item.URL} target="_blank" underline="none">
+                              <IconButton
+                                sx={singleGuideTagTypography}
+                                onMouseEnter={(e) => handlePopoverOpen(e, idx)}
+                                onMouseLeave={handlePopoverClose}
+                                size="small">
+                                <LinkIcon />
+                              </IconButton>
+                            </Link>
+                            <Popover
+                              sx={{ pointerEvents: 'none' }}
+                              open={open === idx}
+                              anchorEl={anchorEl}
+                              anchorOrigin={popoverAnchorOrigin}
+                              transformOrigin={popoverTransformOrigin}
+                              onClose={handlePopoverClose}
+                              disableRestoreFocus>
+                              <Typography sx={urlPopover}>{item.URL}</Typography>
+                            </Popover>
+                          </div>
+                        ) : null
+                      )
+                    : null
                   : null}
               </Box>
             </Card>
