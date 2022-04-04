@@ -39,6 +39,8 @@ export default function AddGuide(props) {
   //data state
   const [user, setUser] = useState({});
   const [guide, setGuide] = useState({});
+  const [profile, setProfile] = useState({});
+  const [profileId, setProfileId] = useState("");
   //saving state to db
   const [save, setSave] = useState(false);
   const [submit, setSubmit] = useState(false);
@@ -67,6 +69,25 @@ export default function AddGuide(props) {
   }, [currentUid]);
 
   useEffect(() => {
+      const getProfile = async () => {
+        if (Object.keys(guide).length) {
+        const docRef = collection(db, 'profiles')
+        const q = query(docRef, where("userId", "==", currentUid))
+        const qSnap = await getDocs(q);
+        qSnap.forEach((doc) => {
+          setProfile(doc.data());
+          setProfileId(doc.id);
+        });
+      } else {
+        console.log("Cannot get profile");
+      }
+    };
+    if (Object.keys(guide).length) {
+      getProfile()
+    }
+  }, [guide])
+
+  useEffect(() => {
     setSave(false);
   }, [save]);
 
@@ -83,48 +104,23 @@ export default function AddGuide(props) {
     }
   }, [submit]);
 
-  const getProfile = () => {
-    let profile = {};
+  const deleteProfileGuide = async () => {
+    const profileRef = doc(db, 'profiles', profileId);
+    console.log(profileRef)
+    await updateDoc(profileRef, {
+      guides: arrayRemove(guideId)
+    })
+  }
 
-    const myProfile = async () => {
-      const profileRef = collection(db, "profiles");
-      const q = query(profileRef, where("userId", "==", currentUid));
-      const qS = await getDocs(q);
-      console.log(qS.docs.length);
-      qS.forEach(
-        (doc) => {
-          profile = { profile: doc.data(), profileId: qS.docs[0].id }
-        }
-      );
+  const deleteGuide = () => {
+    const handleDelete = async () => {
+      const docRef = doc(db, "guides", guideId);
+      await deleteDoc(docRef);
+      navigate("/profile");
     };
-    const getMyProfile = () => {
-      const j = myProfile();
-      return j;
-    }
-    profile = getMyProfile();
-    console.log(profile);
-    return profile;
-  };
+    handleDelete();
+  }
 
-  const deleteProfileGuide = () => {
-    let profile = getProfile();
-    // console.log("Inside deleteProfileGuide", profile)
-    const removeGuide = async () => {
-      const profileRef = collection(db, "profiles", profile.profileId);
-      // console.log(profileRef)
-      await updateDoc(profileRef, {
-        guides: arrayRemove(guideId)
-      })
-    };
-    removeGuide();
-  };
-
-  const handleDelete = async () => {
-    const docRef = doc(db, "guides", guideId);
-    await deleteDoc(docRef);
-    deleteProfileGuide();
-    navigate("/profile");
-  };
 
   const handleCancel = () => {
     navigate("/");
@@ -155,7 +151,7 @@ export default function AddGuide(props) {
         <Button onClick={() => setSave(true)}>
           <SaveIcon sx={{ color: "#468ef3", fontSize: 36, pl: 5, pr: 5 }} />
         </Button>
-        <Button onClick={() => handleDelete()}>
+        <Button onClick={() => {deleteProfileGuide(); deleteGuide();}}>
           <DeleteIcon sx={{ color: "#f44336", fontSize: 36, pl: 5, pr: 5 }} />
         </Button>
         <Button>
