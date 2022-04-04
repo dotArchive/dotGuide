@@ -17,10 +17,13 @@ import {
 import { onAuthStateChanged } from 'firebase/auth'
 import { db, auth } from '../../../firebase'
 
-//mui imports
+//component imports
 import Body from './Body/Body'
 import Head from './Head/Head'
+
+//mui imports
 import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SaveIcon from '@mui/icons-material/Save'
@@ -34,8 +37,10 @@ export default function AddGuide(props) {
 
   //user auth
   const [currentUid, setCurrentUid] = useState('')
+  const [isOwner, setIsOwner] = useState(false)
 
   //data state
+  const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState({})
   const [guide, setGuide] = useState({})
   const [profile, setProfile] = useState({})
@@ -69,6 +74,7 @@ export default function AddGuide(props) {
   }, [currentUid])
 
   useEffect(() => {
+    setIsLoading(false)
     const getProfile = async () => {
       if (Object.keys(guide).length) {
         const docRef = collection(db, 'profiles')
@@ -86,6 +92,21 @@ export default function AddGuide(props) {
       getProfile()
     }
   }, [guide])
+
+  useEffect(() => {
+    const ownerChecker = () => {
+      if (Object.keys(profile).length) {
+        profile.guides.forEach((guide) => {
+          if (guide === guideId) {
+            setIsOwner(true)
+          }
+        })
+      }
+    }
+    if (Object.keys(profile).length) {
+      ownerChecker()
+    }
+  }, [profile])
 
   useEffect(() => {
     setSave(false)
@@ -106,7 +127,6 @@ export default function AddGuide(props) {
 
   const deleteProfileGuide = async () => {
     const profileRef = doc(db, 'profiles', profileId)
-    console.log(profileRef)
     await updateDoc(profileRef, {
       guides: arrayRemove(guideId),
     })
@@ -125,7 +145,13 @@ export default function AddGuide(props) {
     navigate('/')
   }
 
-  return (
+  return isLoading ? (
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', color: 'white' }}>
+      <Typography sx={{ color: 'white', textAlign: 'center', my: '45%' }}>
+        Loading Guide...
+      </Typography>
+    </Box>
+  ) : isOwner ? (
     <form>
       <div className="post">
         <Head
@@ -167,5 +193,11 @@ export default function AddGuide(props) {
         </Button>
       </Box>
     </form>
+  ) : (
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', color: 'white' }}>
+      <Typography sx={{ color: 'white', textAlign: 'center', my: '45%' }}>
+        You don't own this Guide!
+      </Typography>
+    </Box>
   )
 }
