@@ -1,4 +1,4 @@
-# \<dotGuide/\>
+# \<dotGuide /\>
 
 [dotGuide](https://readme-c72e5.web.app/) is an amazing tool to help educators, organizations, individuals, and groups alike.
 
