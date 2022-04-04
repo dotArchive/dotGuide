@@ -26,6 +26,10 @@ const Login = () => {
 		if (user) navigate('/profile');
 	}, [user, loading]);
 
+	const DemoUser = () => {
+		logInWithEmailAndPassword('demo@demo.com', '123456');
+	};
+
 	const handleClick = () => {
 		signinWithGithub();
 	};
@@ -121,6 +125,7 @@ const Login = () => {
 						<CheckCircleOutlineIcon sx={{ color: '#468ef3', fontSize: 28 }} />
 					</Button>
 				</Box>
+				<Button onClick={() => DemoUser()}>Demo User</Button>
 			</Card>
 		</Box>
 	);

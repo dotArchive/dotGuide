@@ -103,8 +103,8 @@ export const Home = () => {
 
   // event handling
   const handleSearchClick = () => {
-    getSearchGuide();
-  };
+    searchTerm === '' ? console.error('Search cannot be blank') : getSearchGuide()
+  }
   const handleAllGuideClick = () => {
     try {
       setSearchTerm("allguides");
