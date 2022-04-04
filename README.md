@@ -11,7 +11,7 @@ dotGuide has you covered with side-by-side comparison with code and markdown.
 
 Add as many files to a "Guide" as you want, each one comes with its own accompanying markdown to help explain what's going on.
 
-Instead of importing your whole repo, or even your whole files, feel free to copy and past over only what you need.
+Instead of importing your whole repo, or even your whole files, feel free to copy and paste over only what you need.
 
 Need to explain how a vertical slice works? Bring it in in one file or in several.
 
