@@ -4,10 +4,9 @@
 
 Have you ever remembered that one time you wrote code that solve the exact problem you're encountering right now, but you can't remember which repo it's in, which file, or which branch?
 
-No more wasting time and searching on SO for a quick fix! No more looking through documentation for how a method works and looking at theory! 
+No more wasting time and searching on SO for a quick fix! No more looking through documentation for how a method works and looking at theory! Share with the world examples of real, working code — and why it works.
 
 dotGuide has you covered with side-by-side comparison with code and markdown.
-Share with the world examples of real, working code — and why it works.
 
 ## How it works
 
